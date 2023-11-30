@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import unocss from 'unocss/vite'
 import { resolve } from 'path'
 import pkg from './package.json'
+import { sep } from 'path'
 
 export default defineConfig({
   resolve: {
@@ -17,11 +18,12 @@ export default defineConfig({
   define: {
     __APP_VERSION__: JSON.stringify(pkg.version),
   },
+  base: './',
   build: {
     rollupOptions: {
       output: {
         manualChunks(id) {
-          const vendorReactMui = ['node_modules/react', 'node_modules/@mui', 'node_modules/@emotion']
+          const vendorReactMui = ['node_modules'+sep+'react', 'node_modules'+sep+'@mui', 'node_modules'+sep+'@emotion']
           if(vendorReactMui.find((v) => id.includes(v))) return 'vendor-react-mui'
 
           if(id.includes('@fontsource/roboto')) return 'robotofont'
