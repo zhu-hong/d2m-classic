@@ -8,7 +8,7 @@ export const Header = () => {
   useEffect(() => {
     const t = setInterval(() => {
       setTime(dayjs().format('hh:mm\tYYYY/MM/DD'))
-    }, 3000)
+    }, 1000)
     return () => clearInterval(t)
   }, [])
 
