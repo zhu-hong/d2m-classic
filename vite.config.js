@@ -27,8 +27,6 @@ export default defineConfig({
           if(vendorReactMui.find((v) => id.includes(v))) return 'vendor-react-mui'
 
           if(id.includes('node_modules'+sep+'@fontsource/roboto')) return 'robotofont'
-
-          if(id.includes('node_modules')) return 'vendor'
         },
       },
     },
