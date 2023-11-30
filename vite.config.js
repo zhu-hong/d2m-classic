@@ -26,7 +26,9 @@ export default defineConfig({
           const vendorReactMui = ['node_modules'+sep+'react', 'node_modules'+sep+'@mui', 'node_modules'+sep+'@emotion']
           if(vendorReactMui.find((v) => id.includes(v))) return 'vendor-react-mui'
 
-          if(id.includes('@fontsource/roboto')) return 'robotofont'
+          if(id.includes('node_modules'+sep+'@fontsource/roboto')) return 'robotofont'
+
+          if(id.includes('node_modules')) return 'vendor'
         },
       },
     },
