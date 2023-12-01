@@ -10,10 +10,10 @@ export const router = createHashRouter([
   },
   {
     path: '/choose-work',
-    element: <ChooseToWork />
+    element: <ChooseToWork />,
   },
   {
     path: '/op',
-    element: <OperatePage />
+    element: <OperatePage />,
   },
 ])
