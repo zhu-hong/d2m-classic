@@ -152,8 +152,8 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
         </ListItem>
       </List>
       <DialogActions style={{justifyContent:'center'}}>
-        <Button className="w-144px h-56px" variant="contained" size="large" onClick={onConfirm}><span className="text-2xl text-white">确认</span></Button>
-        <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} size="large" onClick={() => setConfigOpen(false)}><span className="text-2xl text-[#646A73]">取消</span></Button>
+        <Button className="w-144px h-56px" variant="contained" onClick={onConfirm}><span className="text-2xl text-white">确认</span></Button>
+        <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={() => setConfigOpen(false)}><span className="text-2xl text-[#646A73]">取消</span></Button>
       </DialogActions>
     </DialogContent>
   </Dialog>

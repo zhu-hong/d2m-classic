@@ -68,8 +68,8 @@ export const Setup = () => {
       <h1 className='text-44px leading-65px font-medium mb-24px'>欢迎使用 D2M Classic 管理系统</h1>
       <h3 className='text-24px leading-36px font-medium mb-84px'>WELCOME TO D2M Classic SYSTEM</h3>
       <Box>
-        <Button onClick={openConfig} className='w-217px h-72px' style={{ backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '0' }} size='large'><span className='text-white text-3xl font-medium'>系统配置</span></Button>
-        <Button onClick={onEnterSystem} className='w-217px h-72px' style={{ backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '0', marginLeft: '120px' }} size='large'><span className='text-white text-3xl font-medium'>进入系统</span></Button>
+        <Button onClick={openConfig} className='w-217px h-72px' style={{ backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '0' }}><span className='text-white text-3xl font-medium'>系统配置</span></Button>
+        <Button onClick={onEnterSystem} className='w-217px h-72px' style={{ backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '0', marginLeft: '120px' }}><span className='text-white text-3xl font-medium'>进入系统</span></Button>
 
         <ConfigDialog ref={configDialogRef} onConfirmSuccess={onConfirmSuccess} />
       </Box>

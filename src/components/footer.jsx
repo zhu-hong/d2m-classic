@@ -39,7 +39,7 @@ export const Footer = () => {
         </List>
       </DialogContent>
       <DialogActions>
-        <Button className="w-144px h-56px" variant="contained" size="large" onClick={() => setOpen(false)}><span className="text-2xl text-white">确认</span></Button>
+        <Button className="w-144px h-56px" variant="contained" onClick={() => setOpen(false)}><span className="text-2xl text-white">确认</span></Button>
       </DialogActions>
     </Dialog>
   </>
