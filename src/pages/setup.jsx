@@ -11,7 +11,7 @@ import { useConfigStore } from '@/store.jsx'
 import { ConfigDialog } from '@/components/configDialog.jsx'
 import { useRef } from 'react'
 
-export const Setup = () => {
+export const SetupPage = () => {
   const { config, setConfig } = useConfigStore()
   const configDialogRef = useRef()
 

@@ -1,6 +1,7 @@
 import { Footer } from "@/components/footer.jsx"
 import { Header } from "@/components/header.jsx"
 import { Box, Button, TextField } from "@mui/material"
+import { Outlet } from "react-router-dom"
 
 export const OperatePage = () => {
   return <Box component='main' className='h-full flex flex-col'>
@@ -43,7 +44,8 @@ export const OperatePage = () => {
           </Box>
         </Button>
       </Box>
-      <Box className='flex-auto bg-[#DAE6E5] p-16px overflow-auto'>
+      <Box className='flex-auto bg-[#DAE6E5] p-16px overflow-auto relative'>
+        <Outlet />
       </Box>
       <Box className='w-24px bg-[#044244]'></Box>
     </Box>

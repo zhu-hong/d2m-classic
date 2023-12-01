@@ -1,19 +1,26 @@
 import { createHashRouter } from 'react-router-dom'
-import { Setup } from './pages/setup.jsx'
-import { ChooseToWork } from './pages/chooseWork.jsx'
+import { SetupPage } from './pages/setup.jsx'
+import { ChooseToWorkPage } from './pages/chooseWork.jsx'
 import { OperatePage } from './pages/op/index.jsx'
+import { TaskPage } from './pages/op/task.jsx'
 
 export const router = createHashRouter([
   {
     path: '/',
-    element: <Setup />,
+    element: <SetupPage />,
   },
   {
     path: '/choose-work',
-    element: <ChooseToWork />,
+    element: <ChooseToWorkPage />,
   },
   {
     path: '/op',
     element: <OperatePage />,
+    children: [
+      {
+        index: true,
+        element: <TaskPage />
+      },
+    ],
   },
 ])
