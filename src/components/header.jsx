@@ -3,11 +3,11 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import dayjs from 'dayjs'
 
-export const Header = () => {
+export const Header = ({ actions = [] }) => {
   const [time, setTime] = useState(dayjs().format('hh:mm\tYYYY/MM/DD'))
   useEffect(() => {
     const t = setInterval(() => {
-      setTime(dayjs().format('hh:mm\tYYYY/MM/DD'))
+      setTime(dayjs().format('hh:mm  YYYY/MM/DD'))
     }, 1000)
     return () => clearInterval(t)
   }, [])
@@ -18,12 +18,9 @@ export const Header = () => {
     </Button>
     <h1 className="text-2xl font-medium">添翼工业软件有限公司</h1>
     <div className="flex-auto"></div>
-    <p className="text-2xl font-bold mr-16px">{time}</p>
-    <Button className="w-64px h-64px">
-      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="4"><path fill="#FFF" fillRule="evenodd" d="M.667.667v2.666h26.666V.667H.667Z"/></svg>
-    </Button>
-    <Button className="w-64px h-64px" variant="contained">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0Z"/><path fill="#FFF" fillRule="nonzero" d="M9.068 4.53a1.333 1.333 0 0 1-.266 1.867A11.978 11.978 0 0 0 4 16c0 6.627 5.373 12 12 12s12-5.373 12-12c0-3.823-1.799-7.345-4.798-9.6a1.333 1.333 0 1 1 1.602-2.131A14.644 14.644 0 0 1 30.667 16c0 8.1-6.567 14.667-14.667 14.667S1.333 24.1 1.333 16c0-4.673 2.202-8.983 5.868-11.735a1.333 1.333 0 0 1 1.867.265m7.265-3.197a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-.666a1 1 0 0 1-1-1V2.333a1 1 0 0 1 1-1h.666Z"/></g></svg>
-    </Button>
+    <p className="text-2xl font-bold mr-16px whitespace-pre-wrap">{time}</p>
+    {
+      actions.map((a) => a)
+    }
   </header>
 }

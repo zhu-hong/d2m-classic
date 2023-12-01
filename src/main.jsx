@@ -16,3 +16,8 @@ createRoot(document.getElementById('root')).render(<StrictMode>
     </SnackbarProvider>
   </ThemeProvider>
 </StrictMode>)
+
+const setup = document.getElementById('setup')
+if(setup !== null) {
+  setup.remove()
+}
