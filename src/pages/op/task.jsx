@@ -1,20 +1,26 @@
+import { AttendanceDialog } from "@/components/attendanceDialog.jsx"
 import { ArrowForwardIos } from "@mui/icons-material"
 import { PlayCircleOutline } from "@mui/icons-material"
 import { ArrowBackIosNew } from "@mui/icons-material"
-import { Box, Button, Divider, Grid, Paper } from "@mui/material"
+import { Box, Button, ButtonBase, Divider, Grid, Paper } from "@mui/material"
+import { useRef } from "react"
 
 export const TaskPage = () => {
+  const attendanceDialogRef = useRef()
+
   return <Grid container  spacing={2}>
     <Grid item xs={12}>
-      <Paper className="py-24px pl-16px pr-24px flex items-center justify-between">
+      <Paper className="w-full py-24px pl-16px pr-24px flex items-center justify-between" onClick={() => attendanceDialogRef.current.open()}>
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#000c25" fillRule="nonzero" d="M12 .5a4 4 0 0 1 3.995 3.8l.001.03a10.002 10.002 0 0 1 5.896 10.646l-.01-.006a4 4 0 1 1-4.237 6.764l.015.01-.096.066A9.953 9.953 0 0 1 12 23.5c-2.1 0-4.05-.648-5.66-1.755l.097-.073a4 4 0 1 1-4.302-6.711l-.027.014A10.002 10.002 0 0 1 8.003 4.33l-.002.084L8 4.5a4 4 0 0 1 4-4M8.417 6.28l.026.052a8 8 0 0 0-4.38 8.17L4.03 14.5H4a4 4 0 0 1 3.628 5.686l-.005.011A7.961 7.961 0 0 0 12 21.5c1.616 0 3.12-.479 4.377-1.303l-.005-.01a4 4 0 0 1 3.429-5.681l.199-.006-.062.002a8 8 0 0 0-4.382-8.17l-.011.023a4 4 0 0 1-7.128-.075M20 16.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-16 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m8-14a2 2 0 1 0 0 4 2 2 0 0 0 0-4" /></svg>
         <span className="text-[#000c25] ml-8px mr-16px text-2xl font-medium">外球笼1线</span>
-        <Button variant="outlined" size="small" className="h-32px">切换</Button>
+        <Button variant="outlined" size="small" className="h-32px" onClick={(e) => e.stopPropagation()}>切换</Button>
         <Box className='flex-auto'></Box>
         <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>白班</Box>
         <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>11/01  9:00～11/01 16:00</Box>
         <Box className='text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>4人</Box>
       </Paper>
+
+      <AttendanceDialog ref={attendanceDialogRef} />
     </Grid>
     <Grid item xs={3}>
       <Paper>
