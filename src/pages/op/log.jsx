@@ -29,30 +29,27 @@ export const LogPage = () => {
       <TextField size='small' className='w-200px' type="number" />
     </Box>
     <Box className='flex-auto bg-white'>
-
-      <Box className='flex-auto mt-8px'>
-        <Box className='overflow-auto text-[#000C25] border border-t border-l border-[#CECECE]'>
-          <Box className='w-full overflow-auto bg-[#CDE6E3] h-39px leading-39px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
-            <Box sx={{width:'15%'}}>操作时间</Box>
-            <Box sx={{width:'15%'}}>操作人</Box>
-            <Box sx={{width:'20%'}}>操作类型</Box>
-            <Box sx={{width:'25%'}}>操作位置</Box>
-            <Box sx={{width:'25%'}}>操作详情</Box>
-          </Box>
-          <Box className='w-full bg-[#FFFFFF] h-56px leading-56px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
-            <Box sx={{width:'15%'}}>编号</Box>
-            <Box sx={{width:'15%'}}>名称</Box>
-            <Box sx={{width:'20%'}}>累计上料</Box>
-            <Box sx={{width:'25%'}}>已消耗量</Box>
-            <Box sx={{width:'25%'}}>欠料量</Box>
-          </Box>
-          <Box className='w-full bg-[#F2F9F8] h-56px leading-56px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
-            <Box sx={{width:'15%'}}>编号</Box>
-            <Box sx={{width:'15%'}}>名称</Box>
-            <Box sx={{width:'20%'}}>累计上料</Box>
-            <Box sx={{width:'25%'}}>已消耗量</Box>
-            <Box sx={{width:'25%'}}>欠料量</Box>
-          </Box>
+      <Box className='overflow-auto text-[#000C25] border border-t border-l border-[#CECECE]'>
+        <Box className='w-full overflow-auto bg-[#CDE6E3] h-39px leading-39px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
+          <Box sx={{width:'15%'}}>操作时间</Box>
+          <Box sx={{width:'15%'}}>操作人</Box>
+          <Box sx={{width:'20%'}}>操作类型</Box>
+          <Box sx={{width:'25%'}}>操作位置</Box>
+          <Box sx={{width:'25%'}}>操作详情</Box>
+        </Box>
+        <Box className='w-full bg-[#FFFFFF] h-56px leading-56px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
+          <Box sx={{width:'15%'}}>编号</Box>
+          <Box sx={{width:'15%'}}>名称</Box>
+          <Box sx={{width:'20%'}}>累计上料</Box>
+          <Box sx={{width:'25%'}}>已消耗量</Box>
+          <Box sx={{width:'25%'}}>欠料量</Box>
+        </Box>
+        <Box className='w-full bg-[#F2F9F8] h-56px leading-56px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
+          <Box sx={{width:'15%'}}>编号</Box>
+          <Box sx={{width:'15%'}}>名称</Box>
+          <Box sx={{width:'20%'}}>累计上料</Box>
+          <Box sx={{width:'25%'}}>已消耗量</Box>
+          <Box sx={{width:'25%'}}>欠料量</Box>
         </Box>
       </Box>
     </Box>
