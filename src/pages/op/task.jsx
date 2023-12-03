@@ -1,3 +1,4 @@
+import { TaskVerification } from "@/components/TaskVerificationDialog.jsx"
 import { AttendanceDialog } from "@/components/attendanceDialog.jsx"
 import { ArrowForwardIos } from "@mui/icons-material"
 import { PlayCircleOutline } from "@mui/icons-material"
@@ -7,6 +8,11 @@ import { useRef } from "react"
 
 export const TaskPage = () => {
   const attendanceDialogRef = useRef()
+  const verificationDialogRef = useRef()
+
+  const operateMachine = () => {
+    verificationDialogRef.current.open()
+  }
 
   return <Grid container  spacing={2}>
     <Grid item xs={12}>
@@ -21,6 +27,8 @@ export const TaskPage = () => {
       </Paper>
 
       <AttendanceDialog ref={attendanceDialogRef} />
+
+      <TaskVerification ref={verificationDialogRef} />
     </Grid>
     <Grid item xs={3}>
       <Paper>
@@ -123,7 +131,7 @@ export const TaskPage = () => {
             <span className="text-[#058373] flex-1">90</span>
             <span className="text-[#000c25] flex-1">105</span>
           </Box>
-          <Button variant="contained" className="w-full h-48px">
+          <Button variant="contained" className="w-full h-48px" onClick={() => operateMachine()}>
             <PlayCircleOutline />
             <span className="text-lg ml-8px">开始</span>
           </Button>
