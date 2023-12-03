@@ -5,7 +5,7 @@ import { Box, Button, Divider, ToggleButtonGroup, styled } from "@mui/material"
 import { useRef } from "react";
 import { useState } from "react"
 
-const ColorButton = styled(Button)(({ ccolor }) => ({
+export const ColorButton = styled(Button)(({ ccolor }) => ({
   color: '#ffffff',
   backgroundColor: ccolor,
   minWidth: '144px',
