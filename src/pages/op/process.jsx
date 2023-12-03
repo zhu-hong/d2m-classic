@@ -1,5 +1,7 @@
+import { Docs } from "@/components/docsDialog.jsx";
 import { useConfigStore } from "@/store.jsx"
 import { Box, Button, Divider, ToggleButtonGroup, styled } from "@mui/material"
+import { useRef } from "react";
 import { useState } from "react"
 
 const ColorButton = styled(Button)(({ ccolor }) => ({
@@ -18,6 +20,7 @@ const ColorButton = styled(Button)(({ ccolor }) => ({
 export const ProcessPage = () => {
   const { config: { type } } = useConfigStore()
   const [tabType, setTabType] = useState(0)
+  const docsRef = useRef()
 
   return <Box className='w-full h-full flex flex-col'>
     <Box>
@@ -139,10 +142,13 @@ export const ProcessPage = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0z"/><path fill="#FFF" d="M9.333 1.333V4h13.334V1.333h2.666V4H28a2.657 2.657 0 0 1 2.667 2.667V28A2.657 2.657 0 0 1 28 30.667H4A2.657 2.657 0 0 1 1.333 28V6.667A2.657 2.657 0 0 1 4 4h2.667V1.333zM28 12H4v16h24zm-12 8v2.667H6.667V20zm9.333-5.333v2.666H6.667v-2.666zm2.667-8H4v2.666h24z"/></g></svg>
         <span className="ml-8px">签到/签退</span>
       </ColorButton>
-      <ColorButton ccolor="#17A9C3">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0z"/><path fill="#FFF" fillRule="nonzero" d="M17.333 1.333c.014 0 .027 0 .04.014h.04c.12.013.24.04.347.066l.04.014.08.04c.147.066.28.16.4.266l8 8c.107.107.2.24.267.387.013.04.026.067.026.093l.014.04a.99.99 0 0 1 .066.334c0 .013 0 .026.014.04v9.578c2.179.577 3.881 2.521 3.998 4.887l.006.26a5.318 5.318 0 0 1-5.315 5.315H5.333A2.666 2.666 0 0 1 2.667 28V4c0-1.48 1.2-2.667 2.666-2.667zM16 4H5.333v24l5.062.001a4.31 4.31 0 0 1-.328-1.654c0-1.967 1.348-3.643 3.16-4.163l.04-.01.026-.106a6.818 6.818 0 0 1 6.273-5.021l.3-.007c1.534 0 2.976.51 4.136 1.396L24 12h-6.667C16.6 12 16 11.4 16 10.667zm3.867 15.707a4.146 4.146 0 0 0-4.125 3.764l-.11 1.213h-1.218c-.911 0-1.68.764-1.68 1.663 0 .914.739 1.653 1.653 1.653h10.969a2.651 2.651 0 0 0 2.648-2.649c0-1.581-1.476-2.853-3.04-2.627l-.953.138-.43-.86a4.146 4.146 0 0 0-3.714-2.295m-10.534-5.04a1.333 1.333 0 1 1 0 2.666H8a1.333 1.333 0 1 1 0-2.666zM12 9.333A1.333 1.333 0 1 1 12 12H8a1.333 1.333 0 0 1 0-2.667zm6.667-3.448V9.34h3.453z"/></g></svg>
-        <span className="ml-8px">文档</span>
-      </ColorButton>
+      <>
+        <ColorButton ccolor="#17A9C3" onClick={() => docsRef.current.open()}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0z"/><path fill="#FFF" fillRule="nonzero" d="M17.333 1.333c.014 0 .027 0 .04.014h.04c.12.013.24.04.347.066l.04.014.08.04c.147.066.28.16.4.266l8 8c.107.107.2.24.267.387.013.04.026.067.026.093l.014.04a.99.99 0 0 1 .066.334c0 .013 0 .026.014.04v9.578c2.179.577 3.881 2.521 3.998 4.887l.006.26a5.318 5.318 0 0 1-5.315 5.315H5.333A2.666 2.666 0 0 1 2.667 28V4c0-1.48 1.2-2.667 2.666-2.667zM16 4H5.333v24l5.062.001a4.31 4.31 0 0 1-.328-1.654c0-1.967 1.348-3.643 3.16-4.163l.04-.01.026-.106a6.818 6.818 0 0 1 6.273-5.021l.3-.007c1.534 0 2.976.51 4.136 1.396L24 12h-6.667C16.6 12 16 11.4 16 10.667zm3.867 15.707a4.146 4.146 0 0 0-4.125 3.764l-.11 1.213h-1.218c-.911 0-1.68.764-1.68 1.663 0 .914.739 1.653 1.653 1.653h10.969a2.651 2.651 0 0 0 2.648-2.649c0-1.581-1.476-2.853-3.04-2.627l-.953.138-.43-.86a4.146 4.146 0 0 0-3.714-2.295m-10.534-5.04a1.333 1.333 0 1 1 0 2.666H8a1.333 1.333 0 1 1 0-2.666zM12 9.333A1.333 1.333 0 1 1 12 12H8a1.333 1.333 0 0 1 0-2.667zm6.667-3.448V9.34h3.453z"/></g></svg>
+          <span className="ml-8px">文档</span>
+        </ColorButton>
+        <Docs ref={docsRef}/>
+      </>
       <ColorButton ccolor="#16AC99">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M16 4c7.732 0 14 6.268 14 14s-6.268 14-14 14S2 25.732 2 18 8.268 4 16 4m0 2.667C9.74 6.667 4.667 11.74 4.667 18c0 6.26 5.074 11.333 11.333 11.333 6.26 0 11.333-5.074 11.333-11.333 0-6.26-5.074-11.333-11.333-11.333M17.333 10v9.333h-2.666V10zm9.724-5.495 2.829 2.828L28 9.22l-2.828-2.828zM10.667 0h10.666v2.667H10.667Z"/></svg>
         <span className="ml-8px">报工</span>
