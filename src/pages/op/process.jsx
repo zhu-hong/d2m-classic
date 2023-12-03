@@ -1,4 +1,5 @@
 import { Docs } from "@/components/docsDialog.jsx";
+import { ProcessReport } from "@/components/processReportDialog.jsx";
 import { useConfigStore } from "@/store.jsx"
 import { Box, Button, Divider, ToggleButtonGroup, styled } from "@mui/material"
 import { useRef } from "react";
@@ -21,6 +22,7 @@ export const ProcessPage = () => {
   const { config: { type } } = useConfigStore()
   const [tabType, setTabType] = useState(0)
   const docsRef = useRef()
+  const processReportRef = useRef()
 
   return <Box className='w-full h-full flex flex-col'>
     <Box>
@@ -149,10 +151,14 @@ export const ProcessPage = () => {
         </ColorButton>
         <Docs ref={docsRef}/>
       </>
-      <ColorButton ccolor="#16AC99">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M16 4c7.732 0 14 6.268 14 14s-6.268 14-14 14S2 25.732 2 18 8.268 4 16 4m0 2.667C9.74 6.667 4.667 11.74 4.667 18c0 6.26 5.074 11.333 11.333 11.333 6.26 0 11.333-5.074 11.333-11.333 0-6.26-5.074-11.333-11.333-11.333M17.333 10v9.333h-2.666V10zm9.724-5.495 2.829 2.828L28 9.22l-2.828-2.828zM10.667 0h10.666v2.667H10.667Z"/></svg>
-        <span className="ml-8px">报工</span>
-      </ColorButton>
+      <>
+        <ColorButton ccolor="#16AC99" onClick={() => processReportRef.current.open()}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M16 4c7.732 0 14 6.268 14 14s-6.268 14-14 14S2 25.732 2 18 8.268 4 16 4m0 2.667C9.74 6.667 4.667 11.74 4.667 18c0 6.26 5.074 11.333 11.333 11.333 6.26 0 11.333-5.074 11.333-11.333 0-6.26-5.074-11.333-11.333-11.333M17.333 10v9.333h-2.666V10zm9.724-5.495 2.829 2.828L28 9.22l-2.828-2.828zM10.667 0h10.666v2.667H10.667Z"/></svg>
+          <span className="ml-8px">报工</span>
+        </ColorButton>
+
+        <ProcessReport ref={processReportRef} />
+      </>
       <ColorButton ccolor="#058373">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M16 1.333C24.1 1.333 30.667 7.9 30.667 16S24.1 30.667 16 30.667 1.333 24.1 1.333 16 7.9 1.333 16 1.333M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4m-1.719 6.335v12h-3.428v-12zm6.857 0v12H17.71v-12z"/></svg>
         <span className="ml-8px">暂停</span>
