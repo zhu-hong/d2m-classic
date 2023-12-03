@@ -4,6 +4,7 @@ import { ChooseToWorkPage } from './pages/chooseWork.jsx'
 import { OperatePage } from './pages/op/index.jsx'
 import { TaskPage } from './pages/op/task.jsx'
 import { ProcessPage } from './pages/op/process.jsx'
+import { LogPage } from './pages/op/log.jsx'
 
 export const router = createHashRouter([
   {
@@ -25,6 +26,10 @@ export const router = createHashRouter([
       {
         path: 'process',
         element: <ProcessPage />
+      },
+      {
+        path: 'log',
+        element: <LogPage />
       },
     ],
   },
