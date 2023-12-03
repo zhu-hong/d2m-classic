@@ -1,9 +1,12 @@
 import { Footer } from "@/components/footer.jsx"
 import { Header } from "@/components/header.jsx"
-import { Box, Button, TextField } from "@mui/material"
+import { Box, Button } from "@mui/material"
+import { useLocation } from "react-router-dom"
 import { Outlet } from "react-router-dom"
 
 export const OperatePage = () => {
+  const location = useLocation()
+
   return <Box component='main' className='h-full flex flex-col'>
     <Header actions={[
       <Button key='action-quit' className="w-64px h-64px">
@@ -12,13 +15,13 @@ export const OperatePage = () => {
     ]} />
     <Box className="flex-auto overflow-hidden flex">
       <Box className='w-80px bg-[#044244] flex flex-col justify-between items-center'>
-        <Button variant="" className="w-80px h-96px">
+        <Button variant={location.pathname === '/op'?'contained':''} className="w-80px h-96px">
           <Box className='flex flex-col justify-center items-center text-white text-lg font-medium'>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g fill="#FFF" fillRule="evenodd"><path fill="none" d="M0 0h24v24H0z"/><path fillRule="nonzero" d="M22.88 12.172a2 2 0 0 1 .12.683V21a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8.145a2 2 0 0 1 2.683-1.88L12 14l8.317-3.024a2 2 0 0 1 2.563 1.196m-1.88.683-9 3.273-9-3.273V21h18v-8.145M18 1a2 2 0 0 1 2 2v8.09l-2 .727V3H6v8.817l-2-.727V3a2 2 0 0 1 2-2zm-2.5 8v2h-7V9zm0-4v2h-7V5z"/></g></svg>
             <span className="mt-4px">任务</span>
           </Box>
         </Button>
-        <Button variant="" className="w-80px h-96px">
+        <Button variant={location.pathname === '/op/process'?'contained':''} className="w-80px h-96px">
           <Box className='flex flex-col justify-center items-center text-white text-lg font-medium'>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25"><path fill="#FFF" d="M14.487 1.213c.949 0 1.668.719 1.668 1.669V4.6l.308.164 1.534-.955c.751-.374 1.601-.175 2.118.48l.093.128.037.059 2.56 4.479c.211.411.254.867.113 1.28a1.551 1.551 0 0 1-.862.92l-1.42.835v.703a1.048 1.048 0 0 1-2.097.003l.045-1.841 2.131-1.334-2.082-3.648-2.122 1.328-.107-.001-.51-.34-.167-.106-.193-.113-.374-.199-1.043-.525-.055-.089V3.304H9.94v2.802l-.075.096-.717.18c-.157.04-.328.13-.606.31l-.944.633-.108.001-2.173-1.36-2.031 3.556 2.179 1.417-.047 2.628L3.286 14.9l2.081 3.647L7.49 17.22l.108.002.509.34.167.106.305.173.262.138 1.044.526.055.088v2.526h2.064c.54 0 .983.406 1.04.932l.006.114c0 .58-.47 1.048-1.048 1.048h-2.49c-.949 0-1.668-.719-1.668-1.668v-1.723l-.308-.163-1.534.956c-.75.374-1.601.175-2.118-.48l-.093-.128-.036-.059-2.559-4.481a1.639 1.639 0 0 1-.113-1.28c.143-.415.458-.747.863-.92l1.423-.835.046-.358-1.455-.912a1.565 1.565 0 0 1-.877-.927c-.16-.464-.087-.984.198-1.429l2.463-4.311a1.53 1.53 0 0 1 .96-.753 1.733 1.733 0 0 1 1.408.257l1.394.872.18-.108.157-.09.001-1.791c0-.9.645-1.593 1.52-1.663l.148-.006Zm7.427 19.93a.992.992 0 0 1 0 1.982h-5.947a.992.992 0 0 1 0-1.983h5.947m0-4.958a.992.992 0 1 1 0 1.983h-5.947a.992.992 0 0 1 0-1.983h5.947M12 8.418a3.791 3.791 0 1 1-.002 7.583A3.791 3.791 0 0 1 12 8.418m0 1.983a1.809 1.809 0 1 0 0 3.617 1.809 1.809 0 0 0 0-3.617"/></svg>
             <span className="mt-4px">生产</span>
