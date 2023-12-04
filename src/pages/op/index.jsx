@@ -27,13 +27,13 @@ export const OperatePage = () => {
             <span className="mt-4px">生产</span>
           </Box>
         </Button>
-        <Button variant="" className="w-80px h-96px">
+        <Button variant={location.pathname === '/op/machine'?'contained':''} className="w-80px h-96px">
           <Box className='flex flex-col justify-center items-center text-white text-lg font-medium'>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#FFF" fillRule="nonzero" d="M20.687 3C21.436 3 22 3.585 22 4.361v16.277c0 .777-.565 1.362-1.313 1.362H3.313C2.565 22 2 21.415 2 20.638V4.361C2 3.585 2.565 3 3.313 3ZM20 16H4v4h16zm-7 1v2H5v-2zm6 0v2h-4v-2zm1.004-12h-16v9h16V5M9.996 6.39l2.96 4.27 1.837-2.732c.328-.487 1.164-.532 1.578-.115l.069.078 1.02 1.332H19v1.515h-2.071c-.331 0-.638-.137-.81-.362l-.436-.568-1.878 2.793c-.336.499-1.2.53-1.601.09l-.066-.082L9.14 8.287l-1.524 2.077c-.152.206-.415.341-.708.369l-.111.005H5V9.224h1.253l2.093-2.85c.372-.506 1.294-.497 1.65.017"/></svg>
             <span className="mt-4px">设备</span>
           </Box>
         </Button>
-        <Button variant="" className="w-80px h-96px">
+        <Button variant={location.pathname === '/op/log'?'contained':''} className="w-80px h-96px">
           <Box className='flex flex-col justify-center items-center text-white text-lg font-medium'>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#FFF" fillRule="nonzero" d="M20.095 2c1.558 0 2.812 1.259 2.9 2.825L23 5v8.683a6 6 0 0 1-8.322 8.314L14.62 22H3.905c-1.558 0-2.812-1.259-2.9-2.825L1 19V5c0-1.587 1.199-2.903 2.733-2.995L3.905 2h16.19M18 13a4 4 0 1 0 0 8 4 4 0 0 0 0-8m2.095-9H3.905c-.454 0-.845.377-.899.881L3 5v14c0 .523.359.937.801.993l.104.007 8.898.001a6 6 0 0 1 8.198-8.198L21 5c0-.523-.359-.937-.801-.993L20.095 4M19 14v2h2v2h-4v-4zM9 15v2H5v-2zm2-4v2H5v-2zm4-4v2H5V7z"/></svg>
             <span className="mt-4px">日志</span>
