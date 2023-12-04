@@ -76,7 +76,7 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
     return true
   }
 
-  return <Dialog keepMounted open={configOpen} maxWidth='640px' onClose={() => setConfigOpen(false)}>
+  return <Dialog open={configOpen} maxWidth='640px' onClose={() => setConfigOpen(false)}>
     <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
       <p>文件配置</p>
       <IconButton onClick={() => setConfigOpen(false)}><Close/></IconButton>
