@@ -5,7 +5,7 @@ import { ArrowBackIosNew } from '@mui/icons-material'
 import { Box, Button, Grid, IconButton, Paper } from '@mui/material'
 import { useState } from 'react'
 
-export const ChooseToWorkPage = () => {
+const ChooseToWorkPage = () => {
   const { config: { terminalType: type } } = useConfigStore()
   const [list, setList] = useState([1,2,3])
 
@@ -58,3 +58,5 @@ export const ChooseToWorkPage = () => {
     <Footer />
   </Box>
 }
+
+export default ChooseToWorkPage

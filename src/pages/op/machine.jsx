@@ -1,12 +1,12 @@
 import { useConfigStore } from "@/store.jsx"
 import { Box, Button, Divider, Grid, Paper, ToggleButtonGroup } from "@mui/material"
 import { useState } from "react"
-import { ColorButton } from "./process.jsx"
 import { AdjustDialog } from "@/components/adjustDialog.jsx"
 import { useRef } from "react"
 import { CheckDialog } from "@/components/checkDialog.jsx"
+import { ColorButton } from "@/components/CcolorButton.jsx"
 
-export const MachinePage = ({visibility}) => {
+const MachinePage = ({visibility}) => {
   const { config: { type } } = useConfigStore()
 
   const [single, setSingle] = useState(true)
@@ -258,3 +258,5 @@ export const MachinePage = ({visibility}) => {
     }
   </Box>
 }
+
+export default MachinePage

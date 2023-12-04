@@ -11,7 +11,7 @@ import { useConfigStore } from '@/store.jsx'
 import { ConfigDialog } from '@/components/configDialog.jsx'
 import { useRef } from 'react'
 
-export const SetupPage = () => {
+const SetupPage = () => {
   const { config, setConfig } = useConfigStore()
   const configDialogRef = useRef()
 
@@ -77,3 +77,5 @@ export const SetupPage = () => {
     <Footer />
   </Box>
 }
+
+export default SetupPage

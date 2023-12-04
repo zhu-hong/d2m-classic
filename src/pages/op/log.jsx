@@ -1,22 +1,17 @@
 import { AccessTime } from "@mui/icons-material"
 import { Box, MenuItem, Select, TextField } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 
-export const LogPage = () => {
+const LogPage = () => {
   return <Box className='flex flex-col'>
     <Box className='h-96px bg-white px-24px mb-16px flex items-center text-lg text-[#646A73] children:mr-16px'>
       <Box>时间筛选：</Box>
       <Box>
-        <DemoContainer components={['DatePicker']}>
-          <DatePicker></DatePicker>
-        </DemoContainer>
+        <DatePicker />
       </Box>
       <Box>~</Box>
       <Box>
-        <DemoContainer components={['DatePicker']}>
-          <DatePicker></DatePicker>
-        </DemoContainer>
+        <DatePicker />
       </Box>
       <Box>操作类型：</Box>
       <Select size='small' className='w-200px'>
@@ -55,3 +50,5 @@ export const LogPage = () => {
     </Box>
   </Box>
 }
+
+export default LogPage

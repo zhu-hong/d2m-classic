@@ -5,7 +5,7 @@ import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom"
 import { Outlet } from "react-router-dom"
 
-export const OperatePage = () => {
+const OperatePage = () => {
   const location = useLocation()
 
   return <Box component='main' className='h-full flex flex-col'>
@@ -66,3 +66,5 @@ export const OperatePage = () => {
     <Footer />
   </Box>
 }
+
+export default OperatePage

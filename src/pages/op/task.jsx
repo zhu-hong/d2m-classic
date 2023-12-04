@@ -6,7 +6,7 @@ import { ArrowBackIosNew } from "@mui/icons-material"
 import { Box, Button, Divider, Grid, Paper } from "@mui/material"
 import { useRef } from "react"
 
-export const TaskPage = () => {
+const TaskPage = () => {
   const attendanceDialogRef = useRef()
   const verificationDialogRef = useRef()
 
@@ -194,3 +194,5 @@ export const TaskPage = () => {
     </Grid>
   </Grid>
 }
+
+export default TaskPage

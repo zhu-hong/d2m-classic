@@ -1,24 +1,12 @@
+import { ColorButton } from "@/components/CcolorButton.jsx";
 import { Docs } from "@/components/docsDialog.jsx";
 import { ProcessReport } from "@/components/processReportDialog.jsx";
 import { useConfigStore } from "@/store.jsx"
-import { Box, Button, Divider, ToggleButtonGroup, styled } from "@mui/material"
+import { Box, Button, Divider, ToggleButtonGroup } from "@mui/material"
 import { useRef } from "react";
 import { useState } from "react"
 
-export const ColorButton = styled(Button)(({ ccolor }) => ({
-  color: '#ffffff',
-  backgroundColor: ccolor,
-  minWidth: '144px',
-  height: '100%',
-  fontSize: '22px',
-  fontWeight: '500',
-  marginRight: '16px',
-  '&:hover': {
-    backgroundColor: ccolor,
-  },
-}));
-
-export const ProcessPage = () => {
+const ProcessPage = () => {
   const { config: { type } } = useConfigStore()
   const [tabType, setTabType] = useState(0)
   const docsRef = useRef()
@@ -170,3 +158,5 @@ export const ProcessPage = () => {
     </Box>
   </Box>
 }
+
+export default ProcessPage
