@@ -4,14 +4,16 @@ import { useState } from "react"
 import { ColorButton } from "./process.jsx"
 import { AdjustDialog } from "@/components/adjustDialog.jsx"
 import { useRef } from "react"
+import { CheckDialog } from "@/components/checkDialog.jsx"
 
-export const MachinePage = () => {
+export const MachinePage = ({visibility}) => {
   const { config: { type } } = useConfigStore()
 
   const [single, setSingle] = useState(true)
   const adjustDialogRef = useRef()
+  const checkDialogRef = useRef()
 
-  return <Box className='w-full h-full flex flex-col'>
+  return <Box className='w-full h-full flex-col' style={{display:visibility}}>
     {
       single
       ?
@@ -117,10 +119,12 @@ export const MachinePage = () => {
         </Box>
         <Box className='bg-white text-right py-13px'>
           <>
-            <ColorButton ccolor='#006A9F' style={{width:'187px',height:'72px',borderRadius:'0'}}>
+            <ColorButton onClick={() => checkDialogRef.current.open()} ccolor='#006A9F' style={{width:'187px',height:'72px',borderRadius:'0'}}>
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M28 1.333A2.667 2.667 0 0 1 30.667 4v24A2.667 2.667 0 0 1 28 30.667H4A2.667 2.667 0 0 1 1.333 28V4A2.667 2.667 0 0 1 4 1.333zM28 4H4v24h24zM11.333 16a4.667 4.667 0 1 1 0 9.333 4.667 4.667 0 0 1 0-9.333m14 4v2.667h-8V20zm-14-1.333a2 2 0 1 0 0 4 2 2 0 0 0 0-4M15.976 7.15a1.2 1.2 0 0 1 .107 1.575l-.107.123-3.995 3.994c-.69.677-1.771.709-2.499.104l-.14-.13-2.199-2.24a1.2 1.2 0 0 1 1.592-1.79l.122.11 1.82 1.854 3.601-3.6a1.2 1.2 0 0 1 1.698 0m9.357 2.182V12h-8V9.333z"/></svg>
               <span className="ml-8px">前往点检</span>
             </ColorButton>
+
+            <CheckDialog ref={checkDialogRef} />
           </>
           <>
             <ColorButton onClick={() => adjustDialogRef.current.open()} ccolor='#058373' style={{width:'187px',height:'72px',borderRadius:'0'}}>

@@ -12,6 +12,10 @@ import { router } from './router.jsx'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { zhCN } from '@mui/x-date-pickers'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn.js'
+
+dayjs.locale('zh-cn')
 
 createRoot(document.getElementById('root')).render(<StrictMode>
   <LocalizationProvider dateAdapter={AdapterDayjs} localeText={zhCN.components.MuiLocalizationProvider.defaultProps.localeText}>

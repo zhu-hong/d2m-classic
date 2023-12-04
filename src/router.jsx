@@ -19,23 +19,5 @@ export const router = createHashRouter([
   {
     path: '/op',
     element: <OperatePage />,
-    children: [
-      {
-        index: true,
-        element: <TaskPage />
-      },
-      {
-        path: 'process',
-        element: <ProcessPage />
-      },
-      {
-        path: 'machine',
-        element: <MachinePage />
-      },
-      {
-        path: 'log',
-        element: <LogPage />
-      },
-    ],
   },
 ])

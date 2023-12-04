@@ -3,8 +3,8 @@ import { Box, MenuItem, Select, TextField } from "@mui/material"
 import { DatePicker } from "@mui/x-date-pickers"
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 
-export const LogPage = () => {
-  return <Box className='flex flex-col'>
+export const LogPage = ({ visibility }) => {
+  return <Box className='flex-col' style={{display:visibility}}>
     <Box className='h-96px bg-white px-24px mb-16px flex items-center text-lg text-[#646A73] children:mr-16px'>
       <Box>时间筛选：</Box>
       <Box>

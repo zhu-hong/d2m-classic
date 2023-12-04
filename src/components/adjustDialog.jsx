@@ -1,8 +1,6 @@
 import { Close } from "@mui/icons-material"
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Input } from "@mui/material"
-import { forwardRef } from "react"
-import { useImperativeHandle } from "react"
-import { useState } from "react"
+import { forwardRef, useImperativeHandle, useState } from "react"
 
 export const AdjustDialog = forwardRef((_, ref) => {
   const [open, setOpen] = useState(false)
