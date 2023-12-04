@@ -2,8 +2,8 @@ import { RadioButtonUnchecked } from "@mui/icons-material"
 import { Box, Button, ButtonBase } from "@mui/material"
 import { ColorButton } from "./process.jsx"
 
-export const AndonPage = ({ visibility }) => {
-  return <div className="flex-col w-full h-full" style={{display:visibility}}>
+export const AndonPage = () => {
+  return <div className="flex flex-col w-full h-full">
     <div className="flex-auto bg-white py-26px px-16px overflow-auto">
       <div className="flex justify-center items-center mb-24px">
         <Button className="h-48px" variant="outlined" size="large">

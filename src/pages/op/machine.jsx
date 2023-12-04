@@ -13,7 +13,7 @@ export const MachinePage = ({visibility}) => {
   const adjustDialogRef = useRef()
   const checkDialogRef = useRef()
 
-  return <Box className='w-full h-full flex-col' style={{display:visibility}}>
+  return <Box className='w-full h-full flex flex-col'>
     {
       single
       ?

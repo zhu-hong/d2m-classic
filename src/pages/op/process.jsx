@@ -18,13 +18,13 @@ export const ColorButton = styled(Button)(({ ccolor }) => ({
   },
 }));
 
-export const ProcessPage = ({visibility}) => {
+export const ProcessPage = () => {
   const { config: { type } } = useConfigStore()
   const [tabType, setTabType] = useState(0)
   const docsRef = useRef()
   const processReportRef = useRef()
 
-  return <Box className='w-full h-full flex-col' style={{display:visibility}}>
+  return <Box className='w-full h-full flex flex-col'>
     <Box>
       <Box className="w-full pl-16px pr-24px flex items-center justify-between" onClick={() => attendanceDialogRef.current.open()}>
         {
