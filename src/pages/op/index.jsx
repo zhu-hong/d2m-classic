@@ -6,6 +6,7 @@ import { TaskPage } from '@/pages/op/task.jsx'
 import { ProcessPage } from '@/pages/op/process.jsx'
 import { LogPage } from '@/pages/op/log.jsx'
 import { MachinePage } from '@/pages/op/machine.jsx'
+import { AndonPage } from "./andon.jsx"
 
 export const OperatePage = () => {
   const [tabIndex, setTabIndex] = useState(0)
@@ -55,6 +56,7 @@ export const OperatePage = () => {
         <ProcessPage visibility={tabIndex===1?'flex':'none'} />
         <MachinePage visibility={tabIndex===2?'flex':'none'} />
         <LogPage visibility={tabIndex===3?'flex':'none'} />
+        <AndonPage visibility={tabIndex===4?'flex':'none'} />
       </Box>
       <Box className='w-24px bg-[#044244]'></Box>
     </Box>
