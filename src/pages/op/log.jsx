@@ -26,7 +26,7 @@ export const LogPage = () => {
         </MenuItem>
       </Select>
       <Box>操作人：</Box>
-      <TextField size='small' className='w-200px' type="number" />
+      <TextField size='small' className='w-200px' />
     </Box>
     <Box className='flex-auto bg-white'>
       <Box className='overflow-auto text-[#000C25] border border-t border-l border-[#CECECE]'>
