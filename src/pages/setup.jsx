@@ -27,7 +27,7 @@ const SetupPage = () => {
   }
 
   const validationConfig = () => {
-    if(config.account === '') {
+    if(config.book === '') {
       enqueueSnackbar('请配置帐套', {
         variant: 'warning',
       })

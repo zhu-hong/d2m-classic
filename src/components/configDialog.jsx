@@ -13,11 +13,13 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
-  TextField,
   InputAdornment,
   Select,
   MenuItem,
   DialogActions,
+  OutlinedInput,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material'
 import { useConfigStore } from '@/store.jsx'
 import { enqueueSnackbar } from 'notistack'
@@ -27,7 +29,7 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   const { config } = useConfigStore()
   const [configTemp, setConfigTemp] = useState(JSON.parse(JSON.stringify(config)))
 
-  const [accountList, setAccountList] = useState([])
+  const [bookList, setBookList] = useState([])
   const [workshopList, setWorkshopList] = useState([])
   const [machineList, setMachineList] = useState([])
 
@@ -45,6 +47,10 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
       ...configTemp,
       [key]: value,
     })
+
+    if(key === 'workshopGuid') {
+      setConfigTempByKey('machineGuid', '')
+    }
   }
 
   const onConfirm = () => {
@@ -55,7 +61,7 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   }
 
   const validationConfig = () => {
-    if(configTemp.account === '') {
+    if(configTemp.book === '') {
       enqueueSnackbar('请选择帐套', {
         variant: 'warning',
       })
@@ -84,32 +90,23 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
     <DialogContent className='w-640px'>
       <List>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
-          <span className='w-100px'>运行模式：</span>
-          <RadioGroup row value={configTemp.mode} onChange={(e) => setConfigTempByKey('mode', e.target.value)}>
-            <FormControlLabel value={0} control={<Radio />} label="调试"></FormControlLabel>
-            <FormControlLabel value={1} control={<Radio />} label="发布"></FormControlLabel>
-          </RadioGroup>
-        </ListItem>
-        <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px'>服务URL：</span>
-          <TextField size='small' className='flex-auto' InputProps={{
-            startAdornment: <InputAdornment position="start">http://</InputAdornment>,
-            readOnly: true,
-            value: configTemp.serveUrl,
-          }} />
+          <OutlinedInput size='small' className='flex-auto' placeholder='请输入' onChange={(e) => setConfigTempByKey('serveUrl', e.target.value)} startAdornment={<InputAdornment position="start">http://</InputAdornment>} value={configTemp.serveUrl} />
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px'>账套：</span>
-          <Select value={configTemp.account} size='small' className='flex-auto' onChange={(e) => setConfigTempByKey('account', e.target.value)}>
+          <Select value={configTemp.book} size='small' className='flex-auto' onChange={(e) => setConfigTempByKey('book', e.target.value)}>
             {
-              accountList.length === 0
+              bookList.length === 0
               ?
               <MenuItem disabled>
-                <AccessTime />
-                <span>暂无数据</span>
+                <ListItemIcon>
+                  <AccessTime />
+                </ListItemIcon>
+                <ListItemText>暂无数据</ListItemText>
               </MenuItem>
               :
-              accountList.map((w) => <MenuItem></MenuItem>)
+              bookList.map((w) => <MenuItem></MenuItem>)
             }
           </Select>
         </ListItem>
@@ -120,8 +117,10 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
               workshopList.length === 0
               ?
               <MenuItem disabled>
-                <AccessTime />
-                <span>暂无数据</span>
+                <ListItemIcon>
+                  <AccessTime />
+                </ListItemIcon>
+                <ListItemText>暂无数据</ListItemText>
               </MenuItem>
               :
               workshopList.map((w) => <MenuItem value={w.workshopGuid}>{w.workshopName}</MenuItem>)
@@ -135,8 +134,10 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
               machineList.length === 0
               ?
               <MenuItem disabled>
-                <AccessTime />
-                <span>暂无数据</span>
+                <ListItemIcon>
+                  <AccessTime />
+                </ListItemIcon>
+                <ListItemText>暂无数据</ListItemText>
               </MenuItem>
               :
               machineList.map((m) => <MenuItem value={m.machineGuid}>{m.machineName}</MenuItem>)
