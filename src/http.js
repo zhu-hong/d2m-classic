@@ -17,7 +17,7 @@ export function createApi(serveUrl) {
     },
     (err) => {
       enqueueSnackbar('网络错误', { variant: 'error' })
-      return err
+      throw err
     }
   )
   
@@ -211,7 +211,7 @@ export function createApi(serveUrl) {
       // return await ins.get('/GetWorkcenterProductionInformation', {
       //   params: paylod,
       // })
-      delay(3000)
+      await delay(3000)
       return {
         data:{
           workcenterGuid:'工作中心Guid',
@@ -263,7 +263,16 @@ export function createApi(serveUrl) {
      * @param {{WorkcenterGuid:string;TaskGuid:string;}} paylod 
      */
     async StartTaskValidate(paylod) {
-      return await ins.post('/StartTaskValidate', paylod)
+      // return await ins.post('/StartTaskValidate', paylod)
+      delay(3000)
+      return {
+        data:{
+          equipment: 1,//设备调机校验结果,1表示校验通过,0表示校验不通过,
+          mro:1,//MRO校验结果1表示校验通过,0表示校验不通过（暂时只返回1）,
+          processParameter:1,//工艺参数校验结果,1表示校验通过,0表示校验不通过（暂时只返回1）,
+          subProcess:1,//子工序校验结果 1表示校验通过,0表示校验不通过（暂时只返回1）
+        }
+      }
     },
     /**
      * 开启任务
