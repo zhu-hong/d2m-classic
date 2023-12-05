@@ -1,4 +1,4 @@
-import { ColorButton } from "@/components/CcolorButton.jsx"
+import { ColorButton } from "@/components/ccolorButton.jsx"
 import { RadioButtonUnchecked } from "@mui/icons-material"
 import { Box, Button, ButtonBase } from "@mui/material"
 

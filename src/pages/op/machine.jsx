@@ -4,9 +4,9 @@ import { useState } from "react"
 import { AdjustDialog } from "@/components/adjustDialog.jsx"
 import { useRef } from "react"
 import { CheckDialog } from "@/components/checkDialog.jsx"
-import { ColorButton } from "@/components/CcolorButton.jsx"
+import { ColorButton } from "@/components/ccolorButton.jsx"
 
-const MachinePage = ({visibility}) => {
+const MachinePage = () => {
   const { config: { type } } = useConfigStore()
 
   const [single, setSingle] = useState(true)

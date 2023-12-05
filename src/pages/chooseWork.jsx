@@ -15,7 +15,7 @@ const ChooseToWorkPage = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M4 1.333A2.657 2.657 0 0 0 1.333 4v24A2.657 2.657 0 0 0 4 30.667h12A2.657 2.657 0 0 0 18.667 28v-8H16v8H4V4h12v8h2.667V4A2.657 2.657 0 0 0 16 1.333Zm20 9.334v4H9.333v2.666H24v4L30.667 16 24 10.667" /></svg>
       </Button>
     ]} />
-    <Box className="flex-auto bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center text-white px-80px overflow-hidden" style={{ backgroundImage: 'url(./banner.png)' }}>
+    <Box className="flex-auto bg-no-repeat bg-cover bg-center flex flex-col justify-center items-center text-white pl-80px pr-64px overflow-hidden" style={{ backgroundImage: 'url(./banner.png)' }}>
       <Box component='div' className='w-full h-full overflow-auto bg-[#DAE6E5] relative px-32px pb-24px'>
         <header className='sticky w-full top-0 left-0 py-24px flex items-center justify-center bg-[#DAE6E5] z-10'>
           <Button variant='text' color='secondary' sx={{ position: 'absolute', left: '0' }} onClick={() => history.back()}>

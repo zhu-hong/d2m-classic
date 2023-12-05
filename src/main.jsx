@@ -7,7 +7,7 @@ import { theme } from './theme.js'
 import { ThemeProvider } from '@mui/material'
 import { RouterProvider } from 'react-router-dom'
 import { SnackbarProvider } from 'notistack'
-import { router } from './router.jsx'
+import router from './router.jsx'
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'

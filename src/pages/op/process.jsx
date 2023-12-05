@@ -1,4 +1,4 @@
-import { ColorButton } from "@/components/CcolorButton.jsx";
+import { ColorButton } from "@/components/ccolorButton.jsx";
 import { Docs } from "@/components/docsDialog.jsx";
 import { ProcessReport } from "@/components/processReportDialog.jsx";
 import { useConfigStore } from "@/store.jsx"
