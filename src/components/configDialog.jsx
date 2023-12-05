@@ -23,34 +23,56 @@ import {
 } from '@mui/material'
 import { useConfigStore } from '@/store.jsx'
 import { enqueueSnackbar } from 'notistack'
+import { useEffect } from 'react'
+import { useApi } from '@/hook.js'
 
 export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
-  const [configOpen, setConfigOpen] = useState(false)
   const { config } = useConfigStore()
+
+  const [configOpen, setConfigOpen] = useState(false)
   const [configTemp, setConfigTemp] = useState(JSON.parse(JSON.stringify(config)))
 
   const [bookList, setBookList] = useState([])
   const [workshopList, setWorkshopList] = useState([])
   const [machineList, setMachineList] = useState([])
 
+  const api = useApi(config.serveUrl)
+
   useImperativeHandle(ref, () => {
     return {
       open: () => {
         setConfigTemp(JSON.parse(JSON.stringify(config)))
         setConfigOpen(true)
+
+        api().GetWorkshop().then((res) => {
+          setWorkshopList(res.data)
+        })
       }
     }
   })
 
-  const setConfigTempByKey = (key, value) => {
-    setConfigTemp({
-      ...configTemp,
-      [key]: value,
+  useEffect(() => {
+    api().GetMachine({
+      workshopGuid: configTemp.workshopGuid,
+    }).then((res) => {
+      setMachineList(res.data)
     })
+  }, [configTemp.workshopGuid])
 
-    if(key === 'workshopGuid') {
-      setConfigTempByKey('machineGuid', '')
-    }
+  const setConfigTempByKey = (key, value) => {
+    setConfigTemp((configTemp) => {
+      if(key === 'workshopGuid') {
+        return {
+          ...configTemp,
+          [key]: value,
+          machineGuid: '',
+        }
+      }
+      return {
+        ...configTemp,
+        [key]: value,
+      }
+    })
   }
 
   const onConfirm = () => {
@@ -90,12 +112,12 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
     <DialogContent className='w-640px'>
       <List>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
-          <span className='w-100px'>服务URL：</span>
-          <OutlinedInput size='small' className='flex-auto' placeholder='请输入' onChange={(e) => setConfigTempByKey('serveUrl', e.target.value)} startAdornment={<InputAdornment position="start">http://</InputAdornment>} value={configTemp.serveUrl} />
+          <span className='w-100px flex-none'>服务URL：</span>
+          <OutlinedInput size='small' className='w-460px' placeholder='请输入' onChange={(e) => setConfigTempByKey('serveUrl', e.target.value)} startAdornment={<InputAdornment position="start">http://</InputAdornment>} value={configTemp.serveUrl} />
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
-          <span className='w-100px'>账套：</span>
-          <Select value={configTemp.book} size='small' className='flex-auto' onChange={(e) => setConfigTempByKey('book', e.target.value)}>
+          <span className='w-100px flex-none'>账套：</span>
+          <Select value={configTemp.book} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('book', e.target.value)}>
             {
               bookList.length === 0
               ?
@@ -111,8 +133,8 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
           </Select>
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
-          <span className='w-100px'>区域：</span>
-          <Select value={configTemp.workshopGuid} size='small' className='flex-auto' onChange={(e) => setConfigTempByKey('workshopGuid', e.target.value)}>
+          <span className='w-100px flex-none'>区域：</span>
+          <Select value={configTemp.workshopGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('workshopGuid', e.target.value)}>
             {
               workshopList.length === 0
               ?
@@ -123,13 +145,13 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
                 <ListItemText>暂无数据</ListItemText>
               </MenuItem>
               :
-              workshopList.map((w) => <MenuItem value={w.workshopGuid}>{w.workshopName}</MenuItem>)
+              workshopList.map((w) => <MenuItem key={w.workshopGuid} value={w.workshopGuid}>{w.workshopName}</MenuItem>)
             }
           </Select>
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
-          <span className='w-100px'>一体机：</span>
-          <Select value={configTemp.machineGuid} size='small' className='flex-auto' onChange={(e) => setConfigTempByKey('machineGuid', e.target.value)} disabled={configTemp.workshopGuid === ''}>
+          <span className='w-100px flex-none'>一体机：</span>
+          <Select value={configTemp.machineGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('machineGuid', e.target.value)} disabled={configTemp.workshopGuid === ''}>
             {
               machineList.length === 0
               ?
@@ -140,12 +162,12 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
                 <ListItemText>暂无数据</ListItemText>
               </MenuItem>
               :
-              machineList.map((m) => <MenuItem value={m.machineGuid}>{m.machineName}</MenuItem>)
+              machineList.map((m) => <MenuItem key={m.machineGuid} value={m.machineGuid}>{m.machineName}</MenuItem>)
             }
           </Select>
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
-          <span className='w-100px'>终端类型：</span>
+          <span className='w-100px flex-none'>终端类型：</span>
           <RadioGroup row value={configTemp.terminalType} onChange={(e) => setConfigTempByKey('terminalType', e.target.value)}>
             <FormControlLabel value={0} control={<Radio />} label="工作中心"></FormControlLabel>
             <FormControlLabel value={1} control={<Radio />} label="工位"></FormControlLabel>

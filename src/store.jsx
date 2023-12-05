@@ -1,5 +1,22 @@
 import { create } from 'zustand'
 
+/**
+@type { 
+  () => {
+    config: {
+      serveUrl: string;
+      book: string;
+      workshopGuid: string;
+      machineGuid: string;
+      terminalType: number;
+      terminalInfo: any;
+    },
+    setConfig(config:any): void,
+    setWorkcenters(workcenters:any): void,
+    setWorkstations(workstations:any): void,
+  } 
+}
+ */
 export const useConfigStore = create((set) => {
   return {
     config: {
@@ -27,12 +44,24 @@ export const useConfigStore = create((set) => {
       */
       terminalInfo: null,
     },
+    workcenters: [],
+    workstations: [],
     setConfig: (newConfig) => set((state) => {
       return {
         config: {
           ...state.config,
           ...newConfig,
         },
+      }
+    }),
+    setWorkcenters: (centers) => set(() => {
+      return {
+        workcenters: [...centers]
+      }
+    }),
+    setWorkstations: (stations) => set(() => {
+      return {
+        workstations: [...stations]
       }
     }),
   }

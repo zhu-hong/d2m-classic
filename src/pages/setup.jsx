@@ -4,26 +4,72 @@ import { Header } from '@/components/header.jsx'
 import { 
   Box,
   Button,
+  ButtonBase,
+  CircularProgress,
 } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 
 import { useConfigStore } from '@/store.jsx'
 import { ConfigDialog } from '@/components/configDialog.jsx'
 import { useRef } from 'react'
+import { useState } from 'react'
+import { useApi } from '@/hook.js'
+import { useNavigate } from 'react-router-dom'
 
 const SetupPage = () => {
-  const { config, setConfig } = useConfigStore()
+  const { config, setConfig, setWorkcenters, setWorkstations } = useConfigStore()
   const configDialogRef = useRef()
+
+  const [btnLoading, setBtnLoading] = useState(false)
 
   const openConfig = () => {
     configDialogRef.current.open()
   }
 
+  const api = useApi(config.serveUrl)
+  const navigate = useNavigate()
+
   const onEnterSystem = () => {
-    if(!validationConfig()) {
-      configDialogRef.current.open()
-      return
-    }
+    // if(!validationConfig()) {
+    //   configDialogRef.current.open()
+    //   return
+    // }
+
+    setBtnLoading(true)
+    enqueueSnackbar('系统加载中，请稍后', {
+      variant: 'success',
+    })
+
+    api().GetMachineDetail({
+      machineGuid: config.machineGuid,
+    }).then((res) => {
+      const { workcenters, workstations } = res
+      setWorkcenters(workcenters)
+      setWorkstations(workstations)
+      if(config.terminalType === 0) {
+        if(workcenters.length === 1) {
+          setConfig({
+            terminalInfo: workcenters[0],
+          })
+          navigate('/op')
+        } else if(workcenters.length !== 0) {
+          navigate('/choose-work?type=0')
+        }
+      } else {
+        if(workstations.length === 1) {
+          setConfig({
+            terminalInfo: workstations[0],
+          })
+          navigate('/op/process')
+        } else if(workstations.length !== 0) {
+          navigate('/choose-work?type=1')
+        }
+      }
+    }).catch(() => {
+      enqueueSnackbar('获取工作中心/工位错误，请稍后重试', {
+        variant: 'error',
+      })
+    }).finally(() => setBtnLoading(false))
   }
 
   const validationConfig = () => {
@@ -68,9 +114,13 @@ const SetupPage = () => {
       <h1 className='text-44px leading-65px font-medium mb-24px'>欢迎使用 D2M Classic 管理系统</h1>
       <h3 className='text-24px leading-36px font-medium mb-84px'>WELCOME TO D2M Classic SYSTEM</h3>
       <Box>
-        <Button onClick={openConfig} className='w-217px h-72px' style={{ backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '0' }}><span className='text-white text-3xl font-medium'>系统配置</span></Button>
-        <Button onClick={onEnterSystem} className='w-217px h-72px' style={{ backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '0', marginLeft: '120px' }}><span className='text-white text-3xl font-medium'>进入系统</span></Button>
-
+        <ButtonBase disabled={btnLoading} onClick={openConfig} className='w-217px h-72px' sx={{ backgroundColor: 'rgba(255,255,255,0.3)' }}><span className={['text-3xl font-medium', btnLoading?'opacity-50':''].join(' ')}>系统配置</span></ButtonBase>
+        <ButtonBase disabled={btnLoading} onClick={onEnterSystem} className='w-217px h-72px text-white' sx={{ backgroundColor: 'rgba(255,255,255,0.3)', marginLeft: '120px' }}>
+          <span className={['text-3xl font-medium', btnLoading?'opacity-50':''].join(' ')}>进入系统</span>
+          {
+            btnLoading?<CircularProgress size={30} color='inherit' className='ml-4' />:null
+          }
+        </ButtonBase>
         <ConfigDialog ref={configDialogRef} onConfirmSuccess={onConfirmSuccess} />
       </Box>
     </Box>
