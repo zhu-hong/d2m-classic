@@ -60,10 +60,8 @@ export const ProcessReport = forwardRef((_, ref) => {
       <Box className='mt-24px flex text-[#646A73] text-lg justify-center items-center'>
         <Box>合格数：</Box>
         <TextField size='small' className='w-136px' type="number" />
-        <Button variant="outlined" sx={{marginLeft:'8px'}}><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path fill="#058373" fillRule="nonzero" d="M24 5.111c1.227 0 2.222.995 2.222 2.222v13.334A2.222 2.222 0 0 1 24 22.889H4a2.222 2.222 0 0 1-2.222-2.222V7.333c0-1.227.995-2.222 2.222-2.222zm0 2.222H4v13.334h20zm-5.15 9.495v2.425H9.153v-2.425zm-3.636-3.636v2.424h-2.425v-2.424zm-3.637 0v2.424H9.153v-2.424zm-3.636 0v2.424H5.517v-2.424zm10.909 0v2.424h-2.424v-2.424zm3.636 0v2.424h-2.424v-2.424zm-7.272-3.636v2.424h-2.425V9.556zm-3.637 0v2.424H9.153V9.556zm-3.636 0v2.424H5.517V9.556zm10.909 0v2.424h-2.424V9.556zm3.636 0v2.424h-2.424V9.556z"/></svg></Button>
         <Box className='ml-24px'>不合格数：</Box>
         <TextField size='small' className='w-136px' type="number" />
-        <Button variant="outlined" sx={{marginLeft:'8px'}}><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path fill="#058373" fillRule="nonzero" d="M24 5.111c1.227 0 2.222.995 2.222 2.222v13.334A2.222 2.222 0 0 1 24 22.889H4a2.222 2.222 0 0 1-2.222-2.222V7.333c0-1.227.995-2.222 2.222-2.222zm0 2.222H4v13.334h20zm-5.15 9.495v2.425H9.153v-2.425zm-3.636-3.636v2.424h-2.425v-2.424zm-3.637 0v2.424H9.153v-2.424zm-3.636 0v2.424H5.517v-2.424zm10.909 0v2.424h-2.424v-2.424zm3.636 0v2.424h-2.424v-2.424zm-7.272-3.636v2.424h-2.425V9.556zm-3.637 0v2.424H9.153V9.556zm-3.636 0v2.424H5.517V9.556zm10.909 0v2.424h-2.424V9.556zm3.636 0v2.424h-2.424V9.556z"/></svg></Button>
       </Box>
     </DialogContent>
       <DialogActions style={{justifyContent:'center'}}>

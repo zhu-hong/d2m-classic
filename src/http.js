@@ -250,6 +250,73 @@ export function createApi(serveUrl) {
       }
     },
     /**
+     * 获取签到员工
+     * @param {{MachineGuid:string;WorkcenterGuid:string;}} paylod 
+     */
+    async GetLoginUser(paylod) {
+      // return await ins.get('/GetLoginUser', {
+      //   params: paylod,
+      // })
+      await delay(3000)
+      return {
+        data: [{
+          workstationGuid:'工位Guid',
+          workstationCode:'工位编号',
+          workstationName:'工位名称',
+          employees:[{
+            employeeCode:'工234号',
+            employeeName:'姓是的从v说名',
+            employeePicture:'照片'
+          },{
+            employeeCode:'工号adsasd',
+            employeeName:'姓恶趣味让风告诉对方v名',
+            employeePicture:'照片'
+          },{
+            employeeCode:'工23号',
+            employeeName:'姓请问放弃名',
+            employeePicture:'照片'
+          },{
+            employeeCode:'工asdfc号',
+            employeeName:'姓违反43额外说名',
+            employeePicture:'照片'
+          },{
+            employeeCode:'工vsdfvz号',
+            employeeName:'姓阿斯顿发送到名',
+            employeePicture:'照片'
+          },{
+            employeeCode:'工zcvwa号',
+            employeeName:'姓阿斯顿发送到名',
+            employeePicture:'照片'
+          },{
+            employeeCode:'工asdfsdasxc号',
+            employeeName:'姓asdqwedqwd阿斯顿发生名',
+            employeePicture:'照片'
+          },]
+        },],
+      }
+    },
+    /**
+     * 员工签到
+     * @param {{MachineGuid:string;WorkcenterGuid:string;WorkstationGuid:string;Code:string;}} paylod 
+     */
+    async PersonLogin(paylod) {
+      return await ins.post('/PersonLogin', paylod)
+    },
+    /**
+     * 员工签退
+     * @param {{MachineGuid:string;WorkcenterGuid:string;WorkstationGuid:string;Code:string;}} paylod 
+     */
+    async PersonLogout(paylod) {
+      return await ins.post('/PersonLogout', paylod)
+    },
+    /**
+     * 员工统一签退
+     * @param {{MachineGuid:string;WorkcenterGuid:string;Code:string;}} paylod 
+     */
+    async PersonUnifiedLogout(paylod) {
+      return await ins.post('/PersonUnifiedLogout', paylod)
+    },
+    /**
      * 获取任务信息
      * @param {{TaskGuid:string}} paylod 
      */

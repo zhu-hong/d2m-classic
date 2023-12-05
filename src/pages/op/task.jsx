@@ -116,7 +116,7 @@ const TaskPage = () => {
             }
           </Paper>
 
-          <AttendanceDialog ref={attendanceDialogRef} />
+          <AttendanceDialog ref={attendanceDialogRef} workcenter={centerInfo} />
           
           {
             openVerify
