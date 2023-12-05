@@ -48,9 +48,21 @@ const TaskPage = () => {
     attendanceDialogRef.current.open()
   }
 
+  /**
+   * @todo
+   */
   const onOperateTask = (task) => {
     setCurTask(task)
     setOpenVerify(true)
+
+    api().CloseTask({
+      workcenterGuid: config.terminalInfo.workcenterGuid,
+      taskGuid: task.taskGuid,
+    }).then((res) => {
+      if(res.code === 0) {
+        setCenterInfo((centerInfo) => ({ ...centerInfo, tasks: centerInfo.tasks.filter((t) => t.taskGuid !== task.taskGuid) }))
+      }
+    })
   }
 
   return <Grid container spacing={2}>
