@@ -55,7 +55,7 @@ export const TaskVerification = ({ open, onClose, task }) => {
     }).then(async ({ data }) => {
       let verifySuccess = true
       for(let key in data) {
-        await delay(2000)
+        await delay(1000)
         const index = verifyItems.findIndex((d) => d.key === key)
         const target = verifyItems.splice(index, 1)[0]
         target.state = data[key]
@@ -81,9 +81,12 @@ export const TaskVerification = ({ open, onClose, task }) => {
   const onEntryProcess = () => {
     api().StartTask({
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
-      SchedulingGuid: '',
       TaskGuid: task.TaskGuid,
-    }).then(() => navigate('/process'))
+    }).then((res) => {
+      if(res.code === 0) {
+        navigate('/op/process')
+      }
+    })
   }
 
   return <Dialog open={open} maxWidth='1064px' scroll='paper'>

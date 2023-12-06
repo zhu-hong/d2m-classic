@@ -10,12 +10,9 @@ import { useApi } from "@/hook.js"
 const MachinePage = () => {
   const { config, workcenters, workstations } = useConfigStore()
 
-  const [single, setSingle] = useState(true)
+  const [single, setSingle] = useState(false)
   const [equipmentInfo, setEquipmentInfo] = useState(null)
-  const [curEquipment, setCurEquipment] = useState({
-    Parameters: [],
-    Mros: [],
-  })
+  const [curEquipment, setCurEquipment] = useState(null)
 
   const [debugOpen, setDebugOpen] = useState(false)
   const [checkOpen, setCheckOpen] = useState(false)
@@ -236,7 +233,7 @@ const MachinePage = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#058373" fillRule="nonzero" d="M14 1a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4v1.014h6V9a1 1 0 0 1 2 0v1.014h1V7a1 1 0 0 1 2 0v3.014h.131a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-5.05a2 2 0 0 1-2-2v-5.57H7.906v5.57a2 2 0 0 1-2 2H3.131a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2H8V9H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm7.131 11.015h-18v9h2.775v-7.57h10.175v7.57h5.05v-9M14 3H4v4h10z"/></svg>,
                 ][config.terminalType]
               }
-                <p className="text-2xl text-[#000C25] font-medium mx-16px">{config.terminalInfo['WorkcenterName','WorkstationName'][config.terminalType]}</p>
+                <p className="text-2xl text-[#000C25] font-medium mx-16px">{config.terminalInfo[['WorkcenterName','WorkstationName'][config.terminalType]]}</p>
               {
                 [workcenters.length>1,workstations.length>1][config.terminalType]
                 ?
@@ -314,7 +311,7 @@ const MachinePage = () => {
                       <Box className='text-xl text-[#000C25] mb-8px'>{e.EquipmentName}</Box>
                       <Box className='text-[#646A73]'>{e.EquipmentCode}</Box>
                     </Box>
-                    <img src={e.EquipmentPicture} className="w-104px h-71px object-cover" />
+                    <img src={e.EquipmentPicture} className="w-104px h-71px object-cover flex-none ml-4" />
                   </Box>
                   <Divider />
                   <Box className='flex justify-between items-center mb-11px mt-15px'>

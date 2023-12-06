@@ -5,7 +5,6 @@ import { create } from 'zustand'
   () => {
     config: {
       serveUrl: string;
-      book: string;
       WorkshopName: string;
       WorkshopGuid: string;
       MachineGuid: string;
@@ -24,10 +23,6 @@ export const useConfigStore = create((set) => {
   return {
     config: {
       serveUrl: '192.168.3.168:8888',
-      /**
-       * 帐套
-      */
-      book: '',
       /**
        *  区域ID
       */

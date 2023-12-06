@@ -6,10 +6,12 @@ import { StationsDialog } from "@/components/stationsDialog.jsx";
 import { useApi } from "@/hook.js";
 import { useConfigStore } from "@/store.jsx"
 import { Box, Button, Divider, Skeleton, ToggleButtonGroup } from "@mui/material"
+import dayjs from "dayjs";
 import { enqueueSnackbar } from "notistack";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 const ProcessPage = () => {
   const { config, workcenters, workstations } = useConfigStore()
@@ -42,9 +44,9 @@ const ProcessPage = () => {
       if(res.code === 0) {
         setCenterInfo(res.data)
         
-        const target = res.data.Tasks.find((t) => t.State === '进行中')
+        const target = res.data.Tasks.find((t) => t.State === '生产中')
         if(target !== undefined) {
-          setTaskId(target.taskGuid)
+          setTaskId(target.TaskGuid)
           getTaskInfo(target.TaskGuid)
         } else {
           setIsNoTask(true)
@@ -67,6 +69,8 @@ const ProcessPage = () => {
   const getTaskInfo = (TaskGuid) => {
     api().GetTaskInformation({
       TaskGuid,
+      MachineGuid: config.MachineGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
     }).then((res) => {
       setTaskInfo(res.data)
     })
@@ -174,11 +178,13 @@ const ProcessPage = () => {
     }
   }
 
+  const navigate = useNavigate()
+
   return <Box className='w-full h-full flex flex-col'>
     {
-      setIsNoTask
+      isNoTask
       ?
-      <div className="w-full h-full bg-white flex items-center justify-center">暂无生产任务，请等待任务开启或联系相关人员</div>
+      <div className="w-full h-full bg-white flex items-center justify-center text-lg text-[#000C25]">暂无生产任务，请等待任务开启或联系相关人员</div>
       :
       <>
         {
@@ -194,18 +200,21 @@ const ProcessPage = () => {
                   <svg className="flex-none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#058373" fillRule="nonzero" d="M14 1a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4v1.014h6V9a1 1 0 0 1 2 0v1.014h1V7a1 1 0 0 1 2 0v3.014h.131a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-5.05a2 2 0 0 1-2-2v-5.57H7.906v5.57a2 2 0 0 1-2 2H3.131a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2H8V9H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm7.131 11.015h-18v9h2.775v-7.57h10.175v7.57h5.05v-9M14 3H4v4h10z"/></svg>,
                 ][config.terminalType]
               }
-              <span className="text-[#000c25] ml-8px mr-16px text-2xl font-medium truncate">{config.terminalInfo[['workcenterName','workstationName'][config.terminalType]]}</span>
+              <span className="text-[#000c25] ml-8px mr-16px text-2xl font-medium truncate">{config.terminalInfo[['WorkcenterName','WorkstationName'][config.terminalType]]}</span>
               {
                 [workcenters.length>1,workstations.length>1][config.terminalType]
                 ?
-                <Button variant="outlined" size="small" className="h-32px" onClick={(e) => e.stopPropagation()}>切换</Button>
+                <Button variant="outlined" size="small" className="h-32px" onClick={(e) => {
+                  e.stopPropagation()
+                  navigate('/choose-work')
+                }}>切换</Button>
                 :
                 null
               }
               <Box className='flex-auto min-w-10'></Box>
-              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{}</Box>
-              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>11/01  9:00～11/01 16:00</Box>
-              <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>4人</Box>
+              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{centerInfo.ShiftName}</Box>
+              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{centerInfo.ShiftStartTime}～{centerInfo.ShiftEndTime}</Box>
+              <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{centerInfo.Amount}人</Box>
             </Box>
 
             <AttendanceDialog ref={attendanceDialogRef} workcenter={centerInfo} />
@@ -220,39 +229,39 @@ const ProcessPage = () => {
             </div>
             :
             <>
-              <Box className='w-352px bg-white mr-16px px-24px py-27px children:mb-16px'>
-                <Box className='text-[#000C25] font-bold text-2xl'>任务编号：{taskInfo.taskCode}</Box>
-                <Box className='text-[#000C25] font-bold text-2xl'>产品编号：{taskInfo.productCode}</Box>
+              <Box className='w-352px bg-white mr-16px px-24px overflow-auto py-27px children:mb-16px'>
+                <Box className='text-[#000C25] font-bold text-2xl'>任务编号：{taskInfo.TaskCode}</Box>
+                <Box className='text-[#000C25] font-bold text-2xl'>产品编号：{taskInfo.ProductCode}</Box>
                 <Box className='text-[#000C25] font-bold text-2xl'>产品名称：{taskInfo.ProductName}</Box>
-                <Box className='text-[#000C25] font-bold text-2xl'>制程：{taskInfo.processName}</Box>
+                <Box className='text-[#000C25] font-bold text-2xl'>制程：{taskInfo.ProcessName}</Box>
                 <Divider />
                 <Box className='bg-[#E9E9E9] w-full h-25px rounded mt-16px overflow-hidden relative children:absolute'>
-                  <Box className='h-full bg-[#F04848] rounded top-0 left-0 w-15' style={{width:(taskInfo.completedAmount+taskInfo.unqualifiedAmount)/taskInfo.planAmount*100+'%'}}></Box>
-                  <Box className='h-full bg-[#00C089] rounded top-0 left-0 w-5' style={{width:taskInfo.completedAmount/taskInfo.planAmount*100+'%'}}></Box>
+                  <Box className='h-full bg-[#F04848] rounded top-0 left-0' style={{width:(taskInfo.CompletedAmount+taskInfo.UnqualifiedAmount)/taskInfo.PlanAmount*100+'%'}}></Box>
+                  <Box className='h-full bg-[#00C089] rounded top-0 left-0' style={{width:taskInfo.CompletedAmount/taskInfo.PlanAmount*100+'%'}}></Box>
                 </Box>
                 <Box className='flex mb-8px text-[#646A73]'>
                   <span className="flex-1">计划数量</span>
                   <span className="flex-1">实际数量</span>
                 </Box>
                 <Box className='flex text-28px font-bold mb-16px text-[#000c25]'>
-                  <span className="flex-1">{taskInfo.planAmount}</span>
-                  <span className="flex-1">{taskInfo.completedAmount+taskInfo.unqualifiedAmount}</span>
+                  <span className="flex-1">{taskInfo.PlanAmount}</span>
+                  <span className="flex-1">{taskInfo.CompletedAmount}</span>
                 </Box>
                 <Box className='flex mb-8px text-[#646A73]'>
                   <span className="flex-1">计划开始</span>
                   <span className="flex-1">计划结束</span>
                 </Box>
                 <Box className='flex text-28px font-bold mb-16px text-[#000c25]'>
-                  <span className="flex-1">{taskInfo.planStartTime} <span className="text-xl">11/01</span></span>
-                  <span className="flex-1">{taskInfo.planEndTime} <span className="text-xl">11/01</span></span>
+                  <span className="flex-1">{dayjs(taskInfo.PlanStartTime).format('YY/MM/DD')} <span className="text-xl">{dayjs(taskInfo.PlanStartTime).format('HH:mm')}</span></span>
+                  <span className="flex-1">{dayjs(taskInfo.PlanEndTime).format('YY/MM/DD')} <span className="text-xl">{dayjs(taskInfo.PlanStartTime).format('HH:mm')}</span></span>
                 </Box>
                 <Box className='flex text-lg mb-8px text-[#646A73]'>
                   <span className="flex-1">合格数量</span>
                   <span className="flex-1">不合格数量</span>
                 </Box>
                 <Box className='flex text-3xl font-bold'>
-                  <span className="text-[#058373] flex-1">{taskInfo.completedAmount}</span>
-                  <span className="text-[#F04848] flex-1">{taskInfo.unqualifiedAmount}</span>
+                  <span className="text-[#058373] flex-1">{taskInfo.CompletedAmount}</span>
+                  <span className="text-[#F04848] flex-1">{taskInfo.UnqualifiedAmount}</span>
                 </Box>
               </Box>
             </>
@@ -261,14 +270,14 @@ const ProcessPage = () => {
             <Box className='flex justify-between items-center'>
               <ToggleButtonGroup color="primary" value={tabType} size="large" sx={{border:'1px solid #CECECE'}}>
                 <Button value={0} onClick={() => setTabType(0)} variant={tabType===0?'contained':''} className="w-120px"><span className="text-lg font-medium">操作流程</span></Button>
-                <Button value={1} onClick={() => setTabType(1)} variant={tabType===1?'contained':''} className="w-120px"><span className="text-lg font-medium">物料信息</span></Button>
+                {/* <Button value={1} onClick={() => setTabType(1)} variant={tabType===1?'contained':''} className="w-120px"><span className="text-lg font-medium">物料信息</span></Button> */}
               </ToggleButtonGroup>
               <Box className='flex-auto'></Box>
               {/* <Box className='text-lg text-[#000C25] mr-16px'>指导书文档名称.excl</Box> */}
               <Button variant="outlined" className="w-32px h-32px"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><g fill="#058373" fillRule="evenodd"><path d="M11 18.111H3.889V11H2.12l-.009 8.889H11zM19.889 2.111H11V3.89h7.111V11h1.769z"/></g></svg></Button>
             </Box>
             <Box className='flex-auto mt-8px' sx={{display:tabType===0?'block':'none'}}>文档</Box>
-            <Box className='flex-auto mt-8px' sx={{display:tabType===1?'flex':'none'}}>
+            {/* <Box className='flex-auto mt-8px' sx={{display:tabType===1?'flex':'none'}}>
               <Box className='w-512px overflow-auto text-[#000C25] border border-t border-l border-[#CECECE]'>
                 <Box className='w-full bg-[#DFE8E9] text-center h-41px leading-41px border-b border-[#CECECE]'>原料</Box>
                 <Box className='w-full overflow-auto bg-[#CDE6E3] children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
@@ -311,7 +320,7 @@ const ProcessPage = () => {
                   <Box sx={{width:'30%'}}>累计上料</Box>
                 </Box>
               </Box>
-            </Box>
+            </Box> */}
           </Box>
         </Box>
         <Box className='h-98px bg-white py-13px px-16px flex justify-between items-center -mr-16px'>

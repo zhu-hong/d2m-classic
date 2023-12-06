@@ -199,7 +199,7 @@ export function createApi(serveUrl) {
     },
     /**
      * 开启任务
-     * @param {{WorkcenterGuid:string;TaskGuid:string;SchedulingGuid:string;}} paylod 
+     * @param {{WorkcenterGuid:string;TaskGuid:string;}} paylod 
      */
     async StartTask(paylod) {
       return await ins.post('/StartTask', paylod)
@@ -247,18 +247,11 @@ export function createApi(serveUrl) {
       return await ins.post('/GetShift', paylod)
     },
     /**
-     * 工作中心选择班次
-     * @param {{WorkcenterGuid:string;SchedulingGuid:string;ShiftGuid:string;}} paylod 
-     */
-    async SelectiveShift(paylod) {
-      return await ins.post('/SelectiveShift', paylod)
-    },
-    /**
      * 获取文档列表
      * @param {{ProductGuid:string;ProductVersion:string;ProdstdaGuid:string;}} paylod 
      */
     async GetDocument(paylod) {
-      return await ins.post('/GetDocument', post)
+      return await ins.post('/GetDocument', paylod)
     },
     /**
      * 获取默认文档内容

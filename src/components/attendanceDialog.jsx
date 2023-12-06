@@ -40,9 +40,11 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
   const getUsers = useCallback(() => {
     api().GetLoginUser({
       MachineGuid: config.MachineGuid,
-      MorkcenterGuid: config.terminalInfo.WorkcenterGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
     }).then((res) => {
-      setUsers(res.data)
+      if(res.code === 0) {
+        setUsers(res.data)
+      }
     })
   }, [config.MachineGuid, config.terminalInfo.WorkcenterGuid])
 
@@ -94,7 +96,6 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
 
   const onJobNumConfirm = (jobNum) => {
     setJobNumOpen(false)
-    console.log(logMode)
     if(logMode === 0) {
       logoutTogether(jobNum)
     } else if(logMode === 1) {
@@ -111,9 +112,9 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
     </DialogTitle>
     <DialogContent className='w-916px'>
       <Box className='flex mt-24px mb-16px'>
-        <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{workcenter.shiftName}</Box>
-        <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{workcenter.shiftStartTime}～{workcenter.shiftEndTime}</Box>
-        <Box className='text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{workcenter.amount}人</Box>
+        <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{workcenter.ShiftName}</Box>
+        <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{workcenter.ShiftStartTime}～{workcenter.ShiftEndTime}</Box>
+        <Box className='text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{workcenter.Amount}人</Box>
       </Box>
       <Button variant='contained' size='large' onClick={() => {
         setLogMode(0)
@@ -121,10 +122,10 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
       }}><Box className='text-2xl'>统一签退</Box></Button>
       {
         users.map((u) => {
-          return <Box key={u.workstationGuid} className='mt-16px w-full px-16px py-18px bg-[#F4F6F8]'>
+          return <Box key={u.WorkstationGuid} className='mt-16px w-full px-16px py-18px bg-[#F4F6F8]'>
             <Box className='flex justify-between items-center text-[#000c25]'>
               <LocationOnOutlined />
-              <Box className='text-xl ml-9px'>{u.workstationName}</Box>
+              <Box className='text-xl ml-9px'>{u.WorkstationName}</Box>
               <Box className='flex-auto'></Box>
               <Button onClick={() => onLogin(u)} variant='outlined' sx={{marginRight:'9px'}}>签到</Button>
               <Button variant='outlined' onClick={() => onLogout(u)}>签退</Button>
@@ -133,12 +134,12 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
               <IconButton onClick={(e) => onClockDir(e, -1)} className='flex-none' color='secondary'><ArrowBackIosNew /></IconButton>
               <Box className='flex-auto mx-16px w-full overflow-x-auto flex -mr-16px'>
                 {
-                  u.employees.map((e) => {
-                    return <Paper key={e.employeeCode} className='flex-none mr-16px flex justify-between items-center p-16px w-220px'>
-                      <img src={e.employeePicture} className='w-64px h-64px flex-none rounded-full object-cover border border-[#058373]' />
+                  u.Employees.map((e) => {
+                    return <Paper key={e.EmployeeCode} className='flex-none mr-16px flex justify-between items-center p-16px w-220px'>
+                      <img src={e.EmployeePicture} className='w-64px h-64px flex-none rounded-full object-cover border border-[#058373]' />
                       <Box className='ml-16px flex-auto'>
-                        <Box className='mb-8px text-[#000C25]'>姓名：{e.employeeName}</Box>
-                        <Box className='text-[#646A73]'>工号：{e.employeeCode}</Box>
+                        <Box className='mb-8px text-[#000C25]'>姓名：{e.EmployeeName}</Box>
+                        <Box className='text-[#646A73]'>工号：{e.EmployeeCode}</Box>
                       </Box>
                     </Paper>
                   })

@@ -18,16 +18,15 @@ export const Docs = ({ open, onClose, task }) => {
   const api = useApi(config.serveUrl)
 
   useEffect(() => {
-    if(task === null) return
-
+    console.log(task)
     api().GetDocument({
-      ProdstdaGuid: task.prodstdaGuid,
-      ProductGuid: task.productCode,
-      ProductVersion: task.productVersion,
+      ProdstdaGuid: task.ProdstdaGuid,
+      ProductGuid: task.ProductCode,
+      ProductVersion: task.ProductVersion,
     }).then((res) => {
       setDocs(res.data)
     }).catch(() => enqueueSnackbar('文档获取失败', { variant: 'error' } ))
-  }, [task])
+  }, [])
 
   const openDoc = (doc) => {
     setLoadingDoc(true)

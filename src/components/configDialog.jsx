@@ -32,7 +32,6 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   const [configOpen, setConfigOpen] = useState(false)
   const [configTemp, setConfigTemp] = useState(JSON.parse(JSON.stringify(config)))
 
-  const [bookList, setBookList] = useState([])
   const [workshopList, setWorkshopList] = useState([])
   const [machineList, setMachineList] = useState([])
 
@@ -86,12 +85,6 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   }
 
   const validationConfig = () => {
-    // if(configTemp.book === '') {
-    //   enqueueSnackbar('请选择帐套', {
-    //     variant: 'warning',
-    //   })
-    //   return false
-    // }
     if(configTemp.WorkshopGuid === '') {
       enqueueSnackbar('请选择区域', {
         variant: 'warning',
@@ -117,23 +110,6 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
         <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px flex-none'>服务URL：</span>
           <OutlinedInput size='small' className='w-460px' placeholder='请输入' onChange={(e) => setConfigTempByKey('serveUrl', e.target.value)} startAdornment={<InputAdornment position="start">http://</InputAdornment>} value={configTemp.serveUrl} />
-        </ListItem>
-        <ListItem className='flex items-center text-lg text-[#646A73]'>
-          <span className='w-100px flex-none'>账套：</span>
-          <Select value={configTemp.book} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('book', e.target.value)}>
-            {
-              bookList.length === 0
-              ?
-              <MenuItem disabled>
-                <ListItemIcon>
-                  <AccessTime />
-                </ListItemIcon>
-                <ListItemText>暂无数据</ListItemText>
-              </MenuItem>
-              :
-              bookList.map((w) => <MenuItem></MenuItem>)
-            }
-          </Select>
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px flex-none'>区域：</span>

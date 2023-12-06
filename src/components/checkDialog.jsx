@@ -27,7 +27,6 @@ export const CheckDialog = ({ open, onClose, equipment, onConfirm }) => {
   }, [])
 
   const changeByKey = (gid, key, value) => {
-    console.log({gid, key, value})
     const target = checkItem.find((c) => c.OrdercaGuid === gid)
     target[key] = value
     setCheckItem([...checkItem])

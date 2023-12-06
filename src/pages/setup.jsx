@@ -66,7 +66,6 @@ const SetupPage = () => {
         }
       }
     }).catch((err) => {
-      console.log(err)
       enqueueSnackbar('获取工作中心/工位错误，请稍后重试', {
         variant: 'error',
       })
@@ -74,12 +73,6 @@ const SetupPage = () => {
   }
 
   const validationConfig = () => {
-    // if(config.book === '') {
-    //   enqueueSnackbar('请配置帐套', {
-    //     variant: 'warning',
-    //   })
-    //   return false
-    // }
     if(config.WorkshopGuid === '') {
       enqueueSnackbar('请配置区域', {
         variant: 'warning',
@@ -96,7 +89,6 @@ const SetupPage = () => {
   }
 
   const onConfirmSuccess = (config) => {
-    console.log(config)
     setConfig(config)
     enqueueSnackbar('配置成功', {
       variant: 'success',

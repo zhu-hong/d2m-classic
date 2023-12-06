@@ -64,7 +64,7 @@ const TaskPage = () => {
 
     api().CloseTask({
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
-      TaskGuid: task.taskGuid,
+      TaskGuid: task.TaskGuid,
     }).then((res) => {
       if(res.code === 0) {
         getCenterInfo()
@@ -95,10 +95,7 @@ const TaskPage = () => {
             {
               [workcenters.length>1,workstations.length>1][config.terminalType]
               ?
-              <Button variant="outlined" size="small" className="h-32px" onClick={(e) => {
-                e.stopPropagation()
-                navigate('/choose-work')
-              }}>切换</Button>
+              <Button variant="outlined" size="small" className="h-32px" onClick={onChangeWork}>切换</Button>
               :
               null
             }
@@ -110,7 +107,7 @@ const TaskPage = () => {
               :
               <>
                 <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{centerInfo.ShiftName}</Box>
-                <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{centerInfo.ShiftStartTime}～{centerInfo.shiftEndTime}</Box>
+                <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{centerInfo.ShiftStartTime}～{centerInfo.ShiftEndTime}</Box>
                 <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{centerInfo.Amount}人</Box>
               </>
             }
@@ -142,7 +139,7 @@ const TaskPage = () => {
                 <Box>
                   <Box className='text-[#000c25] text-lg mb-8px'>外球笼</Box>
                   <Box className='text-[#646A73] text-xs mb-8px'>11-1008P-01</Box>
-                  <Button size="small" color="warning" style={{backgroundColor:'#FFEBCC'}}>进行中</Button>
+                  <Button size="small" color="warning" style={{backgroundColor:'#FFEBCC'}}>生产中</Button>
                 </Box>
                 <img className="w-80px h-80px object-cover" src="https://res.d2mcloud.com/common/logo.svg" />
               </Box>
@@ -293,7 +290,7 @@ const TaskPage = () => {
             return <Grid item xs={3} key={t.TaskGuid}>
               <Paper>
                 {
-                  t.State === '进行中'
+                  t.State === '生产中'
                   ?
                   <Box className='bg-[#FF9900] w-full h-4px'></Box>
                   :
@@ -330,9 +327,9 @@ const TaskPage = () => {
                       <Box className='text-[#000c25] text-lg mb-8px'>{t.ProductName}</Box>
                       <Box className='text-[#646A73] text-xs mb-8px'>{t.ProductCode}</Box>
                       {
-                        t.State === '进行中'
+                        t.State === '生产中'
                         ?
-                        <Button size="small" color="warning" style={{backgroundColor:'#FFEBCC'}}>进行中</Button>
+                        <Button size="small" color="warning" style={{backgroundColor:'#FFEBCC'}}>生产中</Button>
                         :
                         t.State === '未开始'
                         ?
@@ -371,7 +368,7 @@ const TaskPage = () => {
                     <span className="text-[#000c25] flex-1 ml-4">{t.CompletedAmount}</span>
                   </Box>
                   {
-                    t.State === '进行中'
+                    t.State === '生产中'
                     ?
                     <Button color="error" variant="outlined" className="w-full h-48px" onClick={() => onOperateTask(t)}>
                       <svg className="w-20px h-20px" xmlns="http://www.w3.org/2000/svg" viewBox='0 0 32 32'><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0Z"/><path fill="#F04848" fillRule="nonzero" d="M9.068 4.53a1.333 1.333 0 0 1-.266 1.867A11.978 11.978 0 0 0 4 16c0 6.627 5.373 12 12 12s12-5.373 12-12c0-3.823-1.799-7.345-4.798-9.6a1.333 1.333 0 1 1 1.602-2.131A14.644 14.644 0 0 1 30.667 16c0 8.1-6.567 14.667-14.667 14.667S1.333 24.1 1.333 16c0-4.673 2.202-8.983 5.868-11.735a1.333 1.333 0 0 1 1.867.265m7.265-3.197a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-.666a1 1 0 0 1-1-1V2.333a1 1 0 0 1 1-1h.666Z"/></g></svg>
