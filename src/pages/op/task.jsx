@@ -24,8 +24,12 @@ const TaskPage = () => {
   const [curTask, setCurTask] = useState(null)
 
   useEffect(() => {
+    getCenterInfo()
+  }, [])
+
+  const getCenterInfo = () => {
     api().GetWorkcenterProductionInformation({
-      WorkcenterGuid: config.terminalInfo.workcenterGuid,
+      workcenterGuid: config.terminalInfo.workcenterGuid,
     }).then((res) => {
       setCenterInfo(res.data)
       setLoading(false)
@@ -34,7 +38,7 @@ const TaskPage = () => {
         variant: 'error',
       })
     })
-  }, [])
+  }
 
   const navigate = useNavigate()
   const onChangeWork = (e) => {
@@ -60,7 +64,7 @@ const TaskPage = () => {
       taskGuid: task.taskGuid,
     }).then((res) => {
       if(res.code === 0) {
-        setCenterInfo((centerInfo) => ({ ...centerInfo, tasks: centerInfo.tasks.filter((t) => t.taskGuid !== task.taskGuid) }))
+        getCenterInfo()
       }
     })
   }
@@ -70,30 +74,14 @@ const TaskPage = () => {
       loading
       ?
       <>
-        <Grid item xs={3}>
-        <Skeleton variant="rectangular" height={480} />
-        </Grid>
-         <Grid item xs={3}>
-          <Skeleton variant="rectangular" height={480} />
-         </Grid>
-         <Grid item xs={3}>
-          <Skeleton variant="rectangular" height={480} />
-         </Grid>
-         <Grid item xs={3}>
-          <Skeleton variant="rectangular" height={480} />
-         </Grid>
-         <Grid item xs={3}>
-          <Skeleton variant="rectangular" height={480} />
-         </Grid>
-         <Grid item xs={3}>
-          <Skeleton variant="rectangular" height={480} />
-         </Grid>
-         <Grid item xs={3}>
-          <Skeleton variant="rectangular" height={480} />
-         </Grid>
-         <Grid item xs={3}>
-          <Skeleton variant="rectangular" height={480} />
-         </Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
+        <Grid item xs={3}><Skeleton variant="rectangular" height={480} /></Grid>
       </>
       :
       <>

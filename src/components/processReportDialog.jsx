@@ -59,9 +59,9 @@ export const ProcessReport = forwardRef((_, ref) => {
       </Box>
       <Box className='mt-24px flex text-[#646A73] text-lg justify-center items-center'>
         <Box>合格数：</Box>
-        <TextField size='small' className='w-136px' type="number" />
+        <TextField size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
         <Box className='ml-24px'>不合格数：</Box>
-        <TextField size='small' className='w-136px' type="number" />
+        <TextField size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
       </Box>
     </DialogContent>
       <DialogActions style={{justifyContent:'center'}}>

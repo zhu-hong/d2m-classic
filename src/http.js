@@ -321,9 +321,39 @@ export function createApi(serveUrl) {
      * @param {{TaskGuid:string}} paylod 
      */
     async GetTaskInformation(paylod) {
-      return await ins.get('/GetTaskInformation', {
-        params: paylod,
-      })
+      // return await ins.get('/GetTaskInformation', {
+      //   params: paylod,
+      // })
+      await delay(3000)
+      return {
+        data: {
+          taskGuid:'生产任务Guid',
+          taskCode:'任务单号',
+          orderGuid:'生产订单Guid',
+          orderCode:'订单单号',
+          productGuid:'产品Guid',
+          productCode:'产品编号',
+          productName:'产品名称',
+          productVersion:'产品版本号',
+          prodstdaGuid:'工艺流程Guid',
+          processNumber:'制程编号',
+          processCode:'工艺编号',
+          processName:'工艺名称',
+          planAmount:8000,
+          completedAmount:1200,
+          unqualifiedAmount:340,
+          unitName:'单位',
+          planStartTime:'计划开始时间',
+          planEndTime:'计划结束时间',
+          state:'状态',
+          workstations:[{
+            workstationGuid:'工位Guid',
+            workstationCode:'工位编号',
+            workstationName:'工位名称',
+            State: 1,//生产状,(1表示生产中 0表示未生产)
+          }]
+        }
+      }
     },
     /**
      * 开启任务校验
@@ -349,11 +379,25 @@ export function createApi(serveUrl) {
       return await ins.post('/StartTask', paylod)
     },
     /**
-     * 工位开启
+     * 工位开启生产校验
      * @param {{WorkcenterGuid:string;TaskGuid:string;workstationGuid:string;}} paylod 
      */
-    async workstationStart(paylod) {
-      return await ins.post('/workstationStart', paylod)
+    async WorkstationStartValidate(paylod) {
+      return await ins.post('/WorkstationStartValidate', paylod)
+    },
+    /**
+     * 工位开启生产
+     * @param {{WorkcenterGuid:string;TaskGuid:string;workstationGuid:string;}} paylod 
+     */
+    async WorkstationStart(paylod) {
+      return await ins.post('/WorkstationStart', paylod)
+    },
+    /**
+     * 工位停止生产
+     * @param {{WorkcenterGuid:string;TaskGuid:string;workstationGuid:string;}} paylod 
+     */
+    async WorkstationClose(paylod) {
+      return await ins.post('/WorkstationClose', paylod)
     },
     /**
      * 关闭任务
