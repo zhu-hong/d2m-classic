@@ -6,7 +6,7 @@ export const StationsDialog = ({ open, onClose, onConfirm, stations }) => {
   const [stationGuid, setStationGuid] = useState('')
 
   const onSelect = (station) => {
-    setStationGuid(station.workstationGuid)
+    setStationGuid(station.WorkstationGuid)
   }
 
   return <Dialog open={open} maxWidth='880px' onClose={onClose} scroll='paper'>
@@ -24,10 +24,10 @@ export const StationsDialog = ({ open, onClose, onConfirm, stations }) => {
         </Grid>
         {
           stations.map((s) => {
-            return <Grid item xs={4} key={s.workstationGuid}>
-              <div onClick={() => onSelect(s)} className={["h-180px border px-24px py-18px", stationGuid === s.workstationGuid?'border-[#058373] bg-#F2F9F8':' border-[#CECECE]'].join(' ')}>
+            return <Grid item xs={4} key={s.WorkstationGuid}>
+              <div onClick={() => onSelect(s)} className={["h-180px border px-24px py-18px", stationGuid === s.WorkstationGuid?'border-[#058373] bg-#F2F9F8':' border-[#CECECE]'].join(' ')}>
                 <IconButton><svg className="flex-none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#058373" fillRule="nonzero" d="M14 1a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-4v1.014h6V9a1 1 0 0 1 2 0v1.014h1V7a1 1 0 0 1 2 0v3.014h.131a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-5.05a2 2 0 0 1-2-2v-5.57H7.906v5.57a2 2 0 0 1-2 2H3.131a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2H8V9H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm7.131 11.015h-18v9h2.775v-7.57h10.175v7.57h5.05v-9M14 3H4v4h10z"/></svg></IconButton>
-                <div className="text-lg text-[#000C25]">{s.workstationName}</div>
+                <div className="text-lg text-[#000C25]">{s.WorkstationName}</div>
               </div>
             </Grid>
           })

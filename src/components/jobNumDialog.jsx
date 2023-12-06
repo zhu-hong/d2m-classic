@@ -7,7 +7,7 @@ export const JobNumDialog = ({ open, onClose, onConfirm }) => {
 
   return <Dialog open={open} onClose={onClose}>
     <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
-      <p>人员操作</p>
+      <p>请输入工号</p>
       <IconButton onClick={onClose}><Close/></IconButton>
     </DialogTitle>
     <DialogContent className="w-320px">
