@@ -52,20 +52,23 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   })
 
   useEffect(() => {
-    api().GetMachine({
-      workshopGuid: configTemp.workshopGuid,
-    }).then((res) => {
-      setMachineList(res.data)
-    })
-  }, [configTemp.workshopGuid])
+    if(configTemp.WorkshopGuid) {
+      api().GetMachine({
+        WorkshopGuid: configTemp.WorkshopGuid,
+      }).then((res) => {
+        setMachineList(res.data)
+      })
+    }
+  }, [configTemp.WorkshopGuid])
 
   const setConfigTempByKey = (key, value) => {
     setConfigTemp((configTemp) => {
-      if(key === 'workshopGuid') {
+      if(key === 'WorkshopGuid') {
         return {
           ...configTemp,
-          [key]: value,
-          machineGuid: '',
+          WorkshopGuid: value,
+          WorkshopName: workshopList.find((w) => w.WorkshopGuid === value).WorkshopName,
+          MachineGuid: '',
         }
       }
       return {
@@ -83,19 +86,19 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   }
 
   const validationConfig = () => {
-    if(configTemp.book === '') {
-      enqueueSnackbar('请选择帐套', {
-        variant: 'warning',
-      })
-      return false
-    }
-    if(configTemp.workshopGuid === '') {
+    // if(configTemp.book === '') {
+    //   enqueueSnackbar('请选择帐套', {
+    //     variant: 'warning',
+    //   })
+    //   return false
+    // }
+    if(configTemp.WorkshopGuid === '') {
       enqueueSnackbar('请选择区域', {
         variant: 'warning',
       })
       return false
     }
-    if(configTemp.machineGuid === '') {
+    if(configTemp.MachineGuid === '') {
       enqueueSnackbar('请选择一体机', {
         variant: 'warning',
       })
@@ -134,7 +137,7 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px flex-none'>区域：</span>
-          <Select value={configTemp.workshopGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('workshopGuid', e.target.value)}>
+          <Select value={configTemp.WorkshopGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('WorkshopGuid', e.target.value)}>
             {
               workshopList.length === 0
               ?
@@ -145,13 +148,13 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
                 <ListItemText>暂无数据</ListItemText>
               </MenuItem>
               :
-              workshopList.map((w) => <MenuItem key={w.workshopGuid} value={w.workshopGuid}>{w.workshopName}</MenuItem>)
+              workshopList.map((w) => <MenuItem key={w.WorkshopGuid} value={w.WorkshopGuid}>{w.WorkshopName}</MenuItem>)
             }
           </Select>
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px flex-none'>一体机：</span>
-          <Select value={configTemp.machineGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('machineGuid', e.target.value)} disabled={configTemp.workshopGuid === ''}>
+          <Select value={configTemp.MachineGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('MachineGuid', e.target.value)} disabled={configTemp.WorkshopGuid === ''}>
             {
               machineList.length === 0
               ?
@@ -162,7 +165,7 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
                 <ListItemText>暂无数据</ListItemText>
               </MenuItem>
               :
-              machineList.map((m) => <MenuItem key={m.machineGuid} value={m.machineGuid}>{m.machineName}</MenuItem>)
+              machineList.map((m) => <MenuItem key={m.MachineGuid} value={m.MachineGuid}>{m.MachineName}</MenuItem>)
             }
           </Select>
         </ListItem>

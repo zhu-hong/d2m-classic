@@ -30,10 +30,10 @@ const SetupPage = () => {
   const navigate = useNavigate()
 
   const onEnterSystem = () => {
-    // if(!validationConfig()) {
-    //   configDialogRef.current.open()
-    //   return
-    // }
+    if(!validationConfig()) {
+      configDialogRef.current.open()
+      return
+    }
 
     setBtnLoading(true)
     enqueueSnackbar('系统加载中，请稍后', {
@@ -41,31 +41,32 @@ const SetupPage = () => {
     })
 
     api().GetMachineDetail({
-      machineGuid: config.machineGuid,
+      MachineGuid: config.MachineGuid,
     }).then((res) => {
-      const { workcenters, workstations } = res
-      setWorkcenters(workcenters)
-      setWorkstations(workstations)
+      const { Workcenters, Workstations } = res
+      setWorkcenters(Workcenters)
+      setWorkstations(Workstations)
       if(config.terminalType === 0) {
-        if(workcenters.length === 1) {
+        if(Workcenters.length === 1) {
           setConfig({
-            terminalInfo: workcenters[0],
+            terminalInfo: Workcenters[0],
           })
           navigate('/op')
-        } else if(workcenters.length !== 0) {
+        } else if(Workcenters.length !== 0) {
           navigate('/choose-work?type=0')
         }
       } else {
-        if(workstations.length === 1) {
+        if(Workstations.length === 1) {
           setConfig({
-            terminalInfo: workstations[0],
+            terminalInfo: Workstations[0],
           })
           navigate('/op/process')
-        } else if(workstations.length !== 0) {
+        } else if(Workstations.length !== 0) {
           navigate('/choose-work?type=1')
         }
       }
-    }).catch(() => {
+    }).catch((err) => {
+      console.log(err)
       enqueueSnackbar('获取工作中心/工位错误，请稍后重试', {
         variant: 'error',
       })
@@ -73,19 +74,19 @@ const SetupPage = () => {
   }
 
   const validationConfig = () => {
-    if(config.book === '') {
-      enqueueSnackbar('请配置帐套', {
-        variant: 'warning',
-      })
-      return false
-    }
-    if(config.workshopGuid === '') {
+    // if(config.book === '') {
+    //   enqueueSnackbar('请配置帐套', {
+    //     variant: 'warning',
+    //   })
+    //   return false
+    // }
+    if(config.WorkshopGuid === '') {
       enqueueSnackbar('请配置区域', {
         variant: 'warning',
       })
       return false
     }
-    if(config.machineGuid === '') {
+    if(config.MachineGuid === '') {
       enqueueSnackbar('请配置一体机', {
         variant: 'warning',
       })
@@ -95,6 +96,7 @@ const SetupPage = () => {
   }
 
   const onConfirmSuccess = (config) => {
+    console.log(config)
     setConfig(config)
     enqueueSnackbar('配置成功', {
       variant: 'success',

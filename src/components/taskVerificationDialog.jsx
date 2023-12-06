@@ -17,22 +17,22 @@ export const TaskVerification = ({ open, onClose, task }) => {
   const [verifyState, setVerifyState] = useState(1)
   const [verifyItems, setVerifyItems] = useState([
     {
-      key: 'equipment',
+      key: 'Equipment',
       text: '设备调机校验',
       state: 2,
     },
     {
-      key: 'mro',
+      key: 'Mro',
       text: 'MRO校验',
       state: 2,
     },
     {
-      key: 'processParameter',
+      key: 'ProcessParameter',
       text: '工艺参数校验',
       state: 2,
     },
     {
-      key: 'subProcess',
+      key: 'SubProcess',
       text: '子工序校验',
       state: 2,
     },
@@ -50,8 +50,8 @@ export const TaskVerification = ({ open, onClose, task }) => {
 
   const verifyTask = () => {
     api().StartTaskValidate({
-      taskGuid: task.taskGuid,
-      workcenterGuid: config.terminalInfo.workcenterGuid,
+      TaskGuid: task.TaskGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
     }).then(async ({ data }) => {
       let verifySuccess = true
       for(let key in data) {
@@ -80,9 +80,9 @@ export const TaskVerification = ({ open, onClose, task }) => {
    */
   const onEntryProcess = () => {
     api().StartTask({
-      workcenterGuid: config.terminalInfo.workcenterGuid,
-      schedulingGuid: '',
-      taskGuid: task.taskGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
+      SchedulingGuid: '',
+      TaskGuid: task.TaskGuid,
     }).then(() => navigate('/process'))
   }
 
@@ -100,33 +100,33 @@ export const TaskVerification = ({ open, onClose, task }) => {
         <Box className='py-32px w-256px'>
           <Box className='flex justify-between'>
             <Box>
-              <h1 className="text-[#000C25] text-xl">{task.productName}</h1>
-              <p className="text-[#646A73] text-xs mt-8px">{task.productCode}</p>
+              <h1 className="text-[#000C25] text-xl">{task.ProductName}</h1>
+              <p className="text-[#646A73] text-xs mt-8px">{task.ProductCode}</p>
             </Box>
-            <img src="https://res.d2mcloud.com/common/logo.png" className="w-80px h-80px object-cover" />
+            {/* <img src="https://res.d2mcloud.com/common/logo.png" className="w-80px h-80px object-cover" /> */}
           </Box>
           <Divider sx={{margin:'9px 0 15px'}} />
           <Box className='flex mb-8px text-[#646A73]'>
             <span className="flex-1">任务编号</span>
-            <span className="flex-1">订单编号</span>
+            <span className="flex-1 ml-4">订单编号</span>
           </Box>
           <Box className='flex mb-16px text-[#000c25]'>
-            <span className="flex-1">{task.taskCode}</span>
-            <span className="flex-1">{task.orderCode}</span>
+            <span className="flex-1" style={{lineBreak:'anywhere'}}>{task.TaskCode}</span>
+            <span className="flex-1 ml-4" style={{lineBreak:'anywhere'}}>{task.OrderCode}</span>
           </Box>
           <Box className='flex mb-8px text-[#646A73]'>
             <span className="flex-1">计划开始</span>
-            <span className="flex-1">计划结束</span>
+            <span className="flex-1 ml-4">计划结束</span>
           </Box>
           <Box className='flex mb-16px text-[#000c25]'>
-            <span className="flex-1">{task.planStartTime}</span>
-            <span className="flex-1">{task.planEndTime}</span>
+            <span className="flex-1">{task.PlanStartTime}</span>
+            <span className="flex-1 ml-4">{task.PlanEndTime}</span>
           </Box>
           <Box className='flex mb-8px text-[#646A73]'>
             <span className="flex-1">计划数量(psc)</span>
           </Box>
           <Box className='flex mb-16px text-4xl'>
-            <span className="text-[#000c25] flex-1">{task.planAmount}</span>
+            <span className="text-[#000c25] flex-1">{task.PlanAmount}</span>
           </Box>
         </Box>
         <Divider orientation="vertical" sx={{margin:'0 32px'}} />

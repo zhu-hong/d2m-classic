@@ -20,14 +20,14 @@ const ChooseToWorkPage = () => {
 
   useEffect(() => {
     api().GetMachineDetail({
-      machineGuid: config.machineGuid,
+      MachineGuid: config.MachineGuid,
     }).then((res) => {
-      setWorkcenters(res.workcenters)
-      setWorkstations(res.workstations)
+      setWorkcenters(res.Workcenters)
+      setWorkstations(res.Workstations)
       if(config.terminalType === 0) {
-        setList(res.workcenters)
+        setList(res.Workcenters)
       } else {
-        setList(res.workstations)
+        setList(res.Workstations)
       }
       setLoading(false)
     }).catch(() => {
@@ -96,10 +96,10 @@ const ChooseToWorkPage = () => {
                         ][config.terminalType]
                       }
                     </IconButton>
-                    <Box sx={{ margin: '16px 0 6px' }} className='text-[#000C25] text-2xl font-medium truncate'>{l[['workcenterName','workstationName'][config.terminalType]]}</Box>
+                    <Box sx={{ margin: '16px 0 6px' }} className='text-[#000C25] text-2xl font-medium truncate'>{l[['WorkcenterName','WorkstationName'][config.terminalType]]}</Box>
                     <Box sx={{ marginBottom: '24px' }} className='truncate'>
                       <span className='text-[#646A73]'>所属{['车间','工作中心'][config.terminalType]}：</span>
-                      {l[['workcenterName','workcenterName'][config.terminalType]]+['车间','工作中心'][config.terminalType]}
+                      {[config.WorkshopName,l.WorkcenterName][config.terminalType]}
                     </Box>
                     <Box sx={{ display: 'flex', color: '#000c25' }} className='text-xl'><span className='flex-1 text-[#646A73]'>任务数量</span><span className='flex-1 text-[#646A73]'>在岗人数</span></Box>
                     <Box sx={{ display: 'flex', marginBottom: '24px' }} className='text-40px leading-47px'>

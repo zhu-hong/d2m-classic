@@ -39,12 +39,12 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
 
   const getUsers = useCallback(() => {
     api().GetLoginUser({
-      machineGuid: config.machineGuid,
-      workcenterGuid: config.terminalInfo.workcenterGuid,
+      MachineGuid: config.MachineGuid,
+      MorkcenterGuid: config.terminalInfo.WorkcenterGuid,
     }).then((res) => {
       setUsers(res.data)
     })
-  }, [config.machineGuid, config.terminalInfo.workcenterGuid])
+  }, [config.MachineGuid, config.terminalInfo.WorkcenterGuid])
 
   const onClockDir = (e, dir) => {
     const target = e.currentTarget[dir===-1?'nextSibling':'previousSibling']
@@ -56,26 +56,26 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
 
   const logoutTogether = (jobNum) => {
     api().PersonUnifiedLogout({
-      machineGuid: config.machineGuid,
-      workcenterGuid: config.terminalInfo.workcenterGuid,
+      MachineGuid: config.MachineGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
       Code: jobNum,
     }).then(() => enqueueSnackbar('统一签退成功', { variant: 'success' })).catch(() => enqueueSnackbar('统一签退失败', { variant: 'error' }))
   }
 
   const applyLogin = (jobNum) => {
     api().PersonLogin({
-      machineGuid: config.machineGuid,
-      workcenterGuid: config.terminalInfo.workcenterGuid,
-      workstationGuid: curStation.workstationGuid,
+      MachineGuid: config.MachineGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
+      WorkstationGuid: curStation.workstationGuid,
       Code: jobNum,
     }).then(() => enqueueSnackbar('签到成功', { variant: 'success' })).catch(() => enqueueSnackbar('签到失败', { variant: 'error' }))
   }
 
   const applyLogout = (jobNum) => {
     api().PersonLogout({
-      machineGuid: config.machineGuid,
-      workcenterGuid: config.terminalInfo.workcenterGuid,
-      workstationGuid: curStation.workstationGuid,
+      MachineGuid: config.MachineGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
+      WorkstationGuid: curStation.workstationGuid,
       Code: jobNum,
     }).then(() => enqueueSnackbar('签退成功', { variant: 'success' })).catch(() => enqueueSnackbar('签退失败', { variant: 'error' }))
   }

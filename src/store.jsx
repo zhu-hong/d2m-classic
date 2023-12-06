@@ -6,11 +6,14 @@ import { create } from 'zustand'
     config: {
       serveUrl: string;
       book: string;
-      workshopGuid: string;
-      machineGuid: string;
+      WorkshopName: string;
+      WorkshopGuid: string;
+      MachineGuid: string;
       terminalType: number;
       terminalInfo: any;
     },
+    workcenters: any[],
+    workstations: any[],
     setConfig(config:any): void,
     setWorkcenters(workcenters:any): void,
     setWorkstations(workstations:any): void,
@@ -28,11 +31,11 @@ export const useConfigStore = create((set) => {
       /**
        *  区域ID
       */
-      workshopGuid: '',
+      WorkshopGuid: '',
       /**
        *  一体机ID
       */
-      machineGuid: '',
+      MachineGuid: '',
       /**
        *  终端应用类型
        * 0 工作中心
@@ -43,6 +46,10 @@ export const useConfigStore = create((set) => {
        * 终端应用详情
       */
       terminalInfo: null,
+      /**
+       * 区域名称
+      */
+      WorkshopName: '',
     },
     workcenters: [],
     workstations: [],

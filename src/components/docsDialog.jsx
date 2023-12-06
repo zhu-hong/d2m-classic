@@ -21,9 +21,9 @@ export const Docs = ({ open, onClose, task }) => {
     if(task === null) return
 
     api().GetDocument({
-      prodstdaGuid: task.prodstdaGuid,
-      productGuid: task.productCode,
-      productVersion: task.productVersion,
+      ProdstdaGuid: task.prodstdaGuid,
+      ProductGuid: task.productCode,
+      ProductVersion: task.productVersion,
     }).then((res) => {
       setDocs(res.data)
     }).catch(() => enqueueSnackbar('文档获取失败', { variant: 'error' } ))
@@ -32,7 +32,7 @@ export const Docs = ({ open, onClose, task }) => {
   const openDoc = (doc) => {
     setLoadingDoc(true)
     api().GetDocumentContent({
-      fileKey: doc.fileKey,
+      FileKey: doc.fileKey,
     }).then((res) => {
       setCurDoc(res)
       setPreviewIng(true)
