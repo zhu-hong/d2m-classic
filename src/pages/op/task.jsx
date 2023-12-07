@@ -1,8 +1,6 @@
 import { TaskVerification } from "@/components/taskVerificationDialog.jsx"
 import { AttendanceDialog } from "@/components/attendanceDialog.jsx"
-import { ArrowForwardIos } from "@mui/icons-material"
 import { PlayCircleOutline } from "@mui/icons-material"
-import { ArrowBackIosNew } from "@mui/icons-material"
 import { Box, Button, Divider, Grid, Paper, Skeleton } from "@mui/material"
 import { useRef } from "react"
 import { useApi } from "@/hook.js"
@@ -25,6 +23,12 @@ const TaskPage = () => {
 
   useEffect(() => {
     getCenterInfo()
+
+    const t = setInterval(() => {
+      getCenterInfo()
+    }, 5000)
+
+    return () => clearInterval(t)
   }, [])
 
   const getCenterInfo = () => {
@@ -32,18 +36,16 @@ const TaskPage = () => {
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
       MachineGuid: config.MachineGuid,
     }).then((res) => {
-      setCenterInfo(res.data)
-    }).catch(() => {
-      enqueueSnackbar('获取任务错误，请稍后重试', {
-        variant: 'error',
-      })
+      if(res.code === 0) {
+        setCenterInfo(res.data)
+      }
     })
   }
 
   const navigate = useNavigate()
   const onChangeWork = (e) => {
     e.preventDefault()
-    navigate('/choose-work')
+    navigate('/choose-work?to='+encodeURIComponent('/op'))
   }
 
   const onAttendance = () => {

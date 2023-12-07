@@ -21,8 +21,10 @@ const SetupPage = () => {
   const configDialogRef = useRef()
 
   const [btnLoading, setBtnLoading] = useState(false)
+  const [direct, setDirect] = useState(true)
 
   const openConfig = () => {
+    setDirect(false)
     configDialogRef.current.open()
   }
 
@@ -31,6 +33,7 @@ const SetupPage = () => {
 
   const onEnterSystem = () => {
     if(!validationConfig()) {
+      setDirect(true)
       configDialogRef.current.open()
       return
     }
@@ -53,7 +56,7 @@ const SetupPage = () => {
           })
           navigate('/op')
         } else if(Workcenters.length !== 0) {
-          navigate('/choose-work?type=0')
+          navigate('/choose-work')
         }
       } else {
         if(Workstations.length === 1) {
@@ -62,13 +65,9 @@ const SetupPage = () => {
           })
           navigate('/op/process')
         } else if(Workstations.length !== 0) {
-          navigate('/choose-work?type=1')
+          navigate('/choose-work')
         }
       }
-    }).catch((err) => {
-      enqueueSnackbar('获取工作中心/工位错误，请稍后重试', {
-        variant: 'error',
-      })
     }).finally(() => setBtnLoading(false))
   }
 
@@ -90,6 +89,9 @@ const SetupPage = () => {
 
   const onConfirmSuccess = (config) => {
     setConfig(config)
+    if(direct) {
+      onEnterSystem()
+    }
     enqueueSnackbar('配置成功', {
       variant: 'success',
     })

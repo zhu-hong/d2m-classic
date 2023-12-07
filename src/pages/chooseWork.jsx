@@ -4,10 +4,9 @@ import { useApi } from '@/hook.js'
 import { useConfigStore } from '@/store.jsx'
 import { ArrowBackIosNew } from '@mui/icons-material'
 import { Box, Button, Grid, IconButton, Paper, Skeleton } from '@mui/material'
-import { enqueueSnackbar } from 'notistack'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const ChooseToWorkPage = () => {
   const { config, setConfig, setWorkcenters, setWorkstations } = useConfigStore()
@@ -17,6 +16,8 @@ const ChooseToWorkPage = () => {
 
   const api = useApi(config.serveUrl)
   const navigate = useNavigate()
+
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     api().GetMachineDetail({
@@ -30,10 +31,6 @@ const ChooseToWorkPage = () => {
         setList(res.Workstations)
       }
       setLoading(false)
-    }).catch(() => {
-      enqueueSnackbar('获取工作中心/工位错误，请稍后重试', {
-        variant: 'error',
-      })
     })
   }, [])
 
@@ -41,7 +38,12 @@ const ChooseToWorkPage = () => {
     setConfig({
       terminalInfo: item,
     })
-    navigate(['/op','/op/process'][config.terminalType])
+    const to = searchParams.get('to')
+    if(to === null) {
+      navigate(['/op','/op/process'][config.terminalType])
+    } else {
+      navigate(decodeURIComponent(to))
+    }
   }
 
   return <Box component='main' className='h-full flex flex-col'>

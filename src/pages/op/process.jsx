@@ -49,10 +49,13 @@ const ProcessPage = () => {
   useEffect(() => {
     initTask()
 
+    const t = setInterval(() => initTask(), 5000)
+
     return () => {
       if(blobUrl !== '') {
         URL.revokeObjectURL(blobUrl)
       }
+      clearInterval(t)
     }
   }, [])
 
@@ -66,17 +69,14 @@ const ProcessPage = () => {
         
         const target = res.data.Tasks.find((t) => t.State === '生产中')
         if(target !== undefined) {
-          setTaskId(target.TaskGuid)
           getTaskInfo(target.TaskGuid)
+          setIsNoTask(false)
+          setTaskId(target.TaskGuid)
         } else {
           setIsNoTask(true)
+          setTaskId('')
         }
       }
-    }).catch(() => {
-      enqueueSnackbar('获取任务错误，请稍后重试', {
-        variant: 'error',
-      })
-      setIsNoTask(true)
     })
   }
 
@@ -294,7 +294,7 @@ const ProcessPage = () => {
             ?
             <Button variant="outlined" size="small" className="h-32px" onClick={(e) => {
               e.stopPropagation()
-              navigate('/choose-work')
+              navigate('/choose-work?to='+encodeURIComponent('/op/process'))
             }}>切换</Button>
             :
             null

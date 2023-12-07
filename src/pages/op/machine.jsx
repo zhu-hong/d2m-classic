@@ -89,7 +89,7 @@ const MachinePage = () => {
             ?
             <Button variant="outlined" size="small" className="h-32px" onClick={(e) => {
               e.stopPropagation()
-              navigate('/choose-work')
+              navigate('/choose-work?to='+encodeURIComponent('/op/machine'))
             }}>切换</Button>
             :
             null
@@ -262,7 +262,7 @@ const MachinePage = () => {
                 ?
                 <Button variant="outlined" size="small" className="h-32px" onClick={(e) => {
                   e.stopPropagation()
-                  navigate('/choose-work')
+                  navigate('/choose-work?to='+encodeURIComponent('/op/machine'))
                 }}>切换</Button>
                 :
                 null
