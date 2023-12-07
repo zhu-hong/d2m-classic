@@ -61,23 +61,31 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
       MachineGuid: config.MachineGuid,
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
       Code: jobNum,
-    }).then(() => enqueueSnackbar('统一签退成功', { variant: 'success' })).catch(() => enqueueSnackbar('统一签退失败', { variant: 'error' }))
+    }).then((res) => {
+      if(res.code === 0) {
+        enqueueSnackbar('统一签退成功', { variant: 'success' })
+      }
+    }).catch(() => enqueueSnackbar('统一签退失败', { variant: 'error' }))
   }
 
   const applyLogin = (jobNum) => {
     api().PersonLogin({
       MachineGuid: config.MachineGuid,
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
-      WorkstationGuid: curStation.workstationGuid,
+      WorkstationGuid: curStation.WorkstationGuid,
       Code: jobNum,
-    }).then(() => enqueueSnackbar('签到成功', { variant: 'success' })).catch(() => enqueueSnackbar('签到失败', { variant: 'error' }))
+    }).then((res) => {
+      if(res.code === 0) {
+        enqueueSnackbar('签到成功', { variant: 'success' })
+      }
+    }).catch(() => enqueueSnackbar('签到失败', { variant: 'error' }))
   }
 
   const applyLogout = (jobNum) => {
     api().PersonLogout({
       MachineGuid: config.MachineGuid,
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
-      WorkstationGuid: curStation.workstationGuid,
+      WorkstationGuid: curStation.WorkstationGuid,
       Code: jobNum,
     }).then(() => enqueueSnackbar('签退成功', { variant: 'success' })).catch(() => enqueueSnackbar('签退失败', { variant: 'error' }))
   }
