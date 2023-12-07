@@ -2,6 +2,7 @@ import { useApi } from "@/hook.js"
 import { useConfigStore } from "@/store.jsx"
 import { Close } from "@mui/icons-material"
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Input } from "@mui/material"
+import { enqueueSnackbar } from "notistack"
 
 export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
   const { config } = useConfigStore()
@@ -12,7 +13,9 @@ export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
       EquipmentGuid: equipment.EquipmentGuid,
     }).then((res) => {
       if(res.code === 0) {
+        onClose()
         onConfirm()
+        enqueueSnackbar('调机成功', { variant: 'success' })
       }
     })
   }
