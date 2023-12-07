@@ -20,10 +20,10 @@ export const Footer = () => {
       <Divider orientation="vertical" style={{ backgroundColor: '#ffffff', margin: '0 15px' }} />
       <p className="text-xs font-bold">D2M Classic V{__APP_VERSION__}</p>
       <div className="flex-auto"></div>
-      <Button onClick={() => setOpen(true)}>
+      <div className="flex items-center px-2" onClick={() => setOpen(true)}>
         <p className="text-xs text-white font-normal">Copyright@emtob Soft.All rights reserved.  联系我们</p>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path fill="#CECECE" fillRule="nonzero" d="M11.732 8.002 5.603 14.13l-.942-.943 5.185-5.185-5.185-5.186.942-.943z"/></svg>
-      </Button>
+      </div>
     </footer>
     <Dialog keepMounted open={open} maxWidth='640px' onClose={() => setOpen(false)}>
       <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">

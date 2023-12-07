@@ -2,7 +2,8 @@ import { useApi } from "@/hook.js"
 import { useConfigStore } from "@/store.jsx"
 import { ArrowForwardIos } from "@mui/icons-material"
 import { Close } from "@mui/icons-material"
-import { Box, Button, Dialog, DialogContent, DialogTitle, Grid, IconButton, Skeleton } from "@mui/material"
+import { Box, Button, CircularProgress, Dialog, DialogContent, DialogTitle, Grid, IconButton, Skeleton } from "@mui/material"
+import { useRef } from "react"
 import { useEffect, useState } from "react"
 
 function getExt(filename) {
@@ -35,11 +36,15 @@ export const Docs = ({ open, onClose, task }) => {
   const [docs, setDocs] = useState(null)
   const [curDoc, setCurDoc] = useState(null)
   const [loadingDoc, setLoadingDoc] = useState(false)
+  const [blobUrl, setBlobUrl] = useState('')
 
   const { config } = useConfigStore()
 
   const api = useApi(config.serveUrl)
   const docApi = useApi(config.serveUrl, { responseType: 'blob' })
+  const [renderDoc, setRenderDoc] = useState(false)
+
+  const pdfContainer = useRef()
 
   useEffect(() => {
     api().GetDocument({
@@ -49,45 +54,56 @@ export const Docs = ({ open, onClose, task }) => {
     }).then((res) => {
       setDocs(res.data.map((d) => ({ ...d, ext: getExt(d.DocumentName) })))
     })
+
+    return () => {
+      if(blobUrl !== '') {
+        URL.revokeObjectURL(blobUrl)
+      }
+    }
   }, [])
+
+  useEffect(() => {
+    if(previewIng === false && blobUrl !== '') {
+      URL.revokeObjectURL(blobUrl)
+    }
+  }, [previewIng])
 
   const openDoc = (doc) => {
     setLoadingDoc(true)
     docApi().GetDocumentContent({
       FileKey: doc.FileKey,
     }).then((res) => {
-      const fr = new FileReader()
-      fr.readAsDataURL(res)
-      fr.addEventListener('load', (e) => {
-        const pdfpage = pdfjsLib.getDocument(URL.createObjectURL(res))
-        // pdfpage.promise.then((pdf) => {
-        //   pdf.getPage(1).then((page) => {
-        //     const scale = 1.5
-        //     const viewport = page.getViewport({scale})
-      
-        //     // Prepare canvas using PDF page dimensions
-        //     const canvas = document.getElementById('pdfcanvas')
-        //     const context = canvas.getContext('2d')
-        //     canvas.height = viewport.height
-        //     canvas.width = viewport.width
-      
-        //     // Render PDF page into canvas context
-        //     const renderContext = {
-        //       canvasContext: context,
-        //       viewport: viewport
-        //     }
-        //     const renderTask = page.render(renderContext)
-        //     renderTask.promise.then(() => {
-        //       console.log('Page rendered')
-        //     })
-        //   })
-        // })
-      })
-      setCurDoc({
-        ...doc,
-        data: res,
-      })
+      const bloburl = URL.createObjectURL(res)
+      setBlobUrl(bloburl)
+      setCurDoc(doc)
+      setRenderDoc(true)
       setPreviewIng(true)
+      
+      const loadingTask = window.pdfjsLib.getDocument(bloburl)
+      loadingTask.promise.then(async (pdf) => {
+        for (let index = 1; index <= pdf.numPages; index++) {
+          await pdf.getPage(index).then(async (page) => {
+            const viewport = page.getViewport({scale: 2});
+
+            // Prepare canvas using PDF page dimensions
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            // Render PDF page into canvas context
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            const renderTask = page.render(renderContext);
+            await renderTask.promise.then(() => {
+              setRenderDoc(false)
+              pdfContainer.current.append(canvas)
+            });
+          })
+        }
+      })
     }).finally(() => setLoadingDoc(false))
   }
 
@@ -100,8 +116,17 @@ export const Docs = ({ open, onClose, task }) => {
       previewIng
       ?
       <DialogContent className='w-840px text-right'>
-        <Box className='mt-24px h-564px border border-[#CECECE] flex flex-col'>
+        <Box className='mt-24px border border-[#CECECE] flex flex-col'>
           <Box className='flex items-center px-22px py-12px border-b border-[#CECECE]'>{curDoc.DocumentName}</Box>
+          <div className="h-500px overflow-auto flex flex-col items-center justify-start py-4 children:w-full" ref={pdfContainer}>
+            {
+              renderDoc
+              ?
+              <CircularProgress size={40} />
+              :
+              null
+            }
+          </div>
         </Box>
         <Button color="info" variant="contained" className="w-136px h-56px" size="large" sx={{marginTop:'24px'}} onClick={() => setPreviewIng(false)}><span className="text-2xl">退出</span></Button>
       </DialogContent>
@@ -130,6 +155,8 @@ export const Docs = ({ open, onClose, task }) => {
             :
             <>
               {
+                docs.length > 0
+                ?
                 docs.map((d) => {
                   return <Grid key={d.DocumentCode} item xs={4}>
                     <Box className='border border-[#CECECE] p-24px mt-16px h-full flex flex-col'>
@@ -157,6 +184,13 @@ export const Docs = ({ open, onClose, task }) => {
                     </Box>
                   </Grid>
                 })
+                :
+                <Grid item xs={12}>
+                  <div className="h-250px flex flex-col justify-center items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="195" height="146"><g fill="none" fillRule="evenodd"><path fill="#EEF1F5" d="M97.08 112.856c50.265 0 91.013 5.433 91.013 12.135 0 6.701-40.748 12.135-91.013 12.135-50.265 0-91.012-5.434-91.012-12.135 0-6.702 40.747-12.135 91.012-12.135"/><path fill="#8F959E" fillRule="nonzero" d="M129.454 51.548a8.357 8.357 0 0 1 8.497 8.227v57.414a7.201 7.201 0 0 1-7.297 7.076H49.77a7.201 7.201 0 0 1-7.297-7.076v-67.25a7.201 7.201 0 0 1 7.297-7.075h31.2c4.949 0 8.957 3.893 8.957 8.689h39.528v-.005"/><path fill="#DFE3E9" fillRule="nonzero" d="M69.864 14.562h54.896a8 8 0 0 1 5.658 2.344l10.788 10.792a8 8 0 0 1 2.342 5.656v70.965a8 8 0 0 1-7.831 7.998l-65.684 1.385a8 8 0 0 1-8.169-7.998V22.562a8 8 0 0 1 8-8"/><path fill="#FFF" d="M75.805 31.473h52.174c.6 0 1.087.487 1.087 1.087v2.174c0 .6-.487 1.087-1.087 1.087H75.805c-.6 0-1.087-.487-1.087-1.087V32.56c0-.6.486-1.087 1.087-1.087M75.805 44.517H109.5c.6 0 1.087.486 1.087 1.087v2.173c0 .6-.486 1.087-1.087 1.087H75.805c-.6 0-1.087-.486-1.087-1.087v-2.173c0-.6.486-1.087 1.087-1.087M75.805 57.56h23.913c.6 0 1.087.487 1.087 1.087v2.174c0 .6-.487 1.087-1.087 1.087H75.805c-.6 0-1.087-.487-1.087-1.087v-2.174c0-.6.486-1.087 1.087-1.087"/><path fill="#000" fillRule="nonzero" d="M73.789 64.736h82.47c3.585 0 5.491 2.491 4.248 5.563l-18.548 45.893c-1.238 3.072-5.155 5.564-8.74 5.564H50.743c-3.586 0-5.487-2.492-4.244-5.564L65.043 70.3c1.243-3.072 5.155-5.563 8.746-5.563" opacity=".1"/><path fill="#8F959E" fillRule="nonzero" d="M76.724 67.671h82.47c3.586 0 5.491 2.491 4.248 5.563l-18.547 45.894c-1.239 3.072-5.155 5.563-8.741 5.563H53.679c-3.585 0-5.486-2.491-4.243-5.563l18.543-45.894c1.243-3.072 5.155-5.563 8.745-5.563"/><path fill="#D2D4D8" fillRule="nonzero" d="M118.473 82.84a1.733 1.733 0 0 1-1.522-.725 2.045 2.045 0 0 1-.058-1.92l.96-2.319a4.214 4.214 0 0 1 3.524-2.477h28.253a1.757 1.757 0 0 1 1.521.725c.338.59.36 1.31.058 1.92l-.96 2.323a4.21 4.21 0 0 1-3.528 2.472h-28.248"/><path fill="#FFD500" d="M163.667 115.965s-6.846-1.77-8.339-7.803c0 0 10.614-2.029 10.922 8.334l-2.583-.53"/><path fill="#FFD500" d="M163.357 115.27s-4.068-6.893-.488-13.336c0 0 6.861 4.668 3.813 13.349l-3.325-.013"/><path fill="#FFD500" d="M165.036 116.476s2.38-8.146 9.578-9.688c0 0 1.35 5.316-4.657 9.708l-4.921-.02"/><path fill="#8F959E" d="m160.182 115.283 1.327 9.667 8.36.04 1.234-9.662z"/><g fillRule="nonzero"><path fill="#000" fillOpacity=".1" d="M24.27 111.642c0 10.053 8.15 18.203 18.202 18.203 10.053 0 18.203-8.15 18.203-18.203 0-10.053-8.15-18.202-18.202-18.202-10.053 0-18.203 8.149-18.203 18.202"/><path fill="#FFD500" d="M26.697 109.215c0 10.053 8.15 18.203 18.203 18.203 10.052 0 18.202-8.15 18.202-18.203 0-10.053-8.15-18.202-18.202-18.202-10.053 0-18.203 8.149-18.203 18.202"/><path fill="#FFF" d="M52.92 101.188a1.581 1.581 0 0 1 0 2.257l-5.861 5.78 5.86 5.78a1.58 1.58 0 0 1 .084 2.125l-.104.112a1.634 1.634 0 0 1-2.269.02l-5.859-5.78-5.584 5.507a1.633 1.633 0 0 1-1.573.435 1.607 1.607 0 0 1-1.156-1.14 1.582 1.582 0 0 1 .441-1.552l5.583-5.507-5.583-5.507a1.583 1.583 0 0 1-.474-1.399l.033-.153c.148-.558.59-.994 1.156-1.14a1.633 1.633 0 0 1 1.573.435l5.583 5.507 5.86-5.78a1.635 1.635 0 0 1 2.29 0"/></g></g></svg>
+                    <span className="text-[#8F959E]">暂无文档</span>
+                  </div>
+                </Grid>
               }
             </>
           }

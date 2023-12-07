@@ -5,10 +5,10 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 
 export const Header = ({ actions = [] }) => {
-  const [time, setTime] = useState(dayjs().format('hh:mm\tYYYY/MM/DD'))
+  const [time, setTime] = useState(dayjs().format('hh:mm\tMM/DD'))
   useEffect(() => {
     const t = setInterval(() => {
-      setTime(dayjs().format('hh:mm  YYYY/MM/DD'))
+      setTime(dayjs().format('hh:mm  MM/DD'))
     }, 1000)
     return () => clearInterval(t)
   }, [])

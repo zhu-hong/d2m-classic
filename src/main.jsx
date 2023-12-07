@@ -30,4 +30,5 @@ createRoot(document.getElementById('root')).render(<StrictMode>
 const setup = document.getElementById('setup')
 if(setup !== null) {
   setup.remove()
+  pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs.worker.mjs'
 }

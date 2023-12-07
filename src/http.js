@@ -13,9 +13,12 @@ export function createApi(serveUrl, config = {}) {
           // 选停机
           return res.data
         }
-        if(res.request.responseURL.includes('GetDocumentContent') || res.request.responseURL.includes('GetDefaultDocumentContent')) {
+        if(res.request.responseURL.includes('GetDocumentContent')) {
           // 文档二进制
           return res.data
+        }
+        if(res.request.responseURL.includes('GetDefaultDocumentContent')) {
+          return res
         }
         enqueueSnackbar(res.data.msg, {
           variant: 'error',
