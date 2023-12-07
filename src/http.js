@@ -1,16 +1,21 @@
 import axios from 'axios'
 import { enqueueSnackbar } from 'notistack'
 
-export function createApi(serveUrl) {
+export function createApi(serveUrl, config = {}) {
   const ins = axios.create({
     baseURL: `http://${serveUrl}/webapi/api/D2MITC`,
+    ...config,
   })
   ins.interceptors.response.use(
     (res) => {
-      console.log()
       if(res.data.code !== 0) {
         if(res.request.responseURL.includes('AndonResponseValidate') && res.data.code === 2) {
-          return res.data  
+          // 选停机
+          return res.data
+        }
+        if(res.request.responseURL.includes('GetDocumentContent') || res.request.responseURL.includes('GetDefaultDocumentContent')) {
+          // 文档二进制
+          return res.data
         }
         enqueueSnackbar(res.data.msg, {
           variant: 'error',
@@ -19,7 +24,7 @@ export function createApi(serveUrl) {
       return res.data
     },
     (err) => {
-      enqueueSnackbar('网络错误', { variant: 'error' })
+      enqueueSnackbar('网络错误，请稍后重试', { variant: 'error' })
       throw err
     }
   )

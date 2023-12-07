@@ -1,4 +1,4 @@
 import { useCallback } from "react";
 import { createApi } from "./http.js";
 
-export const useApi = (url) => useCallback(() => createApi(url), [url]) 
+export const useApi = (url, config) => useCallback(() => createApi(url, config), [url]) 

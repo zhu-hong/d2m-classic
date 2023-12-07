@@ -266,7 +266,7 @@ const ProcessPage = () => {
               }
               <Box className='flex-auto min-w-10'></Box>
               <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{centerInfo.ShiftName}</Box>
-              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{centerInfo.ShiftStartTime}～{centerInfo.ShiftEndTime}</Box>
+              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{dayjs(centerInfo.ShiftStartTime).format('YY/MM/DD HH:mm')} ～ {dayjs(centerInfo.ShiftEndTime).format('YY/MM/DD HH:mm')}</Box>
               <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{centerInfo.Amount}人</Box>
             </Box>
 
@@ -327,7 +327,6 @@ const ProcessPage = () => {
               </ToggleButtonGroup>
               <Box className='flex-auto'></Box>
               {/* <Box className='text-lg text-[#000C25] mr-16px'>指导书文档名称.excl</Box> */}
-              <Button variant="outlined" className="w-32px h-32px"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><g fill="#058373" fillRule="evenodd"><path d="M11 18.111H3.889V11H2.12l-.009 8.889H11zM19.889 2.111H11V3.89h7.111V11h1.769z"/></g></svg></Button>
             </Box>
             <Box className='flex-auto mt-8px' sx={{display:tabType===0?'block':'none'}}>文档</Box>
             {/* <Box className='flex-auto mt-8px' sx={{display:tabType===1?'flex':'none'}}>

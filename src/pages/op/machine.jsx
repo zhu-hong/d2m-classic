@@ -6,6 +6,7 @@ import { CheckDialog } from "@/components/checkDialog.jsx"
 import { ColorButton } from "@/components/ccolorButton.jsx"
 import { useEffect } from "react"
 import { useApi } from "@/hook.js"
+import { AccessTime } from "@mui/icons-material"
 
 const MachinePage = () => {
   const { config, workcenters, workstations } = useConfigStore()
@@ -23,15 +24,18 @@ const MachinePage = () => {
     api().GetEquipment({
       MachineGuid: config.MachineGuid,
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
-    }).then((res) => {
+    }).then(async (res) => {
       if(res.code === 0) {
+        if(res.data.Equipments.length === 1) {
+          await onClickEquipment(res.data.Equipments[0])
+        }
         setEquipmentInfo(res.data)
       }
     })
   }, [])
 
-  const onClickEquipment = (equipment) => {
-    api().GetEquipmentInformation({
+  const onClickEquipment = async (equipment) => {
+    await api().GetEquipmentInformation({
       EquipmentGuid: equipment.EquipmentGuid,
     }).then((res) => {
       if(res.code === 0) {
@@ -101,12 +105,12 @@ const MachinePage = () => {
             <p className="text-xl text-[#000C25] mb-8px">{curEquipment.EquipmentName}</p>
             <p className="text-[#646A73] text-lg font-bold">{curEquipment.EquipmentCode}</p>
             <Box className='mt-38px flex items-center justify-between text-lg'>
-              <p className="text-[#646A73]">设备类别</p>
+              <p className="text-[#646A73] flex-none mr-4">设备类别</p>
               <p className="text-[#000c25]">{curEquipment.EquipmentTypeName}</p>
             </Box>
             <Box className='mt-16px flex items-center justify-between text-lg'>
-              <p className="text-[#646A73]">设备型号</p>
-              <p className="text-[#000c25]">{curEquipment.EquipmentSpec}</p>
+              <p className="text-[#646A73] flex-none mr-4">设备型号</p>
+              <p className="text-[#000c25]">{curEquipment.EquipmentSpec||'暂无型号'}</p>
             </Box>
             <Box className='mt-16px flex items-center justify-between text-lg'>
               <p className="text-[#646A73]">设备状态</p>
@@ -141,8 +145,8 @@ const MachinePage = () => {
               }
             </Box>
             <Box className='mt-16px flex items-center justify-between'>
-              <p className="text-[#646A73]">最近一次点检</p>
-              <p className="text-[#000c25]">{curEquipment.LastCheckTime}</p>
+              <p className="text-[#646A73] flex-none mr-4">最近一次点检</p>
+              <p className="text-[#000c25]">{curEquipment.LastCheckTime||'-'}</p>
             </Box>
           </Box>
           <Box className='h-full flex-auto bg-white mx-16px overflow-auto px-22px py-24px'>
@@ -159,6 +163,8 @@ const MachinePage = () => {
                 <Box sx={{width:'25%'}}>单位</Box>
               </Box>
               {
+                curEquipment.Parameters.length > 0
+                ?
                 curEquipment.Parameters.map((p, i) => {
                   return <Box className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
                     <Box sx={{width:'15%'}}>{p.ParameterCode}</Box>
@@ -168,6 +174,11 @@ const MachinePage = () => {
                     <Box sx={{width:'25%'}}>{p.UnitName}</Box>
                   </Box>
                 })
+                :
+                <div className="w-full h-40 border-r border-l border-b flex justify-center items-center">
+                  <span className="mr-2">暂无数据</span>
+                  <AccessTime />
+                </div>
               }
             </Box>
           </Box>
@@ -182,6 +193,8 @@ const MachinePage = () => {
                 <Box sx={{width:'30%'}}>MRO 名称</Box>
               </Box>
               {
+                curEquipment.Mros.length > 0
+                ?
                 curEquipment.Mros.map((m) => {
                   return <Box className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
                     <Box sx={{width:'40%'}}>{m.MroType}</Box>
@@ -189,12 +202,17 @@ const MachinePage = () => {
                     <Box sx={{width:'30%'}}>{m.MroName}</Box>
                   </Box>
                 })
+                :
+                <div className="w-full h-40 border-r border-l border-b flex justify-center items-center">
+                  <span className="mr-2">暂无数据</span>
+                  <AccessTime />
+                </div>
               }
             </Box>
           </Box>
         </Box>
         <Box className='bg-white text-right py-13px mt-16px'>
-          <>
+          {/* <>
             <ColorButton onClick={() => setCheckOpen(true)} ccolor='#006A9F' style={{width:'187px',height:'72px',borderRadius:'0'}}>
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M28 1.333A2.667 2.667 0 0 1 30.667 4v24A2.667 2.667 0 0 1 28 30.667H4A2.667 2.667 0 0 1 1.333 28V4A2.667 2.667 0 0 1 4 1.333zM28 4H4v24h24zM11.333 16a4.667 4.667 0 1 1 0 9.333 4.667 4.667 0 0 1 0-9.333m14 4v2.667h-8V20zm-14-1.333a2 2 0 1 0 0 4 2 2 0 0 0 0-4M15.976 7.15a1.2 1.2 0 0 1 .107 1.575l-.107.123-3.995 3.994c-.69.677-1.771.709-2.499.104l-.14-.13-2.199-2.24a1.2 1.2 0 0 1 1.592-1.79l.122.11 1.82 1.854 3.601-3.6a1.2 1.2 0 0 1 1.698 0m9.357 2.182V12h-8V9.333z"/></svg>
               <span className="ml-8px">前往点检</span>
@@ -206,7 +224,7 @@ const MachinePage = () => {
               :
               null
             }
-          </>
+          </> */}
           <>
             <ColorButton onClick={() => setDebugOpen(true)} ccolor='#058373' style={{width:'187px',height:'72px',borderRadius:'0'}}>
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M22 20a3.333 3.333 0 0 1 3.333 3.333V24h4.334a1 1 0 0 1 1 1v.667a1 1 0 0 1-1 1l-4.334-.001v.667a3.333 3.333 0 1 1-6.666 0v-.667H2.332a1 1 0 0 1-1-1V25a1 1 0 0 1 1-1h16.333v-.667A3.333 3.333 0 0 1 22 20m0 2.667a.667.667 0 0 0-.667.666v4a.667.667 0 0 0 1.334 0v-4a.667.667 0 0 0-.667-.666m-10.667-12A3.333 3.333 0 0 1 14.667 14v.667h15a1 1 0 0 1 1 1v.666a1 1 0 0 1-1 1h-15V18A3.333 3.333 0 0 1 8 18v-.667H2.332a1 1 0 0 1-1-1v-.666a1 1 0 0 1 1-1H8L8 14a3.333 3.333 0 0 1 3.333-3.333m0 2.666a.667.667 0 0 0-.666.667v4A.667.667 0 1 0 12 18v-4a.667.667 0 0 0-.667-.667M22 1.333a3.333 3.333 0 0 1 3.333 3.334v.666h4.334a1 1 0 0 1 1 1V7a1 1 0 0 1-1 1h-4.334v.667a3.333 3.333 0 1 1-6.666 0v-.668L2.332 8a1 1 0 0 1-1-1v-.667a1 1 0 0 1 1-1h16.333v-.666A3.333 3.333 0 0 1 22 1.333M22 4a.667.667 0 0 0-.667.667v4a.667.667 0 0 0 1.334 0v-4A.667.667 0 0 0 22 4"/></svg>

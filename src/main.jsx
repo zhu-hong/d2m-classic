@@ -17,7 +17,7 @@ import 'dayjs/locale/zh-cn.js'
 
 dayjs.locale('zh-cn')
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')).render(<StrictMode>
   <LocalizationProvider dateAdapter={AdapterDayjs} localeText={zhCN.components.MuiLocalizationProvider.defaultProps.localeText}>
     <ThemeProvider theme={theme}>
       <SnackbarProvider maxSnack={5} anchorOrigin={{horizontal:'right',vertical:'bottom'}} transitionDuration={{enter:150,exit:150}} autoHideDuration={1500}>
@@ -25,7 +25,7 @@ createRoot(document.getElementById('root')).render(
       </SnackbarProvider>
     </ThemeProvider>
   </LocalizationProvider>
-)
+</StrictMode>)
 
 const setup = document.getElementById('setup')
 if(setup !== null) {

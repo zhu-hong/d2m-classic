@@ -11,6 +11,7 @@ import { useEffect } from "react"
 import { enqueueSnackbar } from "notistack"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import dayjs from "dayjs"
 
 const TaskPage = () => {
   const attendanceDialogRef = useRef()
@@ -107,7 +108,7 @@ const TaskPage = () => {
               :
               <>
                 <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{centerInfo.ShiftName}</Box>
-                <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{centerInfo.ShiftStartTime}～{centerInfo.ShiftEndTime}</Box>
+                <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{dayjs(centerInfo.ShiftStartTime).format('YY/MM/DD HH:mm')} ～ {dayjs(centerInfo.ShiftEndTime).format('YY/MM/DD HH:mm')}</Box>
                 <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{centerInfo.Amount}人</Box>
               </>
             }
@@ -356,8 +357,8 @@ const TaskPage = () => {
                     <span className="flex-1 ml-4">计划结束</span>
                   </Box>
                   <Box className='flex mb-16px text-[#000c25]'>
-                    <span className="flex-1">{t.PlanStartTime}</span>
-                    <span className="flex-1 ml-4">{t.PlanEndTime}</span>
+                    <span className="flex-1">{dayjs(t.PlanStartTime).format('YY/MM/DD HH:mm')}</span>
+                    <span className="flex-1 ml-4">{dayjs(t.PlanEndTime).format('YY/MM/DD HH:mm')}</span>
                   </Box>
                   <Box className='flex mb-8px text-[#646A73]'>
                     <span className="flex-1">计划数量</span>

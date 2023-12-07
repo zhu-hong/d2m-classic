@@ -9,7 +9,7 @@ export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
 
   const debugEquipment = () => {
     api().EquipmentDebug({
-      EquipmentGuid: equipment.EquipmentDebug,
+      EquipmentGuid: equipment.EquipmentGuid,
     }).then((res) => {
       if(res.code === 0) {
         onConfirm()
@@ -24,7 +24,7 @@ export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
     </DialogTitle>
     <DialogContent className="w-632px">
       <div className="flex items-center mt-24px">
-        <img src="https://res.d2mcloud.com/common/logo.png" className="w-88px h-60px object-cover" />
+        <img src={equipment.EquipmentPicture} className="w-88px h-60px object-cover flex-none" />
         <div className="ml-21px flex-auto">
           <div className="flex justify-between items-center text-lg text-[#000C25]">
             <p>{equipment.EquipmentCode}/{equipment.EquipmentName}</p>
@@ -44,7 +44,7 @@ export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
           </div>
           <div className="flex text-lg text-[#646A73] mt-10px">
             <p className="mr-40px">设备类别：{equipment.EquipmentTypeName}</p>
-            <p>设备型号：{equipment.EquipmentSpec}</p>
+            <p>设备型号：{equipment.EquipmentSpec||'暂无型号'}</p>
           </div>
         </div>
       </div>
