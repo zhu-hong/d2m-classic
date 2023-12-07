@@ -1,9 +1,51 @@
-import { AccessTime } from "@mui/icons-material"
+import { useApi } from "@/hook.js"
+import { useConfigStore } from "@/store.jsx"
 import { Close } from "@mui/icons-material"
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, Select, TextField } from "@mui/material"
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, OutlinedInput, Select, TextField } from "@mui/material"
+import { enqueueSnackbar } from "notistack"
+import { useEffect } from "react"
 import { useState } from "react"
 
-export const ProcessReport = ({ open, onClose, task }) => {
+export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmReport }) => {
+  const [stationId, setStationId] = useState('')
+  const [pass, setPass] = useState(0)
+  const [noPass, setNoPass] = useState(0)
+
+  const { config } = useConfigStore()
+  const api = useApi(config.serveUrl)
+
+  useEffect(() => {
+    if(validateInfo.Workstations && validateInfo.Workstations.length !== 0) {
+      setStationId(validateInfo.Workstations[0].WorkstationGuid)
+    }
+  }, [])
+
+  const onConfirm = () => {
+    if(stationId === '') {
+      enqueueSnackbar('请选择所在工位', { variant: 'warning' })
+      return
+    }
+    if(pass+noPass === 0) {
+      enqueueSnackbar('请输入及格/不及格数量', { variant: 'warning' })
+      return
+    }
+
+    api().WorkstationReport({
+      QualifiedAmount: Number(pass),
+      SchedulingGuid: validateInfo.SchedulingGuid,
+      TaskGuid: task.TaskGuid,
+      UnqualifiedAmount: Number(noPass),
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
+      WorkstationGuid: stationId,
+    }).then((res) => {
+      if(res.code === 0) {
+        enqueueSnackbar('报工成功', { variant: 'success' })
+        onClose()
+        onConfirmReport()
+      }
+    })
+  }
+
   return <Dialog open={open} maxWidth='720px' onClose={onClose} scroll='paper'>
     <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
       <p>报工反馈</p>
@@ -22,40 +64,29 @@ export const ProcessReport = ({ open, onClose, task }) => {
       </Box>
       <Box className='mt-24px flex justify-center items-center'>
         <Box className='text-[#646A73] text-lg mr-24px'>报工人员：</Box>
-        <Select size='small' className='w-494px'>
-          <MenuItem disabled>
-            <AccessTime />
-            <span>暂无数据</span>
-          </MenuItem>
-        </Select>
+        <OutlinedInput readOnly size='small' className='w-494px' value={validateInfo.EmployeeName} />
       </Box>
       <Box className='mt-24px flex justify-center items-center'>
         <Box className='text-[#646A73] text-lg mr-24px'>所在工位：</Box>
-        <Select size='small' className='w-494px'>
-          <MenuItem disabled>
-            <AccessTime />
-            <span>暂无数据</span>
-          </MenuItem>
+        <Select size='small' className='w-494px' value={stationId} onChange={(e) => setStationId(e.target.value)}>
+          {
+            validateInfo.Workstations.map((w) => <MenuItem key={w.WorkstationGuid} value={w.WorkstationGuid}>{w.WorkstationName}</MenuItem>)
+          }
         </Select>
       </Box>
       <Box className='mt-24px flex justify-center items-center'>
         <Box className='text-[#646A73] text-lg mr-24px'>当前班次：</Box>
-        <Select size='small' className='w-494px'>
-          <MenuItem disabled>
-            <AccessTime />
-            <span>暂无数据</span>
-          </MenuItem>
-        </Select>
+        <OutlinedInput readOnly size='small' className='w-494px' value={validateInfo.ShiftName} />
       </Box>
       <Box className='mt-24px flex text-[#646A73] text-lg justify-center items-center'>
         <Box>合格数：</Box>
-        <TextField size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
+        <TextField value={pass} onChange={(e) => setPass(Number(e.target.value))} size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
         <Box className='ml-24px'>不合格数：</Box>
-        <TextField size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
+        <TextField value={noPass} onChange={(e) => setNoPass(Number(e.target.value))} size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
       </Box>
     </DialogContent>
       <DialogActions style={{justifyContent:'center'}}>
-        <Button className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
+        <Button onClick={onConfirm} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
         <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={onClose}><span className="text-2xl text-[#646A73]">取消</span></Button>
       </DialogActions>
   </Dialog>

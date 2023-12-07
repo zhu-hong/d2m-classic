@@ -237,11 +237,18 @@ export function createApi(serveUrl) {
       return await ins.post('/CloseTask', paylod)
     },
     /**
-     * 工位报工
-     * @param {{WorkcenterGuid:string;TaskGuid:string;workstationGuid:string;QualifiedAmount:number;UnqualifiedAmount:number;}} paylod 
+     * 工位报工验证
+     * @param {{MachineGuid:string;WorkcenterGuid:string;Code:string;}} paylod 
      */
-    async CloseTask(paylod) {
-      return await ins.post('/CloseTask', paylod)
+    async WorkstationReportValidate(paylod) {
+      return await ins.post('/WorkstationReportValidate', paylod)
+    },
+    /**
+     * 工位报工
+     * @param {{WorkcenterGuid:string;TaskGuid:string;SchedulingGuid:string;WorkstationGuid:string;QualifiedAmount:number;UnqualifiedAmount:number;}} paylod 
+     */
+    async WorkstationReport(paylod) {
+      return await ins.post('/WorkstationReport', paylod)
     },
     /**
      * 获取工作中心班次信息

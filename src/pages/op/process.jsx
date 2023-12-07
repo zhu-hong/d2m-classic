@@ -1,6 +1,7 @@
 import { AttendanceDialog } from "@/components/attendanceDialog.jsx";
 import { ColorButton } from "@/components/ccolorButton.jsx";
 import { Docs } from "@/components/docsDialog.jsx";
+import { JobNumDialog } from "@/components/jobNumDialog.jsx";
 import { ProcessReport } from "@/components/processReportDialog.jsx";
 import { StationsDialog } from "@/components/stationsDialog.jsx";
 import { useApi } from "@/hook.js";
@@ -38,6 +39,8 @@ const ProcessPage = () => {
   const [defaultDoc, setDefaultDoc] = useState(null)
 
   const api = useApi(config.serveUrl)
+
+  const [jobNumOpen, setJobNumOpen] = useState(false)
 
   useEffect(() => {
     initTask()
@@ -116,6 +119,7 @@ const ProcessPage = () => {
       TaskGuid: taskId,
     }).then((res) => {
       if(res.code === 0) {
+        enqueueSnackbar("任务关闭成功", { variant: 'success' })
         initTask()
       }
     })
@@ -128,8 +132,9 @@ const ProcessPage = () => {
     if(config.terminalType === 1) {
       stopProcess(config.terminalInfo.WorkstationGuid)
     } else {
-      setStationMode(1)
-      setOpenStations(true)
+      // setStationMode(1)
+      // setOpenStations(true)
+      stopProcess('')
     }
   }
 
@@ -139,8 +144,10 @@ const ProcessPage = () => {
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
       WorkstationGuid,
       TaskGuid: taskId,
+      MachineGuid: config.MachineGuid,
     }).then((res) => {
       if(res.code === 0) {
+        enqueueSnackbar("生产暂停成功", { variant: 'success' })
         getTaskInfo(taskId)
       }
     })
@@ -153,8 +160,9 @@ const ProcessPage = () => {
     if(config.terminalType === 1) {
       validationStartProcess(config.terminalInfo.WorkstationGuid)
     } else {
-      setStationMode(0)
-      setOpenStations(true)
+      // setStationMode(0)
+      // setOpenStations(true)
+      validationStartProcess('')
     }
   }
 
@@ -166,6 +174,7 @@ const ProcessPage = () => {
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
       WorkstationGuid,
       TaskGuid: taskId,
+      MachineGuid: config.MachineGuid,
     }).then((res) => {
       if(res.code === 0) {
         let success = true
@@ -180,16 +189,18 @@ const ProcessPage = () => {
         }
 
         api().WorkstationStart({
+          MachineGuid: config.MachineGuid,
           TaskGuid: taskId,
           WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
           WorkstationGuid,
         }).then((res) => {
           if(res.code === 0) {
+            enqueueSnackbar("生产启动成功", { variant: 'success' })
             getTaskInfo(taskId)
           }
         })
       }
-    }).catch(() => enqueueSnackbar('启动生产验证失败', { variant: 'error' }))
+    })
   }
 
   const stationConfirm = (WorkstationGuid) => {
@@ -202,6 +213,25 @@ const ProcessPage = () => {
   }
 
   const navigate = useNavigate()
+
+  const onApplyReport = () => {
+    
+  }
+
+  const [reportValidateInfo, setReportValidateInfo] = useState(null)
+  const onJobNumConfirm = (jobNum) => {
+    setJobNumOpen(false)
+    api().WorkstationReportValidate({
+      Code: jobNum,
+      MachineGuid: config.MachineGuid,
+      WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
+    }).then((res) => {
+      if(res.code === 0) {
+        setReportValidateInfo(res.data)
+        setReportOpen(true)
+      }
+    })
+  }
 
   return <Box className='w-full h-full flex flex-col'>
     {
@@ -382,15 +412,17 @@ const ProcessPage = () => {
                 isStart
                 ?
                 <>
-                  <ColorButton ccolor="#16AC99" onClick={() => setReportOpen(true)}>
+                  <ColorButton ccolor="#16AC99" onClick={() => setJobNumOpen(true)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M16 4c7.732 0 14 6.268 14 14s-6.268 14-14 14S2 25.732 2 18 8.268 4 16 4m0 2.667C9.74 6.667 4.667 11.74 4.667 18c0 6.26 5.074 11.333 11.333 11.333 6.26 0 11.333-5.074 11.333-11.333 0-6.26-5.074-11.333-11.333-11.333M17.333 10v9.333h-2.666V10zm9.724-5.495 2.829 2.828L28 9.22l-2.828-2.828zM10.667 0h10.666v2.667H10.667Z"/></svg>
                     <span className="ml-8px">报工</span>
                   </ColorButton>
 
+                  <JobNumDialog open={jobNumOpen} onClose={() => setJobNumOpen(false)} onConfirm={onJobNumConfirm} />
+
                   {
                     reportOpen
                     ?
-                    <ProcessReport open={reportOpen} onClose={() => setReportOpen(false)} task={taskInfo} />
+                    <ProcessReport open={reportOpen} onClose={() => setReportOpen(false)} task={taskInfo} validateInfo={reportValidateInfo} onConfirmReport={() => getTaskInfo(taskId)} />
                     :
                     null
                   }

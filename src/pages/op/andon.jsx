@@ -86,7 +86,7 @@ const AndonPage = () => {
         if(res.code === 0) {
           setEmployee(res.data)
           if(res.data.Workstations.length === 1) {
-            onStationConfirm(res.data.Workstations[0].WorkstationGuid)
+            onStationConfirm(res.data.Workstations[0].WorkstationGuid, res.data)
           } else {
             setStationOpen(true)
           }
@@ -117,17 +117,15 @@ const AndonPage = () => {
       }).then((res) => {
         if(res.code === 0) {
           setEmployee(res.data)
-          if(res.code === 0) {
-            api().GetAndonFault({
-              AndonItemGuid: curAndonRecord.AndonItemGuid,
-            }).then((res) => {
-              if(res.code === 0) {
-                setFaultOptions(res.data)
-                setCurFaultOption(null)
-                setFaultOpen(true)
-              }
-            })
-          }
+          api().GetAndonFault({
+            AndonItemGuid: curAndonRecord.AndonItemGuid,
+          }).then((res) => {
+            if(res.code === 0) {
+              setFaultOptions(res.data)
+              setCurFaultOption(null)
+              setFaultOpen(true)
+            }
+          })
         }
       })
     } else if(opType === 3) {
@@ -144,20 +142,19 @@ const AndonPage = () => {
     }
   }
 
-  const onStationConfirm = (stationGuid) => {
-    if(opType === 0) {
-      setStationOpen(false)
-      api().AndonTrigger({
-        AndonItemGuid: curAndonTriggor.AndonItemGuid,
-        EmployeeGuid: employee.EmployeeGuid,
-        EmployeeName: employee.EmployeeName,
-        WorkstationGuid: stationGuid,
-      }).then((res) => {
-        if(res.code === 0) {
-          getAndon()
-        }
-      })
-    }
+  const onStationConfirm = (stationGuid, realtimeemployee) => {
+    realtimeemployee = realtimeemployee || employee
+    setStationOpen(false)
+    api().AndonTrigger({
+      AndonItemGuid: curAndonTriggor.AndonItemGuid,
+      EmployeeGuid: realtimeemployee.EmployeeGuid,
+      EmployeeName: realtimeemployee.EmployeeName,
+      WorkstationGuid: stationGuid,
+    }).then((res) => {
+      if(res.code === 0) {
+        getAndon()
+      }
+    })
   }
 
   const onOperationAndon = (andon) => {

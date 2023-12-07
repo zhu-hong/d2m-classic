@@ -244,7 +244,6 @@ const MachinePage = () => {
                 :
                 null
               }
-              <Button variant="outlined">切换</Button>
             </Box>
             {
               equipmentInfo === null
@@ -305,7 +304,7 @@ const MachinePage = () => {
             :
             equipmentInfo.Equipments.map((e) => {
               return <Grid item xs={3} key={e.EquipmentGuid} onClick={() => onClickEquipment(e)}>
-                <Paper className="px-24px py-21px">
+                <Paper className="px-24px py-21px cursor-pointer">
                   <Box className='flex justify-between items-center mb-9px'>
                     <Box>
                       <Box className='text-xl text-[#000C25] mb-8px'>{e.EquipmentName}</Box>

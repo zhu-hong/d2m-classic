@@ -42,14 +42,14 @@ const OperatePage = () => {
             </Box>
           </Button>
         </Link>
-        <Link to='/op/log'>
+        {/* <Link to='/op/log'>
           <Button variant={location.pathname==='/op/log'?'contained':''} className="w-80px h-96px">
             <Box className='flex flex-col justify-center items-center text-white text-lg font-medium'>
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#FFF" fillRule="nonzero" d="M20.095 2c1.558 0 2.812 1.259 2.9 2.825L23 5v8.683a6 6 0 0 1-8.322 8.314L14.62 22H3.905c-1.558 0-2.812-1.259-2.9-2.825L1 19V5c0-1.587 1.199-2.903 2.733-2.995L3.905 2h16.19M18 13a4 4 0 1 0 0 8 4 4 0 0 0 0-8m2.095-9H3.905c-.454 0-.845.377-.899.881L3 5v14c0 .523.359.937.801.993l.104.007 8.898.001a6 6 0 0 1 8.198-8.198L21 5c0-.523-.359-.937-.801-.993L20.095 4M19 14v2h2v2h-4v-4zM9 15v2H5v-2zm2-4v2H5v-2zm4-4v2H5V7z"/></svg>
               <span className="mt-4px">日志</span>
             </Box>
           </Button>
-        </Link>
+        </Link> */}
         <Box sx={{flex:'auto'}}></Box>
         <Link to='/op/andon'>
           <Button variant={location.pathname==='/op/andon'?'contained':''} className="w-80px h-96px">
