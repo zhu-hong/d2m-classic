@@ -2,15 +2,17 @@ import { Footer } from "@/components/footer.jsx"
 import { Header } from "@/components/header.jsx"
 import { Box, Button } from "@mui/material"
 import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom"
 import { Outlet } from "react-router-dom"
 
 const OperatePage = () => {
   const location = useLocation()
+  const navigate = useNavigate()
 
   return <Box component='main' className='h-full flex flex-col'>
     <Header actions={[
-      <Button key='action-quit' className="w-64px h-64px">
+      <Button key='action-quit' className="w-64px h-64px" onClick={() => navigate('/')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M4 1.333A2.657 2.657 0 0 0 1.333 4v24A2.657 2.657 0 0 0 4 30.667h12A2.657 2.657 0 0 0 18.667 28v-8H16v8H4V4h12v8h2.667V4A2.657 2.657 0 0 0 16 1.333Zm20 9.334v4H9.333v2.666H24v4L30.667 16 24 10.667" /></svg>
       </Button>
     ]} />

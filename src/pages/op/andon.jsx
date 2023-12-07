@@ -116,16 +116,18 @@ const AndonPage = () => {
         Code: jobNum,
       }).then((res) => {
         if(res.code === 0) {
-          api().GetAndonFault({
-            AndonItemGuid: curAndonRecord.AndonItemGuid,
-          }).then((res) => {
-            if(res.code === 0) {
-              setEmployee(res.data)
-              setFaultOptions(res.data)
-              setCurFaultOption(null)
-              setFaultOpen(true)
-            }
-          })
+          setEmployee(res.data)
+          if(res.code === 0) {
+            api().GetAndonFault({
+              AndonItemGuid: curAndonRecord.AndonItemGuid,
+            }).then((res) => {
+              if(res.code === 0) {
+                setFaultOptions(res.data)
+                setCurFaultOption(null)
+                setFaultOpen(true)
+              }
+            })
+          }
         }
       })
     } else if(opType === 3) {
@@ -162,9 +164,9 @@ const AndonPage = () => {
     setCurAndonRecord(andon)
     if(andon.State === '待处理') {
       setOpType(1)
-    } else if(andon.State === '待关闭') {
+    } else if(andon.State === '处理中') {
       setOpType(2)
-    } else if(andon.State === '待确认') {
+    } else if(andon.State === '关闭中') {
       setOpType(3)
     }
     setJobNumOpen(true)
@@ -174,8 +176,8 @@ const AndonPage = () => {
     setIsStopOpen(false)
     api().AndonResponse({
       AndonGuid: curAndonRecord.AndonGuid,
-      EmployeeGuid: res.data.EmployeeGuid,
-      EmployeeName: res.data.EmployeeName,
+      EmployeeGuid: employee.EmployeeGuid,
+      EmployeeName: employee.EmployeeName,
       IsStop: isstop,
     }).then(() => getAndon())
   }
@@ -273,15 +275,15 @@ const AndonPage = () => {
                     ?
                     <ButtonBase className="w-80px h-32px text-lg" sx={{backgroundColor:'#fcdada',color:'#f04848'}}>待处理</ButtonBase>
                     :
-                    s.State === '待关闭'
+                    s.State === '处理中'
                     ?
                     <ButtonBase className="w-80px h-32px text-lg" sx={{backgroundColor:'#F5E7C7',color:'#FF9900'}}>待关闭</ButtonBase>
                     :
-                    s.State === '已完结'
+                    s.State === '关闭中'
                     ?
-                    <ButtonBase className="w-80px h-32px text-lg" sx={{backgroundColor:'#CDE6E3',color:'#058373'}}>已完结</ButtonBase>
-                    :
                     <ButtonBase className="w-80px h-32px text-lg" sx={{backgroundColor:'#D1DDFA',color:'#4D69FF'}}>待确认</ButtonBase>
+                    :
+                    <ButtonBase className="w-80px h-32px text-lg" sx={{backgroundColor:'#CDE6E3',color:'#058373'}}>已完结</ButtonBase>
                   }
                 </Box>
                 <Box sx={{width:'10%'}}>
@@ -307,7 +309,7 @@ const AndonPage = () => {
                       </Dialog>
                     </>
                     :
-                    s.State === '待关闭'
+                    s.State === '处理中'
                     ?
                     <>
                       <Button onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">关闭</span></Button>
@@ -333,10 +335,8 @@ const AndonPage = () => {
                       </Dialog>
                     </>
                     :
-                    s.State === '已完结'
+                    s.State === '关闭中'
                     ?
-                    <>-</>
-                    :
                     <>
                       <Button onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">确认</span></Button>
 
@@ -355,6 +355,8 @@ const AndonPage = () => {
                         </DialogActions>
                       </Dialog>
                     </>
+                    :
+                    <>-</>
                   }
                 </Box>
               </Box>
@@ -377,7 +379,7 @@ const AndonPage = () => {
         </div>
         :
         andonItems.map((a, i) => {
-          return <ColorButton onClick={() => applyTriggor(a)} key={a.AndonItemGuid} ccolor='#058373' sx={{height:'72px',marginLeft:(i===andonItems.length-1)?'auto':undefined}}>
+          return <ColorButton onClick={() => applyTriggor(a)} key={a.AndonItemGuid} ccolor='#058373' sx={{height:'72px',marginLeft:(i===0)?'auto':undefined}}>
             {a.AndonItem}
           </ColorButton>
         })

@@ -97,10 +97,20 @@ const SetupPage = () => {
 
   return <Box component='main' className='h-full flex flex-col'>
     <Header actions={[
-      <Button key='action-mini' className="w-64px h-64px">
+      <Button onClick={async () => {
+        if(cefSharp) {
+          await cefSharp.bindObjectAsync("hostWindow");
+          hostWindow.minimize();
+        }
+      }} key='action-mini' className="w-64px h-64px">
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="4"><path fill="#FFF" fillRule="evenodd" d="M.667.667v2.666h26.666V.667H.667Z"/></svg>
       </Button>,
-      <Button key='action-close' className="w-64px h-64px" variant="contained">
+      <Button onClick={async () => {
+        if(cefSharp) {
+          await cefSharp.bindObjectAsync("host");
+          host.exit();
+        }
+      }} key='action-close' className="w-64px h-64px" variant="contained">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0Z"/><path fill="#FFF" fillRule="nonzero" d="M9.068 4.53a1.333 1.333 0 0 1-.266 1.867A11.978 11.978 0 0 0 4 16c0 6.627 5.373 12 12 12s12-5.373 12-12c0-3.823-1.799-7.345-4.798-9.6a1.333 1.333 0 1 1 1.602-2.131A14.644 14.644 0 0 1 30.667 16c0 8.1-6.567 14.667-14.667 14.667S1.333 24.1 1.333 16c0-4.673 2.202-8.983 5.868-11.735a1.333 1.333 0 0 1 1.867.265m7.265-3.197a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1h-.666a1 1 0 0 1-1-1V2.333a1 1 0 0 1 1-1h.666Z"/></g></svg>
       </Button>,
     ]} />

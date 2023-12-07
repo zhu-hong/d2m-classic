@@ -7,7 +7,11 @@ export function createApi(serveUrl) {
   })
   ins.interceptors.response.use(
     (res) => {
+      console.log()
       if(res.data.code !== 0) {
+        if(res.request.responseURL.includes('AndonResponseValidate') && res.data.code === 2) {
+          return res.data  
+        }
         enqueueSnackbar(res.data.msg, {
           variant: 'error',
         })

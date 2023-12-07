@@ -27,9 +27,12 @@ const ProcessPage = () => {
    */
   const [stationMode, setStationMode] = useState(0)
 
+  const [isStart, setIsStart] = useState(false)
+
+  const [reportOpen, setReportOpen] = useState(false)
+
   const [isNoTask, setIsNoTask] = useState(false)
 
-  const processReportRef = useRef()
   const attendanceDialogRef = useRef()
 
   const [defaultDoc, setDefaultDoc] = useState(null)
@@ -37,6 +40,10 @@ const ProcessPage = () => {
   const api = useApi(config.serveUrl)
 
   useEffect(() => {
+    initTask()
+  }, [])
+
+  const initTask = () => {
     api().GetWorkcenterProductionInformation({
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
       MachineGuid: config.MachineGuid,
@@ -58,7 +65,7 @@ const ProcessPage = () => {
       })
       setIsNoTask(true)
     })
-  }, [])
+  }
 
   useEffect(() => {
     if(taskInfo === null) return
@@ -72,18 +79,35 @@ const ProcessPage = () => {
       MachineGuid: config.MachineGuid,
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
     }).then((res) => {
-      setTaskInfo(res.data)
+      if(res.code === 0) {
+        const stations = res.data.Workstations
+        if(config.terminalType === 1) {
+          // 工位级
+          const target = stations.find((s) => s.WorkstationGuid === config.terminalInfo.WorkstationGuid)
+          if(target !== undefined) {
+            setIsStart(target.State === '生产中')
+          }
+        } else {
+          const target = stations[0]
+          if(target !== undefined) {
+            setIsStart(target.State === '生产中')
+          }
+        }
+        setTaskInfo(res.data)
+      }
     })
   }
 
   const getDefaultDoc = () => {
-    api().GetDefaultDocumentContent({
-      ProdstdaGuid: taskInfo.prodstdaGuid,
-      ProductGuid: taskInfo.productCode,
-      ProductVersion: taskInfo.productVersion,
-    }).then((res) => {
-      setDefaultDoc(res.data)
-    }).catch(() => enqueueSnackbar('文档获取失败', { variant: 'error' } ))
+    // api().GetDefaultDocumentContent({
+    //   ProdstdaGuid: taskInfo.ProdstdaGuid,
+    //   ProductGuid: taskInfo.ProductCode,
+    //   ProductVersion: taskInfo.ProductVersion,
+    // }).then((res) => {
+    //   if(res.code === 0) {
+    //     setDefaultDoc(res.data)
+    //   }
+    // })
   }
 
   const onCloseTask = () => {
@@ -92,7 +116,7 @@ const ProcessPage = () => {
       TaskGuid: taskId,
     }).then((res) => {
       if(res.code === 0) {
-        getTaskInfo()
+        initTask()
       }
     })
   }
@@ -117,11 +141,9 @@ const ProcessPage = () => {
       TaskGuid: taskId,
     }).then((res) => {
       if(res.code === 0) {
-        getTaskInfo()
-      } else {
-        enqueueSnackbar('任务关闭失败', { variant: 'error' })
+        getTaskInfo(taskId)
       }
-    }).catch(() => enqueueSnackbar('任务关闭失败', { variant: 'error' }))
+    })
   }
 
   /**
@@ -131,7 +153,7 @@ const ProcessPage = () => {
     if(config.terminalType === 1) {
       validationStartProcess(config.terminalInfo.WorkstationGuid)
     } else {
-      setStationMode(1)
+      setStationMode(0)
       setOpenStations(true)
     }
   }
@@ -171,6 +193,7 @@ const ProcessPage = () => {
   }
 
   const stationConfirm = (WorkstationGuid) => {
+    setOpenStations(false)
     if(stationMode === 0) {
       validationStartProcess(WorkstationGuid)
     } else {
@@ -355,27 +378,44 @@ const ProcessPage = () => {
                   null
                 }
               </>
-              <>
-                <ColorButton ccolor="#16AC99" onClick={() => processReportRef.current.open()}>
-                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M16 4c7.732 0 14 6.268 14 14s-6.268 14-14 14S2 25.732 2 18 8.268 4 16 4m0 2.667C9.74 6.667 4.667 11.74 4.667 18c0 6.26 5.074 11.333 11.333 11.333 6.26 0 11.333-5.074 11.333-11.333 0-6.26-5.074-11.333-11.333-11.333M17.333 10v9.333h-2.666V10zm9.724-5.495 2.829 2.828L28 9.22l-2.828-2.828zM10.667 0h10.666v2.667H10.667Z"/></svg>
-                  <span className="ml-8px">报工</span>
-                </ColorButton>
+              {
+                isStart
+                ?
+                <>
+                  <ColorButton ccolor="#16AC99" onClick={() => setReportOpen(true)}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M16 4c7.732 0 14 6.268 14 14s-6.268 14-14 14S2 25.732 2 18 8.268 4 16 4m0 2.667C9.74 6.667 4.667 11.74 4.667 18c0 6.26 5.074 11.333 11.333 11.333 6.26 0 11.333-5.074 11.333-11.333 0-6.26-5.074-11.333-11.333-11.333M17.333 10v9.333h-2.666V10zm9.724-5.495 2.829 2.828L28 9.22l-2.828-2.828zM10.667 0h10.666v2.667H10.667Z"/></svg>
+                    <span className="ml-8px">报工</span>
+                  </ColorButton>
 
-                <ProcessReport ref={processReportRef} />
-              </>
-              <ColorButton ccolor="#058373" onClick={applyStopProcess}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M16 1.333C24.1 1.333 30.667 7.9 30.667 16S24.1 30.667 16 30.667 1.333 24.1 1.333 16 7.9 1.333 16 1.333M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4m-1.719 6.335v12h-3.428v-12zm6.857 0v12H17.71v-12z"/></svg>
-                <span className="ml-8px">暂停</span>
-              </ColorButton>
-              <ColorButton ccolor="#058373" onClick={applyStartProcess}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M16 1.333C24.1 1.333 30.667 7.9 30.667 16S24.1 30.667 16 30.667 1.333 24.1 1.333 16 7.9 1.333 16 1.333M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4m-2.667 6 8 6-8 6z"/></svg>
-                <span className="ml-8px">启动</span>
-              </ColorButton>
+                  {
+                    reportOpen
+                    ?
+                    <ProcessReport open={reportOpen} onClose={() => setReportOpen(false)} task={taskInfo} />
+                    :
+                    null
+                  }
+                </>
+                :
+                null
+              }
+              {
+                isStart
+                ?
+                <ColorButton ccolor="#058373" onClick={applyStopProcess}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M16 1.333C24.1 1.333 30.667 7.9 30.667 16S24.1 30.667 16 30.667 1.333 24.1 1.333 16 7.9 1.333 16 1.333M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4m-1.719 6.335v12h-3.428v-12zm6.857 0v12H17.71v-12z"/></svg>
+                  <span className="ml-8px">暂停</span>
+                </ColorButton>
+                :
+                <ColorButton ccolor="#058373" onClick={applyStartProcess}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M16 1.333C24.1 1.333 30.667 7.9 30.667 16S24.1 30.667 16 30.667 1.333 24.1 1.333 16 7.9 1.333 16 1.333M16 4C9.373 4 4 9.373 4 16s5.373 12 12 12 12-5.373 12-12S22.627 4 16 4m-2.667 6 8 6-8 6z"/></svg>
+                  <span className="ml-8px">启动</span>
+                </ColorButton>
+              }
 
               {
                 openStations
                 ?
-                <StationsDialog onClose={() => setOpenStations(false)} open={openStations} onConfirm={stationConfirm} stations={taskInfo.workstations} />
+                <StationsDialog onClose={() => setOpenStations(false)} open={openStations} onConfirm={stationConfirm} stations={taskInfo.Workstations} />
                 :
                 null
               }
