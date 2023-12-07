@@ -12,7 +12,7 @@ import { useState } from 'react'
 import { JobNumDialog } from './jobNumDialog.jsx'
 import { enqueueSnackbar } from 'notistack'
 
-export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
+export const AttendanceDialog = forwardRef(({ workcenter, onConfirm }, ref) => {
   const { config } = useConfigStore()
   
   const [open, setOpen] = useState(false)
@@ -65,6 +65,7 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
       if(res.code === 0) {
         enqueueSnackbar('统一签退成功', { variant: 'success' })
         getUsers()
+        onConfirm()
       }
     })
   }
@@ -79,6 +80,7 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
       if(res.code === 0) {
         enqueueSnackbar('签到成功', { variant: 'success' })
         getUsers()
+        onConfirm()
       }
     })
   }
@@ -93,6 +95,7 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
       if(res.code === 0) {
         enqueueSnackbar('签退成功', { variant: 'success' })
         getUsers()
+        onConfirm()
       }
     })
   }
@@ -126,11 +129,17 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
       <IconButton onClick={() => setOpen(false)}><Close/></IconButton>
     </DialogTitle>
     <DialogContent className='w-916px'>
-      <Box className='flex mt-24px mb-16px'>
-        <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{workcenter.ShiftName}</Box>
-        <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{workcenter.ShiftStartTime}～{workcenter.ShiftEndTime}</Box>
-        <Box className='text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{workcenter.Amount}人</Box>
-      </Box>
+      {
+        workcenter.ShiftName === ''
+        ?
+        <Box className='flex-none text-[#000C25] text-xl font-medium my-4'><span className="text-[#646A73]">暂无班次</span></Box>
+        :
+        <Box className='flex mt-24px mb-16px'>
+          <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{workcenter.ShiftName}</Box>
+          <Box className='mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{workcenter.ShiftStartTime}～{workcenter.ShiftEndTime}</Box>
+          <Box className='text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{workcenter.Amount}人</Box>
+        </Box>
+      }
       <Button variant='contained' size='large' onClick={() => {
         setLogMode(0)
         setJobNumOpen(true)
@@ -149,6 +158,10 @@ export const AttendanceDialog = forwardRef(({ workcenter }, ref) => {
               <IconButton onClick={(e) => onClockDir(e, -1)} className='flex-none' color='secondary'><ArrowBackIosNew /></IconButton>
               <Box className='flex-auto mx-16px w-full overflow-x-auto flex -mr-16px'>
                 {
+                  u.Employees.length === 0
+                  ?
+                  <div className='w-full text-center'>暂无数据</div>
+                  :
                   u.Employees.map((e) => {
                     return <Paper key={e.EmployeeCode} className='flex-none mr-16px flex justify-between items-center p-16px w-220px'>
                       <img src={e.EmployeePicture} className='w-64px h-64px flex-none rounded-full object-cover border border-[#058373]' />

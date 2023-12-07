@@ -56,14 +56,33 @@ export const Docs = ({ open, onClose, task }) => {
     docApi().GetDocumentContent({
       FileKey: doc.FileKey,
     }).then((res) => {
-      // const fr = new FileReader()
-      // fr.readAsDataURL(res)
-      // fr.addEventListener('load', (e) => {
-      //   const pdf = pdfjs.getDocument({ data: e.target.result })
-      //   pdf.promise.then((pdf) => {
-      //     console.log(pdf)
-      //   })
-      // })
+      const fr = new FileReader()
+      fr.readAsDataURL(res)
+      fr.addEventListener('load', (e) => {
+        const pdfpage = pdfjsLib.getDocument(URL.createObjectURL(res))
+        // pdfpage.promise.then((pdf) => {
+        //   pdf.getPage(1).then((page) => {
+        //     const scale = 1.5
+        //     const viewport = page.getViewport({scale})
+      
+        //     // Prepare canvas using PDF page dimensions
+        //     const canvas = document.getElementById('pdfcanvas')
+        //     const context = canvas.getContext('2d')
+        //     canvas.height = viewport.height
+        //     canvas.width = viewport.width
+      
+        //     // Render PDF page into canvas context
+        //     const renderContext = {
+        //       canvasContext: context,
+        //       viewport: viewport
+        //     }
+        //     const renderTask = page.render(renderContext)
+        //     renderTask.promise.then(() => {
+        //       console.log('Page rendered')
+        //     })
+        //   })
+        // })
+      })
       setCurDoc({
         ...doc,
         data: res,
@@ -82,9 +101,7 @@ export const Docs = ({ open, onClose, task }) => {
       ?
       <DialogContent className='w-840px text-right'>
         <Box className='mt-24px h-564px border border-[#CECECE] flex flex-col'>
-          <Box className='flex justify-between items-center px-22px py-12px border-b border-[#CECECE]'>
-            <span>{curDoc.DocumentName}</span>
-          </Box>
+          <Box className='flex items-center px-22px py-12px border-b border-[#CECECE]'>{curDoc.DocumentName}</Box>
         </Box>
         <Button color="info" variant="contained" className="w-136px h-56px" size="large" sx={{marginTop:'24px'}} onClick={() => setPreviewIng(false)}><span className="text-2xl">退出</span></Button>
       </DialogContent>

@@ -47,8 +47,6 @@ const TaskPage = () => {
   }
 
   const onAttendance = () => {
-    if(centerInfo.ShiftName === '') return
-
     attendanceDialogRef.current.open()
   }
 
@@ -114,7 +112,7 @@ const TaskPage = () => {
             }
           </Paper>
 
-          <AttendanceDialog ref={attendanceDialogRef} workcenter={centerInfo} />
+          <AttendanceDialog ref={attendanceDialogRef} workcenter={centerInfo} onConfirm={getCenterInfo} />
           
           {
             openVerify
@@ -305,7 +303,7 @@ const TaskPage = () => {
                   <span className="text-lg">序号：</span>
                   <span className="text-xl">{index+1}</span>
                   <Box className='flex-auto'></Box>
-                  {
+                  {/* {
                     centerInfo.Tasks.length <= 1
                     ?
                     null
@@ -316,10 +314,17 @@ const TaskPage = () => {
                         ?
                         <Button size="small" color="primary" variant="text">后移<ArrowForwardIos fontSize="24" /></Button>
                         :
+                        index === (centerInfo.Tasks.length - 1)
+                        ?
                         <Button size="small" color="primary" variant="text"><ArrowBackIosNew fontSize="24" />前移</Button>
+                        :
+                        <>
+                          <Button size="small" color="primary" variant="text"><ArrowBackIosNew fontSize="24" />前移</Button>
+                          <Button size="small" color="primary" variant="text">后移<ArrowForwardIos fontSize="24" /></Button>
+                        </>
                       }
                     </>
-                  }
+                  } */}
                 </Box>
                 <Divider />
                 <Box className='p-12px'>
