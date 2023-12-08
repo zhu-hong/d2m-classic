@@ -305,7 +305,7 @@ const ProcessPage = () => {
           <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{centerInfo.Amount}人</Box>
         </Box>
 
-        <AttendanceDialog ref={attendanceDialogRef} workcenter={centerInfo} />
+        <AttendanceDialog ref={attendanceDialogRef} workcenter={centerInfo} onConfirm={initTask} />
       </>
     }
     {
@@ -350,7 +350,7 @@ const ProcessPage = () => {
                 </Box>
                 <Box className='flex text-28px font-bold mb-16px text-[#000c25]'>
                   <span className="flex-1">{dayjs(taskInfo.PlanStartTime).format('HH:mm')} <span className="text-xl">{dayjs(taskInfo.PlanStartTime).format('MM/DD')}</span></span>
-                  <span className="flex-1">{dayjs(taskInfo.PlanStartTime).format('HH:mm')} <span className="text-xl">{dayjs(taskInfo.PlanEndTime).format('MM/DD')}</span></span>
+                  <span className="flex-1">{dayjs(taskInfo.PlanEndTime).format('HH:mm')} <span className="text-xl">{dayjs(taskInfo.PlanEndTime).format('MM/DD')}</span></span>
                 </Box>
                 <Box className='flex text-lg mb-8px text-[#646A73]'>
                   <span className="flex-1">合格数量</span>
