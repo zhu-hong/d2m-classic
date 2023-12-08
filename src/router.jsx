@@ -7,7 +7,7 @@ const ChooseToWorkPageLazy = lazy(() => import('./pages/chooseWork.jsx'))
 const OperatePageLazy = lazy(() => import('./pages/op/index.jsx'))
 const TaskPageLazy = lazy(() => import('./pages/op/task.jsx'))
 const ProcessPageLazy = lazy(() => import('./pages/op/process.jsx'))
-const LogPageLazy = lazy(() => import('./pages/op/log.jsx'))
+// const LogPageLazy = lazy(() => import('./pages/op/log.jsx'))
 const MachinePageLazy = lazy(() => import('./pages/op/machine.jsx'))
 const AndonPageLazy = lazy(() => import('./pages/op/andon.jsx'))
 
@@ -38,10 +38,10 @@ export default createHashRouter([
         path: 'machine',
         element: withLazy(<MachinePageLazy />),
       },
-      {
-        path: 'log',
-        element: withLazy(<LogPageLazy />),
-      },
+      // {
+      //   path: 'log',
+      //   element: withLazy(<LogPageLazy />),
+      // },
       {
         path: 'andon',
         element:  withLazy(<AndonPageLazy />),
