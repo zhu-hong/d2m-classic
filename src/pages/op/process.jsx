@@ -130,6 +130,8 @@ const ProcessPage = () => {
       }
       const bloburl = URL.createObjectURL(res)
       setBlobUrl(bloburl)
+
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs.worker.mjs'
       const loadingTask = window.pdfjsLib.getDocument(bloburl)
       loadingTask.promise.then(async (pdf) => {
         for (let index = 1; index <= pdf.numPages; index++) {

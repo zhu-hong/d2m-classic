@@ -78,7 +78,8 @@ export const Docs = ({ open, onClose, task }) => {
       setCurDoc(doc)
       setRenderDoc(true)
       setPreviewIng(true)
-      
+
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs.worker.mjs'
       const loadingTask = window.pdfjsLib.getDocument(bloburl)
       loadingTask.promise.then(async (pdf) => {
         for (let index = 1; index <= pdf.numPages; index++) {

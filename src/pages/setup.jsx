@@ -15,6 +15,7 @@ import { useRef } from 'react'
 import { useState } from 'react'
 import { useApi } from '@/hook.js'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const SetupPage = () => {
   const { config, setConfig, setWorkcenters, setWorkstations } = useConfigStore()
@@ -84,6 +85,13 @@ const SetupPage = () => {
       variant: 'success',
     })
   }
+
+  useEffect(() => {
+    const setup = document.getElementById('setup')
+    if(setup !== null) {
+      setup.remove()
+    }
+  }, [])
 
   return <Box component='main' className='h-full flex flex-col'>
     <Header actions={[
