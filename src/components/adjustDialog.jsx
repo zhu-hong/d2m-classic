@@ -3,6 +3,7 @@ import { useConfigStore } from "@/store.jsx"
 import { Close } from "@mui/icons-material"
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, Input } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
+import machineError from '../assets/machine.png?url'
 
 export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
   const { config } = useConfigStore()
@@ -27,7 +28,7 @@ export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
     </DialogTitle>
     <DialogContent className="w-632px">
       <div className="flex items-center mt-24px">
-        <img src={equipment.EquipmentPicture} className="w-88px h-60px object-cover flex-none" />
+        <img src={equipment.EquipmentPicture||machineError} className="w-88px h-60px object-cover flex-none" />
         <div className="ml-21px flex-auto">
           <div className="flex justify-between items-center text-lg text-[#000C25]">
             <p>{equipment.EquipmentCode}/{equipment.EquipmentName}</p>
