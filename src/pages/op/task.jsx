@@ -26,7 +26,7 @@ const TaskPage = () => {
 
     const t = setInterval(() => {
       getCenterInfo()
-    }, 5000)
+    }, 3000)
 
     return () => clearInterval(t)
   }, [])

@@ -21,10 +21,8 @@ const SetupPage = () => {
   const configDialogRef = useRef()
 
   const [btnLoading, setBtnLoading] = useState(false)
-  const [direct, setDirect] = useState(true)
 
   const openConfig = () => {
-    setDirect(false)
     configDialogRef.current.open()
   }
 
@@ -33,7 +31,6 @@ const SetupPage = () => {
 
   const onEnterSystem = () => {
     if(!validationConfig()) {
-      setDirect(true)
       configDialogRef.current.open()
       return
     }
@@ -72,14 +69,8 @@ const SetupPage = () => {
   }
 
   const validationConfig = () => {
-    if(config.WorkshopGuid === '') {
-      enqueueSnackbar('请配置区域', {
-        variant: 'warning',
-      })
-      return false
-    }
-    if(config.MachineGuid === '') {
-      enqueueSnackbar('请配置一体机', {
+    if(config.serveUrl === ''||config.WorkshopGuid === ''||config.MachineGuid === '') {
+      enqueueSnackbar('请先完成系统配置', {
         variant: 'warning',
       })
       return false
@@ -89,9 +80,6 @@ const SetupPage = () => {
 
   const onConfirmSuccess = (config) => {
     setConfig(config)
-    if(direct) {
-      onEnterSystem()
-    }
     enqueueSnackbar('配置成功', {
       variant: 'success',
     })

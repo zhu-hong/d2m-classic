@@ -49,7 +49,7 @@ const ProcessPage = () => {
   useEffect(() => {
     initTask()
 
-    const t = setInterval(() => initTask(), 5000)
+    const t = setInterval(() => initTask(), 3000)
 
     return () => {
       if(blobUrl !== '') {
@@ -71,7 +71,6 @@ const ProcessPage = () => {
         if(target !== undefined) {
           getTaskInfo(target.TaskGuid)
           setIsNoTask(false)
-          setTaskId(target.TaskGuid)
         } else {
           setIsNoTask(true)
           setTaskId('')
@@ -81,10 +80,10 @@ const ProcessPage = () => {
   }
 
   useEffect(() => {
-    if(taskInfo === null) return
+    if(taskId==='') return
 
     getDefaultDoc()
-  }, [taskInfo.TaskGuid])
+  }, [taskId])
 
   const getTaskInfo = (TaskGuid) => {
     api().GetTaskInformation({
@@ -107,6 +106,7 @@ const ProcessPage = () => {
           }
         }
         setTaskInfo(res.data)
+        setTaskId(res.data.TaskGuid)
       }
     })
   }
