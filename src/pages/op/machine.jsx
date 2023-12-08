@@ -8,6 +8,7 @@ import { useEffect } from "react"
 import { useApi } from "@/hook.js"
 import equipmentEmpty from '../../assets/equipment-empty.png?url'
 import machineError from '../../assets/machine.png?url'
+import { useNavigate } from "react-router-dom"
 
 const MachinePage = () => {
   const { config, workcenters, workstations } = useConfigStore()
@@ -20,6 +21,7 @@ const MachinePage = () => {
   const [checkOpen, setCheckOpen] = useState(false)
 
   const api = useApi(config.serveUrl)
+  const navigate = useNavigate()
 
   useEffect(() => {
     api().GetEquipment({
