@@ -63,11 +63,11 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
         </Box>
       </Box>
       <Box className='mt-24px flex justify-center items-center'>
-        <Box className='text-[#646A73] text-lg mr-24px'>报工人员：</Box>
+        <Box className='w-100px text-right text-[#646A73] text-lg mr-24px'>报工人员：</Box>
         <OutlinedInput readOnly size='small' className='w-494px' value={validateInfo.EmployeeName} />
       </Box>
       <Box className='mt-24px flex justify-center items-center'>
-        <Box className='text-[#646A73] text-lg mr-24px'>所在工位：</Box>
+        <Box className='w-100px text-right text-[#646A73] text-lg mr-24px'>所在工位：</Box>
         <Select size='small' className='w-494px' value={stationId} onChange={(e) => setStationId(e.target.value)}>
           {
             validateInfo.Workstations.map((w) => <MenuItem key={w.WorkstationGuid} value={w.WorkstationGuid}>{w.WorkstationName}</MenuItem>)
@@ -75,14 +75,14 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
         </Select>
       </Box>
       <Box className='mt-24px flex justify-center items-center'>
-        <Box className='text-[#646A73] text-lg mr-24px'>当前班次：</Box>
+        <Box className='w-100px text-right text-[#646A73] text-lg mr-24px'>当前班次：</Box>
         <OutlinedInput readOnly size='small' className='w-494px' value={validateInfo.ShiftName} />
       </Box>
       <Box className='mt-24px flex text-[#646A73] text-lg justify-center items-center'>
-        <Box>合格数：</Box>
-        <TextField value={pass} onChange={(e) => setPass(Number(e.target.value))} size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
-        <Box className='ml-24px'>不合格数：</Box>
-        <TextField value={noPass} onChange={(e) => setNoPass(Number(e.target.value))} size='small' className='w-136px' type="number" inputProps={{ min: 0 }} />
+        <Box className='w-100px text-right mr-24px'>合格数：</Box>
+        <TextField value={pass} onChange={(e) => setPass(Number(e.target.value))} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
+        <Box className='ml-36px'>不合格数：</Box>
+        <TextField value={noPass} onChange={(e) => setNoPass(Number(e.target.value))} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
       </Box>
     </DialogContent>
       <DialogActions style={{justifyContent:'center'}}>
