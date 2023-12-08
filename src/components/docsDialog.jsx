@@ -118,8 +118,17 @@ export const Docs = ({ open, onClose, task }) => {
       ?
       <DialogContent className='w-840px text-right'>
         <Box className='mt-24px border border-[#CECECE] flex flex-col'>
-          <Box className='flex items-center px-22px py-12px border-b border-[#CECECE]'>{curDoc.DocumentName}</Box>
-          <div className="h-500px overflow-auto flex flex-col items-center justify-start py-4 children:w-full" ref={pdfContainer}>
+          <Box className='flex items-center px-22px py-12px border-b border-[#CECECE] justify-between'>
+            <span>{curDoc.DocumentName}</span>
+            {
+              (previewIng && !renderDoc)
+              ?
+              <Button onClick={() => pdfContainer.current.requestFullscreen()} variant="outlined"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><g fill="#058373" fillRule="evenodd"><path d="M11 18.111H3.889V11H2.12l-.009 8.889H11V18.11M19.889 2.111H11V3.89h7.111V11h1.769l.009-8.889Z"/></g></svg></Button>
+              :
+              null
+            }
+          </Box>
+          <div className="h-500px overflow-auto flex flex-col items-center justify-start children:w-full" ref={pdfContainer}>
             {
               renderDoc
               ?

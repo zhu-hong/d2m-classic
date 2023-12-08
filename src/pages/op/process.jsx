@@ -365,14 +365,21 @@ const ProcessPage = () => {
               </Box>
             </>
           }
-          <Box className='flex-auto overflow-auto bg-white p-16px flex flex-col'>
-            <Box className='flex justify-between items-center'>
+          <Box className='flex-auto overflow-auto bg-white p-16px flex flex-col relative'>
+            {
+              (tabType === 0 && !docLoading && !isNoDoc)
+              ?
+              <Button className="absolute! top-16px right-16px" onClick={() => pdfContainer.current.requestFullscreen()} variant="outlined"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><g fill="#058373" fillRule="evenodd"><path d="M11 18.111H3.889V11H2.12l-.009 8.889H11V18.11M19.889 2.111H11V3.89h7.111V11h1.769l.009-8.889Z"/></g></svg></Button>
+              :
+              null
+            }
+            {/* <Box className='flex justify-between items-center'>
               <ToggleButtonGroup color="primary" value={tabType} size="large" sx={{border:'1px solid #CECECE'}}>
                 <Button value={0} onClick={() => setTabType(0)} variant={tabType===0?'contained':''} className="w-120px"><span className="text-lg font-medium">操作流程</span></Button>
-                {/* <Button value={1} onClick={() => setTabType(1)} variant={tabType===1?'contained':''} className="w-120px"><span className="text-lg font-medium">物料信息</span></Button> */}
+                <Button value={1} onClick={() => setTabType(1)} variant={tabType===1?'contained':''} className="w-120px"><span className="text-lg font-medium">物料信息</span></Button>
               </ToggleButtonGroup>
               <Box className='flex-auto'></Box>
-            </Box>
+            </Box> */}
             <div className='flex-auto mt-8px overflow-auto' sx={{display:tabType===0?'block':'none'}}>
               {
                 docLoading
