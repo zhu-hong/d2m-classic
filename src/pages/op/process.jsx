@@ -3,6 +3,7 @@ import { ColorButton } from "@/components/ccolorButton.jsx";
 import { Docs } from "@/components/docsDialog.jsx";
 import { JobNumDialog } from "@/components/jobNumDialog.jsx";
 import { ProcessReport } from "@/components/processReportDialog.jsx";
+import { ScanFlow } from "@/components/scanFlow.jsx";
 import { StationsDialog } from "@/components/stationsDialog.jsx";
 import { useApi } from "@/hook.js";
 import { useConfigStore } from "@/store.jsx"
@@ -32,6 +33,8 @@ const ProcessPage = () => {
   const [reportOpen, setReportOpen] = useState(false)
 
   const [isNoTask, setIsNoTask] = useState(false)
+
+  const [scanOpen, setScanOpen] = useState(false)
 
   const attendanceDialogRef = useRef()
 
@@ -176,9 +179,6 @@ const ProcessPage = () => {
     })
   }
 
-  /**
-   * @todo
-   */
   const applyStopProcess = () => {
     if(config.terminalType === 1) {
       stopProcess(config.terminalInfo.WorkstationGuid)
@@ -201,9 +201,6 @@ const ProcessPage = () => {
     })
   }
 
-  /**
-   * @todo
-  */
   const applyStartProcess = () => {
     if(config.terminalType === 1) {
       validationStartProcess(config.terminalInfo.WorkstationGuid)
@@ -212,9 +209,6 @@ const ProcessPage = () => {
     }
   }
 
-  /**
-   * @todo
-   */
   const validationStartProcess = (WorkstationGuid) => {
     api().WorkstationStartValidate({
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,
@@ -266,10 +260,6 @@ const ProcessPage = () => {
     })
   }
 
-  const onApplyLoginout = () => {
-
-  }
-
   return <Box className='w-full h-full flex flex-col'>
     {
       centerInfo === null
@@ -296,9 +286,17 @@ const ProcessPage = () => {
             null
           }
           <Box className='flex-auto min-w-10'></Box>
-          <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{centerInfo.ShiftName}</Box>
-          <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{dayjs(centerInfo.ShiftStartTime).format('MM/DD HH:mm')} ～ {dayjs(centerInfo.ShiftEndTime).format('MM/DD HH:mm')}</Box>
-          <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{centerInfo.Amount}人</Box>
+          {
+            centerInfo.ShiftName === ''
+            ?
+              <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">暂无班次</span></Box>
+            :
+            <>
+              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">当前班次：</span>{centerInfo.ShiftName}</Box>
+              <Box className='flex-none mr-40px text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">班次时间：</span>{dayjs(centerInfo.ShiftStartTime).format('MM/DD HH:mm')} ～ {dayjs(centerInfo.ShiftEndTime).format('MM/DD HH:mm')}</Box>
+              <Box className='flex-none text-[#000C25] text-xl font-medium'><span className="text-[#646A73]">在岗人员：</span>{centerInfo.Amount}人</Box>
+            </>
+          }
         </Box>
 
         <AttendanceDialog ref={attendanceDialogRef} workcenter={centerInfo} onConfirm={initTask} />
@@ -317,15 +315,15 @@ const ProcessPage = () => {
           {
             taskInfo === null
             ?
-            <div className="w-352px h-full mr-16px">
+            <div className="w-364px h-full mr-16px">
               <Skeleton variant="rectangular" sx={{width:'100%',height:'100%'}} />
             </div>
             :
-            <Box className='w-352px bg-white mr-16px px-24px overflow-auto py-27px children:mb-16px'>
-              <Box className='text-[#000C25] font-bold text-2xl'>任务编号：{taskInfo.TaskCode}</Box>
-              <Box className='text-[#000C25] font-bold text-2xl'>产品编号：{taskInfo.ProductCode}</Box>
-              <Box className='text-[#000C25] font-bold text-2xl'>产品名称：{taskInfo.ProductName}</Box>
-              <Box className='text-[#000C25] font-bold text-2xl'>制程：{taskInfo.ProcessName}</Box>
+            <Box className='w-364px bg-white mr-16px px-24px overflow-auto py-27px children:mb-16px'>
+              <Box className='text-[#000C25] font-bold text-xl'>任务编号：{taskInfo.TaskCode}</Box>
+              <Box className='text-[#000C25] font-bold text-xl'>产品编号：{taskInfo.ProductCode}</Box>
+              <Box className='text-[#000C25] font-bold text-xl'>产品名称：{taskInfo.ProductName}</Box>
+              <Box className='text-[#000C25] font-bold text-xl'>制程：{taskInfo.ProcessName}</Box>
               <Divider />
               <Box className='bg-[#E9E9E9] w-full h-25px rounded mt-16px overflow-hidden relative children:absolute'>
                 <Box className='h-full bg-[#F04848] rounded top-0 left-0' style={{width:(taskInfo.CompletedAmount+taskInfo.UnqualifiedAmount)/taskInfo.PlanAmount*100+'%'}}></Box>
@@ -475,10 +473,14 @@ const ProcessPage = () => {
             </ColorButton>
           }
           <Box className='flex-auto mr-16px'></Box>
-          <ColorButton ccolor="#0080A4" sx={{width:'176px'}} onClick={onApplyLoginout}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0z"/><path fill="#FFF" d="M9.333 1.333V4h13.334V1.333h2.666V4H28a2.657 2.657 0 0 1 2.667 2.667V28A2.657 2.657 0 0 1 28 30.667H4A2.657 2.657 0 0 1 1.333 28V6.667A2.657 2.657 0 0 1 4 4h2.667V1.333zM28 12H4v16h24zm-12 8v2.667H6.667V20zm9.333-5.333v2.666H6.667v-2.666zm2.667-8H4v2.666h24z"/></g></svg>
-            <span className="ml-8px">签到/签退</span>
-          </ColorButton>
+          <>
+            <ColorButton ccolor="#0080A4" sx={{width:'176px'}} onClick={() => setScanOpen(true)}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><g fill="none" fillRule="evenodd"><path d="M0 0h32v32H0z"/><path fill="#FFF" d="M9.333 1.333V4h13.334V1.333h2.666V4H28a2.657 2.657 0 0 1 2.667 2.667V28A2.657 2.657 0 0 1 28 30.667H4A2.657 2.657 0 0 1 1.333 28V6.667A2.657 2.657 0 0 1 4 4h2.667V1.333zM28 12H4v16h24zm-12 8v2.667H6.667V20zm9.333-5.333v2.666H6.667v-2.666zm2.667-8H4v2.666h24z"/></g></svg>
+              <span className="ml-8px">签到/签退</span>
+            </ColorButton>
+
+            <ScanFlow open={scanOpen} onClose={() => setScanOpen(false)} />
+          </>
           {
             isNoTask
             ?

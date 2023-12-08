@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 const ChooseToWorkPage = () => {
-  const { config, setConfig, setWorkcenters, setWorkstations } = useConfigStore()
+  const { config, setConfig, setWorkcenters, setWorkstations, workstations } = useConfigStore()
   const [list, setList] = useState([])
 
   const [loading, setLoading] = useState(true)
@@ -32,12 +32,19 @@ const ChooseToWorkPage = () => {
       }
       setLoading(false)
     })
+
+    return () => {
+      if(config.terminalInfo !== null) {
+        setWorkstations(workstations.filter((w) => w.WorkcenterGuid === config.terminalInfo.WorkcenterGuid))
+      }
+    }
   }, [])
 
   const onSelect = (item) => {
     setConfig({
       terminalInfo: item,
     })
+    setWorkstations(workstations.filter((w) => w.WorkcenterGuid === item.WorkcenterGuid))
     const to = searchParams.get('to')
     if(to === null) {
       navigate(['/op','/op/process'][config.terminalType])
@@ -103,11 +110,11 @@ const ChooseToWorkPage = () => {
                       <span className='text-[#646A73]'>所属{['车间','工作中心'][config.terminalType]}：</span>
                       {[config.WorkshopName,l.WorkcenterName][config.terminalType]}
                     </Box>
-                    <Box sx={{ display: 'flex', color: '#000c25' }} className='text-xl'><span className='flex-1 text-[#646A73]'>任务数量</span><span className='flex-1 text-[#646A73]'>在岗人数</span></Box>
+                    {/* <Box sx={{ display: 'flex', color: '#000c25' }} className='text-xl'><span className='flex-1 text-[#646A73]'>任务数量</span><span className='flex-1 text-[#646A73]'>在岗人数</span></Box>
                     <Box sx={{ display: 'flex', marginBottom: '24px' }} className='text-40px leading-47px'>
                       <span className='flex-1'>90</span>
                       <span className='flex-1'>100</span>
-                    </Box>
+                    </Box> */}
                     <Button onClick={() => onSelect(l)} variant='contained' sx={{width:'100%',height:'48px'}}><span className='text-lg'>进入{['工作中心','工位'][config.terminalType]}</span></Button>
                   </Box>
                 </Paper>

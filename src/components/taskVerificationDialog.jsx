@@ -74,10 +74,7 @@ export const TaskVerification = ({ open, onClose, task }) => {
       enqueueSnackbar('验证失败，请稍后再试', { variant: 'error' })
     })
   }
-  
-  /**
-   * @todo
-   */
+
   const onEntryProcess = () => {
     api().StartTask({
       WorkcenterGuid: config.terminalInfo.WorkcenterGuid,

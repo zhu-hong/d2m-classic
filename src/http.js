@@ -196,6 +196,13 @@ export function createApi(serveUrl, config = {}) {
       return await ins.post('/PersonUnifiedLogout', paylod)
     },
     /**
+     * 判断员工是否已签到
+     * @param {{WorkstationGuid:string;Code:string;}} paylod 
+     */
+    async IsLogin(paylod) {
+      return await ins.post('/IsLogin', paylod)
+    },
+    /**
      * 获取任务信息
      * @param {{TaskGuid:string}} paylod 
      */

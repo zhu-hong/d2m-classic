@@ -24,35 +24,29 @@ import {
 import { useConfigStore } from '@/store.jsx'
 import { enqueueSnackbar } from 'notistack'
 import { useEffect } from 'react'
-import { useApi } from '@/hook.js'
+import { createApi } from '@/http.js'
 
-export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
+export const ConfigDialog = ({ onConfirmSuccess, open, onClose }) => {
   const { config } = useConfigStore()
 
-  const [configOpen, setConfigOpen] = useState(false)
   const [configTemp, setConfigTemp] = useState(JSON.parse(JSON.stringify(config)))
 
   const [workshopList, setWorkshopList] = useState([])
   const [machineList, setMachineList] = useState([])
 
-  const api = useApi(config.serveUrl)
-
-  useImperativeHandle(ref, () => {
-    return {
-      open: () => {
-        setConfigTemp(JSON.parse(JSON.stringify(config)))
-        setConfigOpen(true)
-
-        api().GetWorkshop().then((res) => {
-          setWorkshopList(res.data)
-        })
-      }
-    }
-  })
+  const [serveUrl, setServeUrl] = useState(config.serveUrl)
 
   useEffect(() => {
-    if(configTemp.WorkshopGuid) {
-      api().GetMachine({
+    if(serveUrl === '') return
+
+    createApi(serveUrl).GetWorkshop().then((res) => {
+      setWorkshopList(res.data)
+    })
+  }, [])
+
+  useEffect(() => {
+    if(configTemp.WorkshopGuid != '') {
+      createApi(serveUrl).GetMachine({
         WorkshopGuid: configTemp.WorkshopGuid,
       }).then((res) => {
         setMachineList(res.data)
@@ -63,11 +57,20 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   const setConfigTempByKey = (key, value) => {
     setConfigTemp((configTemp) => {
       if(key === 'WorkshopGuid') {
-        return {
-          ...configTemp,
-          WorkshopGuid: value,
-          WorkshopName: workshopList.find((w) => w.WorkshopGuid === value).WorkshopName,
-          MachineGuid: '',
+        if(value !== '') {
+          return {
+            ...configTemp,
+            WorkshopGuid: value,
+            WorkshopName: workshopList.find((w) => w.WorkshopGuid === value).WorkshopName,
+            MachineGuid: '',
+          }
+        } else {
+          return {
+            ...configTemp,
+            WorkshopGuid: '',
+            WorkshopName: '',
+            MachineGuid: '',
+          }
         }
       }
       return {
@@ -80,11 +83,42 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
   const onConfirm = () => {
     if(!validationConfig(true)) return
 
-    setConfigOpen(false)
-    onConfirmSuccess(configTemp)
+    onClose()
+    console.log({
+      ...configTemp,
+      serveUrl,
+    })
+    onConfirmSuccess({
+      ...configTemp,
+      serveUrl,
+    })
+  }
+
+  const onServeUrlBlur = (e) => {
+    const serveUrl = e.target.value
+
+    if(serveUrl !== config.serveUrl) {
+      setConfigTempByKey('WorkshopGuid', '')
+      setWorkshopList([])
+      setMachineList([])
+
+      if(serveUrl === '') {
+        return
+      }
+
+      createApi(serveUrl).GetWorkshop().then((res) => {
+        setWorkshopList(res.data)
+      })
+    }
   }
 
   const validationConfig = () => {
+    if(serveUrl === '') {
+      enqueueSnackbar('请配置服务器URL', {
+        variant: 'warning',
+      })
+      return false
+    }
     if(configTemp.WorkshopGuid === '') {
       enqueueSnackbar('请选择区域', {
         variant: 'warning',
@@ -100,20 +134,20 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
     return true
   }
 
-  return <Dialog open={configOpen} maxWidth='640px' onClose={() => setConfigOpen(false)}>
+  return <Dialog open={open} maxWidth='640px' onClose={() => onClose()}>
     <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
       <p>系统配置</p>
-      <IconButton onClick={() => setConfigOpen(false)}><Close/></IconButton>
+      <IconButton onClick={() => onClose()}><Close/></IconButton>
     </DialogTitle>
     <DialogContent className='w-640px'>
       <List>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px flex-none'>服务URL：</span>
-          <OutlinedInput size='small' className='w-460px' placeholder='请输入' onChange={(e) => setConfigTempByKey('serveUrl', e.target.value)} startAdornment={<InputAdornment position="start">http://</InputAdornment>} value={configTemp.serveUrl} />
+          <OutlinedInput onChange={(e) => setServeUrl(e.target.value)} onBlur={onServeUrlBlur} size='small' className='w-460px' value={serveUrl} placeholder='请输入' startAdornment={<InputAdornment position="start">http://</InputAdornment>} />
         </ListItem>
         <ListItem className='flex items-center text-lg text-[#646A73]'>
           <span className='w-100px flex-none'>区域：</span>
-          <Select value={configTemp.WorkshopGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('WorkshopGuid', e.target.value)}>
+          <Select disabled={serveUrl===''} value={configTemp.WorkshopGuid} size='small' className='w-460px' onChange={(e) => setConfigTempByKey('WorkshopGuid', e.target.value)}>
             {
               workshopList.length === 0
               ?
@@ -155,8 +189,8 @@ export const ConfigDialog = forwardRef(({ onConfirmSuccess }, ref) => {
       </List>
       <DialogActions style={{justifyContent:'center'}}>
         <Button className="w-144px h-56px" variant="contained" onClick={onConfirm}><span className="text-2xl text-white">确认</span></Button>
-        <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={() => setConfigOpen(false)}><span className="text-2xl text-[#646A73]">取消</span></Button>
+        <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={() => onClose()}><span className="text-2xl text-[#646A73]">取消</span></Button>
       </DialogActions>
     </DialogContent>
   </Dialog>
-})
+}

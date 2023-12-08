@@ -51,9 +51,6 @@ const TaskPage = () => {
     attendanceDialogRef.current.open()
   }
 
-  /**
-   * @todo
-   */
   const onOperateTask = (task) => {
     setCurTask(task)
 
@@ -72,7 +69,7 @@ const TaskPage = () => {
     })
   }
 
-  return <div className="w-full flex flex-col overflow-auto">
+  return <div className="w-full h-full flex flex-col">
     {
       centerInfo === null
       ?

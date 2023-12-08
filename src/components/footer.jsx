@@ -1,14 +1,5 @@
 import { Close } from "@mui/icons-material"
-import { Dialog } from "@mui/material"
-import { DialogTitle } from "@mui/material"
-import { DialogContent } from "@mui/material"
-import { List } from "@mui/material"
-import { Link } from "@mui/material"
-import { IconButton } from "@mui/material"
-import { ListItem } from "@mui/material"
-import { DialogActions } from "@mui/material"
-import { Button } from "@mui/material"
-import { Divider } from "@mui/material"
+import { Dialog, DialogTitle, DialogContent, List, Link, IconButton, ListItem, DialogActions, Button, Divider, } from "@mui/material"
 import { useState } from "react"
 
 export const Footer = () => {

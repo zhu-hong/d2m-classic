@@ -19,27 +19,19 @@ import { useEffect } from 'react'
 
 const SetupPage = () => {
   const { config, setConfig, setWorkcenters, setWorkstations } = useConfigStore()
-  const configDialogRef = useRef()
 
   const [btnLoading, setBtnLoading] = useState(false)
-
-  const openConfig = () => {
-    configDialogRef.current.open()
-  }
 
   const api = useApi(config.serveUrl)
   const navigate = useNavigate()
 
   const onEnterSystem = () => {
     if(!validationConfig()) {
-      configDialogRef.current.open()
+      setOpen(true)
       return
     }
 
     setBtnLoading(true)
-    enqueueSnackbar('系统加载中，请稍后', {
-      variant: 'success',
-    })
 
     api().GetMachineDetail({
       MachineGuid: config.MachineGuid,
@@ -48,23 +40,42 @@ const SetupPage = () => {
         const { Workcenters, Workstations } = res
         setWorkcenters(Workcenters)
         setWorkstations(Workstations)
+
         if(config.terminalType === 0) {
           if(Workcenters.length === 1) {
             setConfig({
               terminalInfo: Workcenters[0],
             })
+            setWorkstations(Workstations.filter((w) => w.WorkcenterGuid === Workcenters[0].WorkcenterGuid))
+            enqueueSnackbar('系统加载中，请稍后', {
+              variant: 'success',
+            })
             navigate('/op')
           } else if(Workcenters.length !== 0) {
+            enqueueSnackbar('系统加载中，请稍后', {
+              variant: 'success',
+            })
             navigate('/choose-work')
+          } else {
+            enqueueSnackbar('未配置工作中心，请联系管理员', { variant: 'warning' })
           }
         } else {
           if(Workstations.length === 1) {
+            enqueueSnackbar('系统加载中，请稍后', {
+              variant: 'success',
+            })
             setConfig({
               terminalInfo: Workstations[0],
             })
+            setWorkstations(Workstations.filter((w) => w.WorkcenterGuid === Workstations[0].WorkcenterGuid))
             navigate('/op/process')
           } else if(Workstations.length !== 0) {
+            enqueueSnackbar('系统加载中，请稍后', {
+              variant: 'success',
+            })
             navigate('/choose-work')
+          } else {
+            enqueueSnackbar('未配置工位，请联系管理员', { variant: 'warning' })
           }
         }
       }
@@ -82,6 +93,7 @@ const SetupPage = () => {
   }
 
   const onConfirmSuccess = (config) => {
+    localStorage.setItem('config', JSON.stringify(config))
     setConfig(config)
     enqueueSnackbar('配置成功', {
       variant: 'success',
@@ -93,7 +105,18 @@ const SetupPage = () => {
     if(setup !== null) {
       setup.remove()
     }
+
+    let config = localStorage.getItem('config')
+    if(config !== null) {
+      config = JSON.parse(config)
+      setConfig(config)
+      setConfig({
+        terminalType: Number(config.terminalType)
+      })
+    }
   }, [])
+
+  const [open, setOpen] = useState(false)
 
   return <Box component='main' className='h-full flex flex-col'>
     <Header actions={[
@@ -118,14 +141,21 @@ const SetupPage = () => {
       <h1 className='text-44px leading-65px font-medium mb-24px'>欢迎使用 D2M Classic 管理系统</h1>
       <h3 className='text-24px leading-36px font-medium mb-84px'>WELCOME TO D2M Classic SYSTEM</h3>
       <Box>
-        <ButtonBase disabled={btnLoading} onClick={openConfig} className='w-217px h-72px' sx={{ backgroundColor: 'rgba(255,255,255,0.3)' }}><span className={['text-3xl font-medium', btnLoading?'opacity-50':''].join(' ')}>系统配置</span></ButtonBase>
+        <ButtonBase disabled={btnLoading} onClick={() => setOpen(true)} className='w-217px h-72px' sx={{ backgroundColor: 'rgba(255,255,255,0.3)' }}><span className={['text-3xl font-medium', btnLoading?'opacity-50':''].join(' ')}>系统配置</span></ButtonBase>
         <ButtonBase disabled={btnLoading} onClick={onEnterSystem} className='w-217px h-72px text-white' sx={{ backgroundColor: 'rgba(255,255,255,0.3)', marginLeft: '120px' }}>
           <span className={['text-3xl font-medium', btnLoading?'opacity-50':''].join(' ')}>进入系统</span>
           {
             btnLoading?<CircularProgress size={30} color='inherit' className='ml-4' />:null
           }
         </ButtonBase>
-        <ConfigDialog ref={configDialogRef} onConfirmSuccess={onConfirmSuccess} />
+
+        {
+          open
+          ?
+          <ConfigDialog open={open} onClose={() => setOpen(false)}  onConfirmSuccess={onConfirmSuccess} />
+          :
+          null
+        }
       </Box>
     </Box>
     <Footer />
