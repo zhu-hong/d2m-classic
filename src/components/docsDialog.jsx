@@ -45,6 +45,7 @@ export const Docs = ({ open, onClose, task }) => {
   const [renderDoc, setRenderDoc] = useState(false)
 
   const pdfContainer = useRef()
+  const [inFullscreen, setInFullscreen] = useState(false)
 
   useEffect(() => {
     api().GetDocument({
@@ -55,10 +56,16 @@ export const Docs = ({ open, onClose, task }) => {
       setDocs(res.data.map((d) => ({ ...d, ext: getExt(d.DocumentName) })))
     })
 
+    const onfschange = () => setInFullscreen(document.fullscreenElement!==null)
+
+    document.addEventListener('fullscreenchange', onfschange)
+
     return () => {
       if(blobUrl !== '') {
         URL.revokeObjectURL(blobUrl)
       }
+
+      document.removeEventListener('fullscreenchange', onfschange)
     }
   }, [])
 
@@ -118,7 +125,7 @@ export const Docs = ({ open, onClose, task }) => {
       ?
       <DialogContent className='w-840px text-right'>
         <Box className='mt-24px border border-[#CECECE] flex flex-col'>
-          <Box className='flex items-center px-22px py-12px border-b border-[#CECECE] justify-between'>
+          <Box className='flex items-center px-22px py-12px border-b border-[#CECECE] justify-between bg-[#F2F9F8]'>
             <span>{curDoc.DocumentName}</span>
             {
               (previewIng && !renderDoc)
@@ -129,6 +136,16 @@ export const Docs = ({ open, onClose, task }) => {
             }
           </Box>
           <div className="h-500px overflow-auto flex flex-col items-center justify-start children:w-full" ref={pdfContainer}>
+            {
+              inFullscreen
+              ?
+              <Box className='flex fixed top-0 left-0 w-full items-center bg-[#F2F9F8] px-22px py-12px border-b border-[#CECECE] justify-between'>
+                <span>{curDoc.DocumentName}</span>
+                <Button onClick={() => document.exitFullscreen()} variant="outlined"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"><g fill="#058373" fillRule="evenodd"><path d="M2.111 12.778h7.111v7.11h1.77L11 11H2.111v1.778M11 11h8.889V9.222h-7.111v-7.11h-1.77L11 11"/></g></svg></Button>
+              </Box>
+              :
+              null
+            }
             {
               renderDoc
               ?

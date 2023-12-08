@@ -1,5 +1,7 @@
 import { Footer } from "@/components/footer.jsx"
 import { Header } from "@/components/header.jsx"
+import { useApi } from "@/hook.js"
+import { useConfigStore } from "@/store.jsx"
 import { Box, Button } from "@mui/material"
 import { useRef } from "react"
 import { useEffect } from "react"
@@ -43,16 +45,33 @@ const onPointerMove = (e) => {
 const OperatePage = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const floatButton = useRef()
 
-  const [bottom, setBottom] = useState(117)
-  
+  const floatButton = useRef()
+  const [bottom, setBottom] = useState(250)
+
+  const { config, setWorkcenters, setWorkstations } = useConfigStore()
+  const api = useApi(config.serveUrl)
+
   useEffect(() => {
     const bottomInstance = localStorage.getItem('bottomInstance')
     if(bottomInstance !== null) {
       setBottom(Number(bottomInstance))
     }
-  }, [floatButton])
+
+    const t = setInterval(() => {
+      api().GetMachineDetail({
+        MachineGuid: config.MachineGuid,
+      }).then((res) => {
+        if(res.code === 0) {
+          const { Workcenters, Workstations } = res
+          setWorkcenters(Workcenters)
+          setWorkstations(Workstations)
+        }
+      })
+    }, 5000)
+
+    return () => clearInterval(t)
+  }, [])
 
   return <Box component='main' className='h-full flex flex-col relative' onPointerUp={onPointerUp} onPointerLeave={onPointerUp} onPointerMove={onPointerMove}>
     <Header actions={[

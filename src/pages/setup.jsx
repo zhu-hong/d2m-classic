@@ -44,26 +44,28 @@ const SetupPage = () => {
     api().GetMachineDetail({
       MachineGuid: config.MachineGuid,
     }).then((res) => {
-      const { Workcenters, Workstations } = res
-      setWorkcenters(Workcenters)
-      setWorkstations(Workstations)
-      if(config.terminalType === 0) {
-        if(Workcenters.length === 1) {
-          setConfig({
-            terminalInfo: Workcenters[0],
-          })
-          navigate('/op')
-        } else if(Workcenters.length !== 0) {
-          navigate('/choose-work')
-        }
-      } else {
-        if(Workstations.length === 1) {
-          setConfig({
-            terminalInfo: Workstations[0],
-          })
-          navigate('/op/process')
-        } else if(Workstations.length !== 0) {
-          navigate('/choose-work')
+      if(res.code === 0) {
+        const { Workcenters, Workstations } = res
+        setWorkcenters(Workcenters)
+        setWorkstations(Workstations)
+        if(config.terminalType === 0) {
+          if(Workcenters.length === 1) {
+            setConfig({
+              terminalInfo: Workcenters[0],
+            })
+            navigate('/op')
+          } else if(Workcenters.length !== 0) {
+            navigate('/choose-work')
+          }
+        } else {
+          if(Workstations.length === 1) {
+            setConfig({
+              terminalInfo: Workstations[0],
+            })
+            navigate('/op/process')
+          } else if(Workstations.length !== 0) {
+            navigate('/choose-work')
+          }
         }
       }
     }).finally(() => setBtnLoading(false))

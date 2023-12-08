@@ -71,7 +71,7 @@ const MachinePage = () => {
     })
   }
 
-  return <Box className='w-full h-full flex flex-col overflow-auto'>
+  return <Box className='w-full h-full flex flex-col'>
     {
       single
       ?
@@ -168,7 +168,7 @@ const MachinePage = () => {
                   curEquipment.Parameters.length > 0
                   ?
                   curEquipment.Parameters.map((p, i) => {
-                    return <Box className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
+                    return <Box key={p.ParameterCode} className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
                       <Box sx={{width:'15%'}}>{p.ParameterCode}</Box>
                       <Box sx={{width:'15%'}}>{p.ParamterName}</Box>
                       <Box sx={{width:'20%'}}>{p.StandardValue}</Box>
@@ -200,7 +200,7 @@ const MachinePage = () => {
                   curEquipment.Mros.length > 0
                   ?
                   curEquipment.Mros.map((m) => {
-                    return <Box className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
+                    return <Box key={m.MroCode} className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
                       <Box sx={{width:'40%'}}>{m.MroType}</Box>
                       <Box sx={{width:'30%'}}>{m.MroCode}</Box>
                       <Box sx={{width:'30%'}} className='border-r-0'>{m.MroName}</Box>
@@ -304,13 +304,13 @@ const MachinePage = () => {
             </>
           }
         </Box>
-        <Box className='my-16px flex-none'>
+        <Box className='mt-16px flex-none'>
           <ToggleButtonGroup color="primary" size="large" sx={{border:'1px solid #CECECE'}}>
             <Button value={1} variant='contained' className="w-120px"><span className="text-lg font-medium">列表模式</span></Button>
           </ToggleButtonGroup>
         </Box>
         
-        <div className="flex-auto">
+        <div className="flex-auto overflow-auto">
           {
             (equipmentInfo === null || equipmentInfo.Equipments.length > 0)
             ?
