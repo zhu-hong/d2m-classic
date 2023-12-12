@@ -135,7 +135,7 @@ const ProcessPage = () => {
         setIsNoDoc(true)
         return
       }
-      const bloburl = URL.createObjectURL(res)
+      const bloburl = URL.createObjectURL(res.data)
       setBlobUrl(bloburl)
 
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs.worker.mjs'

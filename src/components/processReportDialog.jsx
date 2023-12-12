@@ -25,7 +25,7 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
       enqueueSnackbar('请选择所在工位', { variant: 'warning' })
       return
     }
-    if(pass+noPass === 0) {
+    if(Number(pass)+Number(noPass) === 0) {
       enqueueSnackbar('请输入及格/不及格数量', { variant: 'warning' })
       return
     }
@@ -80,14 +80,26 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
       </Box>
       <Box className='mt-24px flex text-[#646A73] text-lg justify-center items-center'>
         <Box className='w-90px text-left mr-24px'>合格数：</Box>
-        <TextField value={pass} onChange={(e) => setPass(Number(e.target.value))} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
+        <TextField value={pass} onChange={(e) => {
+          if(e.target.value !== '0' && !e.target.value.includes('.')) {
+            setPass(e.target.value.replace(/^0+/, ''))
+          } else {
+            setPass(e.target.value)
+          }
+        }} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
         <Box className='ml-36px'>不合格数：</Box>
-        <TextField value={noPass} onChange={(e) => setNoPass(Number(e.target.value))} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
+        <TextField value={noPass} onChange={(e) => {
+          if(e.target.value !== '0' && !e.target.value.includes('.')) {
+            setNoPass(e.target.value.replace(/^0+/, ''))
+          } else {
+            setNoPass(e.target.value)
+          }
+        }} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
       </Box>
     </DialogContent>
-      <DialogActions style={{justifyContent:'center'}}>
-        <Button onClick={onConfirm} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
-        <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={onClose}><span className="text-2xl text-[#646A73]">取消</span></Button>
-      </DialogActions>
+    <DialogActions style={{justifyContent:'center'}}>
+      <Button onClick={onConfirm} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
+      <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={onClose}><span className="text-2xl text-[#646A73]">取消</span></Button>
+    </DialogActions>
   </Dialog>
 }
