@@ -1,5 +1,6 @@
 import { Footer } from "@/components/footer.jsx"
 import { Header } from "@/components/header.jsx"
+import Loading from "@/components/loading.jsx"
 import { ScanFlow } from "@/components/scanFlow.jsx"
 import { useApi } from "@/hook.js"
 import { useConfigStore } from "@/store.jsx"
@@ -52,16 +53,30 @@ const OperatePage = () => {
   const floatButton = useRef()
   const [bottom, setBottom] = useState(250)
 
-  const { config, setWorkcenters, setWorkstations } = useConfigStore()
+  const { config, setWorkcenters, setWorkstations, setConfig } = useConfigStore()
   const api = useApi(config.serveUrl)
 
   useEffect(() => {
+    if(config.terminalInfo !== null) {
+      localStorage.setItem('config', JSON.stringify(config))
+    }
+
+    let configCache = localStorage.getItem('config')
+    if(configCache !== null) {
+      configCache = JSON.parse(configCache)
+      setConfig({
+        ...configCache,
+        terminalType: Number(configCache.terminalType)
+      })
+    }
+
     const bottomInstance = localStorage.getItem('bottomInstance')
     if(bottomInstance !== null) {
       setBottom(Number(bottomInstance))
     }
 
     const t = setInterval(() => {
+      if(config.MachineGuid  === '') return
       api().GetMachineDetail({
         MachineGuid: config.MachineGuid,
       }).then((res) => {
@@ -117,7 +132,13 @@ const OperatePage = () => {
         </Button>
       </Box>
       <Box className='flex-auto bg-[#DAE6E5] p-16px overflow-auto relative'>
-        <Outlet />
+        {
+          config.terminalInfo === null
+          ?
+          <Loading />
+          :
+          <Outlet />
+        }
       </Box>
       <Box className='w-24px bg-[#044244]'></Box>
     </Box>

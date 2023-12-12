@@ -93,7 +93,6 @@ const SetupPage = () => {
   }
 
   const onConfirmSuccess = (config) => {
-    localStorage.setItem('config', JSON.stringify(config))
     setConfig(config)
     enqueueSnackbar('配置成功', {
       variant: 'success',
@@ -101,16 +100,11 @@ const SetupPage = () => {
   }
 
   useEffect(() => {
-    const setup = document.getElementById('setup')
-    if(setup !== null) {
-      setup.remove()
-    }
-
     let config = localStorage.getItem('config')
     if(config !== null) {
       config = JSON.parse(config)
-      setConfig(config)
       setConfig({
+        ...config,
         terminalType: Number(config.terminalType)
       })
     }

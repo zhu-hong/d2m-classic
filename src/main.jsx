@@ -26,3 +26,8 @@ createRoot(document.getElementById('root')).render(<StrictMode>
     </ThemeProvider>
   </LocalizationProvider>
 </StrictMode>)
+
+const setup = document.getElementById('setup')
+if(setup !== null) {
+  setup.remove()
+}

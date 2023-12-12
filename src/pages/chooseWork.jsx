@@ -23,14 +23,16 @@ const ChooseToWorkPage = () => {
     api().GetMachineDetail({
       MachineGuid: config.MachineGuid,
     }).then((res) => {
-      setWorkcenters(res.Workcenters)
-      setWorkstations(res.Workstations)
-      if(config.terminalType === 0) {
-        setList(res.Workcenters)
-      } else {
-        setList(res.Workstations)
+      if(res.code === 0) {
+        setWorkcenters(res.Workcenters)
+        setWorkstations(res.Workstations)
+        if(config.terminalType === 0) {
+          setList(res.Workcenters)
+        } else {
+          setList(res.Workstations)
+        }
+        setLoading(false)
       }
-      setLoading(false)
     })
 
     return () => {
