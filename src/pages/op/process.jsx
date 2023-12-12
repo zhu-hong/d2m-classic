@@ -127,7 +127,7 @@ const ProcessPage = () => {
 
     docApi().GetDefaultDocumentContent({
       ProdstdaGuid: taskInfo.ProdstdaGuid,
-      ProductGuid: taskInfo.ProductCode,
+      ProductGuid: taskInfo.ProductGuid,
       ProductVersion: taskInfo.ProductVersion,
     }).then((res) => {
       if(res.status === 204) {
