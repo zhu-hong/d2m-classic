@@ -18,7 +18,7 @@ export function createApi(serveUrl, config = {}) {
           return res.data
         }
         if(res.request.responseURL.includes('GetDefaultDocumentContent')) {
-          return res
+          return res.data
         }
         enqueueSnackbar(res.data.msg, {
           variant: 'error',

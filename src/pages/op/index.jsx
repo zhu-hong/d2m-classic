@@ -74,7 +74,9 @@ const OperatePage = () => {
     if(bottomInstance !== null) {
       setBottom(Number(bottomInstance))
     }
+  }, [])
 
+  useEffect(() => {
     const t = setInterval(() => {
       if(config.MachineGuid  === '') return
       api().GetMachineDetail({
@@ -89,7 +91,7 @@ const OperatePage = () => {
     }, 5000)
 
     return () => clearInterval(t)
-  }, [])
+  }, [config.MachineGuid])
 
   return <Box component='main' className='h-full flex flex-col relative' onPointerUp={onPointerUp} onPointerLeave={onPointerUp} onPointerMove={onPointerMove}>
     <Header actions={[
