@@ -138,7 +138,7 @@ const ProcessPage = () => {
       const bloburl = URL.createObjectURL(res.data)
       setBlobUrl(bloburl)
 
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs.worker.mjs'
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs.worker.js'
       const loadingTask = window.pdfjsLib.getDocument(bloburl)
       loadingTask.promise.then(async (pdf) => {
         for (let index = 1; index <= pdf.numPages; index++) {
@@ -391,7 +391,7 @@ const ProcessPage = () => {
                 null
               }
               <div ref={pdfContainer} className="children:w-full overflow-auto">
-                <div className="children:w-full"></div>
+                <div className="children:w-full" style={{ paddingTop: inFullscreen ? 60 : 0 }}></div>
                 {
                   inFullscreen
                   ?

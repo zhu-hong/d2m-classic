@@ -9,13 +9,14 @@ import {
 } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 
-import { useConfigStore } from '@/store.jsx'
+import { useConfigStore, useDeyboardStore } from '@/store.jsx'
 import { ConfigDialog } from '@/components/configDialog.jsx'
 import { useRef } from 'react'
 import { useState } from 'react'
 import { useApi } from '@/hook.js'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { DeyBoard } from '@/components/Keyboard.jsx'
 
 const SetupPage = () => {
   const { config, setConfig, setWorkcenters, setWorkstations } = useConfigStore()
@@ -108,9 +109,15 @@ const SetupPage = () => {
         terminalType: Number(config.terminalType)
       })
     }
+
+    return () => {
+      deyboard.setMiddleFunc(null)
+    }
   }, [])
 
   const [open, setOpen] = useState(false)
+
+  const deyboard = useDeyboardStore()
 
   return <Box component='main' className='h-full flex flex-col'>
     <Header actions={[
@@ -146,7 +153,13 @@ const SetupPage = () => {
         {
           open
           ?
-          <ConfigDialog open={open} onClose={() => setOpen(false)}  onConfirmSuccess={onConfirmSuccess} />
+          <>
+            <ConfigDialog open={open} onClose={() => {
+              setOpen(false)
+              deyboard.closeDeyboard()
+            }}  onConfirmSuccess={onConfirmSuccess} />
+            <DeyBoard value={deyboard.deyboardValue} open={deyboard.open} onChanges={[deyboard.setDeyboardValue,deyboard.middleFunc]} onClose={deyboard.closeDeyboard} />
+          </>
           :
           null
         }

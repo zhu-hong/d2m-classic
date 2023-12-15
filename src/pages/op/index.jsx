@@ -1,9 +1,10 @@
+import { DeyBoard } from "@/components/Keyboard.jsx"
 import { Footer } from "@/components/footer.jsx"
 import { Header } from "@/components/header.jsx"
 import Loading from "@/components/loading.jsx"
 import { ScanFlow } from "@/components/scanFlow.jsx"
 import { useApi } from "@/hook.js"
-import { useConfigStore } from "@/store.jsx"
+import { useConfigStore, useDeyboardStore } from "@/store.jsx"
 import { Box, Button } from "@mui/material"
 import { useRef } from "react"
 import { useEffect } from "react"
@@ -19,7 +20,7 @@ let target = null
 
 const onPointerDown = (e) => {
   startDrag = true
-  startY = e.clientY
+  startY = e.changedTouches[0].clientY
   target = e.currentTarget
   base = parseInt(target.style.bottom)
 }
@@ -31,7 +32,7 @@ const onPointerUp = () => {
 const onPointerMove = (e) => {
   if(!startDrag) return
 
-  const distance = e.clientY - startY
+  const distance = e.changedTouches[0].clientY - startY
 
   let bottom = base - distance
 
@@ -93,7 +94,9 @@ const OperatePage = () => {
     return () => clearInterval(t)
   }, [config.MachineGuid])
 
-  return <Box component='main' className='h-full flex flex-col relative' onPointerUp={onPointerUp} onPointerLeave={onPointerUp} onPointerMove={onPointerMove}>
+  const deyboard = useDeyboardStore()
+
+  return <Box component='main' className='h-full flex flex-col relative' onTouchEnd={onPointerUp} onTouchCancel={onPointerUp} onPointerMove={onPointerMove}>
     <Header actions={[
       <Button key='action-quit' className="w-64px h-64px" onClick={() => navigate('/')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M4 1.333A2.657 2.657 0 0 0 1.333 4v24A2.657 2.657 0 0 0 4 30.667h12A2.657 2.657 0 0 0 18.667 28v-8H16v8H4V4h12v8h2.667V4A2.657 2.657 0 0 0 16 1.333Zm20 9.334v4H9.333v2.666H24v4L30.667 16 24 10.667" /></svg>
@@ -146,13 +149,15 @@ const OperatePage = () => {
     </Box>
     <Footer />
 
-    <div ref={floatButton} className="absolute right-0" style={{bottom:bottom+'px'}} onPointerDown={onPointerDown}>
+    <div ref={floatButton} className="absolute right-0" style={{bottom:bottom+'px'}} onTouchStart={onPointerDown}>
       <Button onClick={() => setScanOpen(true)} className="w-64px h-64px" variant="contained">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M29.333 20c.737 0 1.334.597 1.334 1.333v5.334a4 4 0 0 1-4 4h-5.334a1.333 1.333 0 0 1 0-2.667h5.334c.736 0 1.333-.597 1.333-1.333v-5.334c0-.736.597-1.333 1.333-1.333M2.667 20C3.403 20 4 20.597 4 21.333v5.334C4 27.403 4.597 28 5.333 28h5.334a1.333 1.333 0 0 1 0 2.667H5.333a4 4 0 0 1-4-4v-5.334c0-.736.597-1.333 1.334-1.333Zm28-5.333v2.666H1.333v-2.666h29.334m-4-13.334a4 4 0 0 1 4 4v5.334a1.333 1.333 0 0 1-2.667 0V5.333C28 4.597 27.403 4 26.667 4h-5.334a1.333 1.333 0 0 1 0-2.667h5.334Zm-16 0a1.333 1.333 0 0 1 0 2.667H5.333C4.597 4 4 4.597 4 5.333v5.334a1.333 1.333 0 0 1-2.667 0V5.333a4 4 0 0 1 4-4h5.334"/></svg>
       </Button>
     </div>
 
     <ScanFlow open={scanOpen} onClose={() => setScanOpen(false)} />
+
+    <DeyBoard value={deyboard.deyboardValue} open={deyboard.open} onChanges={[deyboard.onDeyboardValueChange,deyboard.middleFunc]} onClose={deyboard.closeDeyboard} />
   </Box>
 }
 

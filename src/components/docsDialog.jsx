@@ -86,7 +86,7 @@ export const Docs = ({ open, onClose, task }) => {
       setRenderDoc(true)
       setPreviewIng(true)
 
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs.worker.mjs'
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = './pdfjs.worker.js'
       const loadingTask = window.pdfjsLib.getDocument(bloburl)
       loadingTask.promise.then(async (pdf) => {
         for (let index = 1; index <= pdf.numPages; index++) {
@@ -135,7 +135,7 @@ export const Docs = ({ open, onClose, task }) => {
               null
             }
           </Box>
-          <div className="h-500px overflow-auto flex flex-col items-center justify-start children:w-full" ref={pdfContainer}>
+          <div className="h-500px overflow-auto flex flex-col items-center justify-start children:w-full" style={{ paddingTop: inFullscreen ? 60 : 0 }} ref={pdfContainer}>
             {
               inFullscreen
               ?

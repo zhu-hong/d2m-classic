@@ -1,5 +1,6 @@
 import { useApi } from "@/hook.js"
-import { useConfigStore } from "@/store.jsx"
+import { useConfigStore, useDeyboardStore } from "@/store.jsx"
+import { delay } from "@/utils.js"
 import { Close } from "@mui/icons-material"
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, MenuItem, OutlinedInput, Select, TextField } from "@mui/material"
 import { enqueueSnackbar } from "notistack"
@@ -41,15 +42,52 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
       if(res.code === 0) {
         enqueueSnackbar('报工成功', { variant: 'success' })
         onClose()
+        deyboard.closeDeyboard()
         onConfirmReport()
       }
     })
   }
 
-  return <Dialog open={open} maxWidth='720px' onClose={onClose} scroll='paper'>
+  const deyboard = useDeyboardStore()
+
+  const onPassFocus = async () => {
+    deyboard.setDeyboardValue(pass)
+    deyboard.setMiddleFunc((value) => {
+      if(value !== '0' && !value.includes('.')) {
+        value = value.replace(/^0+/, '')
+      }
+      setPass(value)
+    })
+    deyboard.setLayoutName('number')
+    if(deyboard.open) {
+      deyboard.closeDeyboard()
+      await delay(300)
+    }
+    deyboard.openDeyboard()
+  }
+  const onNoPassFocus = async () => {
+    deyboard.setDeyboardValue(noPass)
+    deyboard.setMiddleFunc((value) => {
+      if(value !== '0' && !value.includes('.')) {
+        value = value.replace(/^0+/, '')
+      }
+      setNoPass(value)
+    })
+    deyboard.setLayoutName('number')
+    if(deyboard.open) {
+      deyboard.closeDeyboard()
+      await delay(300)
+    }
+    deyboard.openDeyboard()
+  }
+
+  return <Dialog open={open} maxWidth='720px' scroll='paper'>
     <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
       <p>报工反馈</p>
-      <IconButton onClick={onClose}><Close /></IconButton>
+      <IconButton onClick={() => {
+        onClose()
+        deyboard.closeDeyboard()
+      }}><Close /></IconButton>
     </DialogTitle>
     <DialogContent className="w-720px px-32px">
       <Box className='mt-24px bg-[#E6F2F1] border border-[#058373] px-28px py-21px'>
@@ -80,26 +118,31 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
       </Box>
       <Box className='mt-24px flex text-[#646A73] text-lg justify-center items-center'>
         <Box className='w-90px text-left mr-24px'>合格数：</Box>
-        <TextField value={pass} onChange={(e) => {
-          if(e.target.value !== '0' && !e.target.value.includes('.')) {
-            setPass(e.target.value.replace(/^0+/, ''))
-          } else {
-            setPass(e.target.value)
+        <TextField onFocus={onPassFocus} value={pass} onChange={(e) => {
+          let value = e.target.value
+          if(value !== '0' && !value.includes('.')) {
+            value = value.replace(/^0+/, '')
           }
+          setPass(value)
+          deyboard.setDeyboardValue(value)
         }} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
         <Box className='ml-36px'>不合格数：</Box>
-        <TextField value={noPass} onChange={(e) => {
-          if(e.target.value !== '0' && !e.target.value.includes('.')) {
-            setNoPass(e.target.value.replace(/^0+/, ''))
-          } else {
-            setNoPass(e.target.value)
+        <TextField onFocus={onNoPassFocus} value={noPass} onChange={(e) => {
+          let value = e.target.value
+          if(value !== '0' && !value.includes('.')) {
+            value = value.replace(/^0+/, '')
           }
+          setNoPass(value)
+          deyboard.setDeyboardValue(value)
         }} size='small' className='w-184px' type="number" inputProps={{ min: 0 }} />
       </Box>
     </DialogContent>
     <DialogActions style={{justifyContent:'center'}}>
       <Button onClick={onConfirm} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
-      <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={onClose}><span className="text-2xl text-[#646A73]">取消</span></Button>
+      <Button className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}} onClick={() => {
+        onClose()
+        deyboard.closeDeyboard()
+      }}><span className="text-2xl text-[#646A73]">取消</span></Button>
     </DialogActions>
   </Dialog>
 }

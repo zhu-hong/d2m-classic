@@ -1,1 +1,9 @@
-
+.deyboard .hg-theme-default .hg-button {
+  height: 48px;
+}
+.hg-button-backspace {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAjxJREFUWEft1kuoTWEUB/DfFXlGIVMmJIXyGHgkj2QiwsTAiPIaoFASEyUlFPIYMUahRJE8kjfJo0yUGGAmiZjIXre969jts/c+17nd6K7Z3mt9a/2//3p9HXpYOno4vl4A/wwDE7EGk9Cnhbr5goe4hQf4lT9bxUDoj2N9C0GbmX7GKlxpNKgCsAe72xA8c/EdE/Au+1EGYDbutDF45uoillUBGIxXGNMNAL5hSBWAyPuGbgieuRyN9/FRlIJpeFwR/EV6NrojL68xFn1LfESMp0UABiT5eY5xFQBGIai8hPkNtptwNNFtx/4SH3Oy+sozsAP7alB/CFvRD+ewNKF0NU5jGG5jcomfBbiRZyCcfcDIGgDCZFcCYG9K9aw06CBcx4wKH4twLQ9gXoaqJoAw24wjqX2kL4ZM+KmSJWn6/ijCubhZdTKn34LDDQCuJpeI/FbJimSsny9KwcekiEZUnU71f5OC5UmNXCjqgnU4WQPAQWxLCrZ/MlrPIiiNZXUqLcJ76cht5moxLhcBiK54hOjTZhIbLQr1R5rHqOhMsjaMDjlQ4mNhWqyFg2gqnlSw8AwDMb7ALtZutGDom8lM3C9iIDtwDBtrpKKrJrFjOjdis23Yncso3gXDM+Rl6zhoutvVK5acO4OVdQCETUy6nW0E8TOp/ul4WRdAvP9OJCN6bRtAvElv3rkF6wLI7GLtxoCKaTkFQwsAxe3eJu/HTw26yHfc9mu6flt+lLbh4uUuqh6lvQD+fwZ+A6xkWCFr46HuAAAAAElFTkSuQmCC) !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  color: transparent !important;
+}

@@ -1,4 +1,4 @@
-import { useConfigStore } from "@/store.jsx"
+import { useConfigStore, useDeyboardStore } from "@/store.jsx"
 import { Close } from "@mui/icons-material"
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, OutlinedInput } from "@mui/material"
 import { StationsDialog } from "./stationsDialog.jsx"
@@ -96,6 +96,21 @@ export const ScanFlow = ({ open, onClose }) => {
     }
   }
 
+  const deyboard = useDeyboardStore()
+
+  const onFocus = () => {
+    deyboard.setDeyboardValue(jobNum)
+    deyboard.setMiddleFunc(setJobNum)
+    deyboard.setLayoutName('default')
+    deyboard.openDeyboard()
+  }
+
+  useEffect(() => {
+    if(!jobNumOpen) {
+      deyboard.closeDeyboard()
+    }
+  }, [jobNumOpen])
+
   return <>
     <Dialog open={jobNumOpen}>
       <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
@@ -104,7 +119,10 @@ export const ScanFlow = ({ open, onClose }) => {
       </DialogTitle>
       <DialogContent className="w-536px">
         <div className="py-24px flex justify-center items-center">
-          <OutlinedInput autoFocus size="small" value={jobNum} onChange={(e) => setJobNum(e.target.value)} className="mt-32px w-280px" placeholder='请输入您的工号'/*  endAdornment={<IconButton><svg className="flex-none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#058373" fillRule="nonzero" d="M22 15a1 1 0 0 1 1 1v4a3 3 0 0 1-3 3h-4a1 1 0 0 1 0-2h4a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1M2 15a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 1 0 2H4a3 3 0 0 1-3-3v-4a1 1 0 0 1 1-1m21-4v2H1v-2zM20 1a3 3 0 0 1 3 3v4a1 1 0 0 1-2 0V4a1 1 0 0 0-1-1h-4a1 1 0 0 1 0-2zM8 1a1 1 0 1 1 0 2H4a1 1 0 0 0-1 1v4a1 1 0 1 1-2 0V4a3 3 0 0 1 3-3z"/></svg></IconButton>} */ />
+          <OutlinedInput size="small" value={jobNum} onFocus={onFocus} onChange={(e) => {
+            setJobNum(e.target.value)
+            deyboard.setDeyboardValue(e.target.value)
+          }} className="mt-32px w-280px" placeholder='请输入您的工号'/*  endAdornment={<IconButton><svg className="flex-none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#058373" fillRule="nonzero" d="M22 15a1 1 0 0 1 1 1v4a3 3 0 0 1-3 3h-4a1 1 0 0 1 0-2h4a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1M2 15a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h4a1 1 0 0 1 0 2H4a3 3 0 0 1-3-3v-4a1 1 0 0 1 1-1m21-4v2H1v-2zM20 1a3 3 0 0 1 3 3v4a1 1 0 0 1-2 0V4a1 1 0 0 0-1-1h-4a1 1 0 0 1 0-2zM8 1a1 1 0 1 1 0 2H4a1 1 0 0 0-1 1v4a1 1 0 1 1-2 0V4a3 3 0 0 1 3-3z"/></svg></IconButton>} */ />
         </div>
       </DialogContent>
       <DialogActions style={{justifyContent:'center',paddingBottom:'64px'}}>

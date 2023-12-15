@@ -21,7 +21,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.20.1",
+    "react-simple-keyboard": "3.7.52",
     "unocss": "0.58.0",
+    "vconsole": "3.15.1",
     "zustand": "4.4.7"
   },
   "devDependencies": {

@@ -68,3 +68,32 @@ export const useConfigStore = create((set) => {
     }),
   }
 })
+
+/**
+@type { 
+  () => {
+    open:boolean;
+    deyboardValue:string;
+    layoutName:string;
+    setLayoutName:()=>void;
+    openDeyboard:()=>void;
+    closeDeyboard:()=>void;
+    setDeyboardValue:()=>void;
+    middleFunc:()=>void;
+    setMiddleFunc:()=>void;
+  } 
+}
+ */
+export const useDeyboardStore = create((set) =>  {
+  return {
+    open: false,
+    deyboardValue: '',
+    layoutName: 'default',
+    setLayoutName: (value) => set(() => ({ layoutName: value })), 
+    openDeyboard: () => set(() => ({ open: true })),
+    closeDeyboard: () => set(() => ({ open: false })),
+    setDeyboardValue: (value) => set(() => ({ deyboardValue: value })),
+    middleFunc: null,
+    setMiddleFunc: (func) => set(() => ({ middleFunc: func })),
+  }
+})
