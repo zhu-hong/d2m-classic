@@ -14,10 +14,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { zhCN } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn.js'
-import VConsole from 'vconsole'
+// import VConsole from 'vconsole'
 
 dayjs.locale('zh-cn')
-new VConsole()
+// new VConsole()
 
 createRoot(document.getElementById('root')).render(<StrictMode>
   <LocalizationProvider dateAdapter={AdapterDayjs} localeText={zhCN.components.MuiLocalizationProvider.defaultProps.localeText}>
