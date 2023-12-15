@@ -22,7 +22,7 @@ import { create } from 'zustand'
 export const useConfigStore = create((set) => {
   return {
     config: {
-      serveUrl: '192.168.3.168:8888',
+      serveUrl: '',
       /**
        *  区域ID
       */
