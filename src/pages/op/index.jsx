@@ -60,15 +60,34 @@ const OperatePage = () => {
   useEffect(() => {
     if(config.terminalInfo !== null) {
       localStorage.setItem('config', JSON.stringify(config))
+      if(window.cefSharp) {
+        window.cefSharp.bindObjectAsync("preference").then(() => {
+          preference.setConfig(JSON.stringify(config))
+        })
+      }
     }
 
-    let configCache = localStorage.getItem('config')
-    if(configCache !== null) {
-      configCache = JSON.parse(configCache)
-      setConfig({
-        ...configCache,
-        terminalType: Number(configCache.terminalType)
+    if(window.cefSharp) {
+      window.cefSharp.bindObjectAsync("preference").then(() => {
+        let config = preference.getConfig()
+        if(config !== '') {
+          localStorage.setItem('config', config)
+          config = JSON.parse(config)
+          setConfig({
+            ...config,
+            terminalType: Number(config.terminalType)
+          })
+        }
       })
+    } else {
+      let configCache = localStorage.getItem('config')
+      if(configCache !== null) {
+        configCache = JSON.parse(configCache)
+        setConfig({
+          ...configCache,
+          terminalType: Number(configCache.terminalType)
+        })
+      }
     }
 
     const bottomInstance = localStorage.getItem('bottomInstance')

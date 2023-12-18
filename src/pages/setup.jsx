@@ -93,7 +93,7 @@ const SetupPage = () => {
     return true
   }
 
-  const onConfirmSuccess = (config) => {
+  const onConfirmSuccess = async (config) => {
     config = {
       ...config,
       terminalInfo: null,
@@ -103,16 +103,35 @@ const SetupPage = () => {
     enqueueSnackbar('配置成功', {
       variant: 'success',
     })
+    if(window.cefSharp) {
+      window.cefSharp.bindObjectAsync("preference").then(() => {
+        preference.setConfig(JSON.stringify(config))
+      })
+    }
   }
 
   useEffect(() => {
-    let config = localStorage.getItem('config')
-    if(config !== null) {
-      config = JSON.parse(config)
-      setConfig({
-        ...config,
-        terminalType: Number(config.terminalType)
+    if(window.cefSharp) {
+      window.cefSharp.bindObjectAsync("preference").then(() => {
+        let config = preference.getConfig()
+        if(config !== '') {
+          localStorage.setItem('config', config)
+          config = JSON.parse(config)
+          setConfig({
+            ...config,
+            terminalType: Number(config.terminalType)
+          })
+        }
       })
+    } else {
+      let config = localStorage.getItem('config')
+      if(config !== null) {
+        config = JSON.parse(config)
+        setConfig({
+          ...config,
+          terminalType: Number(config.terminalType)
+        })
+      }
     }
 
     return () => {
