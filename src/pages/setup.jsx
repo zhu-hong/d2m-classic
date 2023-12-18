@@ -127,16 +127,16 @@ const SetupPage = () => {
   return <Box component='main' className='h-full flex flex-col'>
     <Header actions={[
       <Button onClick={async () => {
-        if(cefSharp) {
-          await cefSharp.bindObjectAsync("hostWindow");
+        if(window.cefSharp) {
+          await window.cefSharp.bindObjectAsync("hostWindow");
           hostWindow.minimize();
         }
       }} key='action-mini' className="w-64px h-64px">
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="4"><path fill="#FFF" fillRule="evenodd" d="M.667.667v2.666h26.666V.667H.667Z"/></svg>
       </Button>,
       <Button onClick={async () => {
-        if(cefSharp) {
-          await cefSharp.bindObjectAsync("host");
+        if(window.cefSharp) {
+          await window.cefSharp.bindObjectAsync("host");
           host.exit();
         }
       }} key='action-close' className="w-64px h-64px" variant="contained">
