@@ -94,6 +94,10 @@ const SetupPage = () => {
   }
 
   const onConfirmSuccess = (config) => {
+    config = {
+      ...config,
+      terminalInfo: null,
+    }
     localStorage.setItem('config', JSON.stringify(config))
     setConfig(config)
     enqueueSnackbar('配置成功', {
