@@ -4,7 +4,7 @@ import { enqueueSnackbar } from 'notistack'
 export function createApi(serveUrl, config = {}) {
   const ins = axios.create({
     baseURL: `http://${serveUrl}/webapi/api/D2MITC`,
-    timeout: 10000,
+    timeout: 60000,
     ...config,
   })
   ins.interceptors.response.use(
