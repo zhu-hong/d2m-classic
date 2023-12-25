@@ -302,7 +302,7 @@ const AndonPage = () => {
                         s.State === '待处理'
                         ?
                         <>
-                          <Button onClick={() => onOperationAndon(s)} variant="contained" className="w-80px h-32px"><span className="text-lg">处理</span></Button>
+                          <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="contained" className="w-80px h-32px"><span className="text-lg">处理</span></Button>
     
                           <Dialog open={isStopOpen} maxWidth='720px' onClose={() => setIsStopOpen(false)} scroll='paper'>
                             <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
@@ -323,7 +323,7 @@ const AndonPage = () => {
                         s.State === '处理中'
                         ?
                         <>
-                          <Button onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">关闭</span></Button>
+                          <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">关闭</span></Button>
     
                           <Dialog open={faultOpen} maxWidth='950px' onClose={() => setFaultOpen(false)} scroll='paper'>
                             <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
@@ -349,7 +349,7 @@ const AndonPage = () => {
                         s.State === '关闭中'
                         ?
                         <>
-                          <Button onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">确认</span></Button>
+                          <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">确认</span></Button>
     
                           <Dialog open={openPass} maxWidth='720px' onClose={() => setOpenPass(false)} scroll='paper'>
                             <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
