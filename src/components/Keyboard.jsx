@@ -5,10 +5,11 @@ import { useState } from 'react'
 import { IconButton } from '@mui/material'
 import { useRef } from 'react'
 import { useDeyboardStore } from '@/store.jsx'
+import chinese from 'simple-keyboard-layouts/build/layouts/chinese.js'
 
 export const DeyBoard = ({ onChanges, value, onClose, open }) => {
   const [kref, setKref] = useState(null)
-  const { layoutName, setLayoutName } = useDeyboardStore()
+  const { layoutName, setLayoutName, setPosition, position } = useDeyboardStore()
 
   const onKeyPress = (button) => {
     if (button !== "{shift}" && button !== "{lock}") return
@@ -35,15 +36,26 @@ export const DeyBoard = ({ onChanges, value, onClose, open }) => {
   }, [value])
 
   useEffect(() => {
-    if(!open) return
+    if(!open) {
+      setLayoutName('default')
+      setPosition('top')
+      return
+    }
 
     const el = document.activeElement
     let { x, y } = el.getBoundingClientRect()
 
-    setAxis({
-      x: window.innerWidth - x - deyboardRef.current.clientWidth + (deyboardRef.current.clientWidth - el.clientWidth) / 2,
-      y: window.innerHeight - y + 20,
-    })
+    if(position === 'top') {
+      setAxis({
+        x: window.innerWidth - x - deyboardRef.current.clientWidth + (deyboardRef.current.clientWidth - el.clientWidth) / 2,
+        y: window.innerHeight - y + 20,
+      })
+    } else if(position === 'bottom') {
+      setAxis({
+        x: window.innerWidth - x - deyboardRef.current.clientWidth + (deyboardRef.current.clientWidth - el.clientWidth) / 2,
+        y: window.innerHeight - y - el.clientHeight - deyboardRef.current.clientHeight - 20,
+      })
+    }
   }, [open])
 
   const [startDrag, setStartDrag] = useState(false)
@@ -117,6 +129,7 @@ export const DeyBoard = ({ onChanges, value, onClose, open }) => {
         setKref(ref)
       }}
       layoutName={layoutName}
+      layoutCandidates={layoutName === 'default' ? chinese.layoutCandidates : null}
       layout={{
         default: [
           '` 1 2 3 4 5 6 7 8 9 0 - {backspace}',

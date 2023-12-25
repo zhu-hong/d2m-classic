@@ -4,7 +4,7 @@ import ReactDatePicker, { registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import zhCN from 'date-fns/locale/zh-CN'
 import dayjs from "dayjs"
-import { useConfigStore } from "@/store.jsx"
+import { useConfigStore, useDeyboardStore } from "@/store.jsx"
 import { useApi } from "@/hook.js"
 import { useEffect } from "react"
 import { enqueueSnackbar } from "notistack"
@@ -17,6 +17,7 @@ const LogPage = () => {
   const [endTime, setEndTime] = useState(new Date(dayjs().format('YYYY/MM/DD 23:59:00')))
   const [opType, setOpType] = useState('all')
   const { config } = useConfigStore()
+  const deyboard = useDeyboardStore()
   const [man, setMan] = useState('')
   const [loading, setLoading] = useState(true)
 
@@ -46,15 +47,42 @@ const LogPage = () => {
 
   useEffect(() => {
     onSearch()
+
+    return () => deyboard.closeDeyboard()
   }, [])
+
+  const onFocus = () => {
+    deyboard.setDeyboardValue(man)
+    deyboard.setMiddleFunc(setMan)
+    deyboard.setPosition('bottom')
+    deyboard.openDeyboard()
+  }
 
   return <Box className='flex flex-col h-full overflow-auto'>
     <Box className='bg-white px-24px py-28px mb-16px flex items-center flex-wrap text-lg text-[#646A73] children:mr-40px children:mb-16px'>
       <Box className='flex items-center'>
         <Box className="flex-none">时间筛选：</Box>
-        <ReactDatePicker filterDate={(date) => date <= endTime} locale="zh-CN" dateFormat="yy/MM/dd" placeholderText='开始时间' selected={startTime} onChange={setStartTime} />
+        <ReactDatePicker
+          filterDate={(date) => date <= endTime}
+          locale="zh-CN" dateFormat="yy/MM/dd"
+          placeholderText='开始时间'
+          selected={startTime}
+          onChange={setStartTime}
+          showIcon={true}
+          icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6l-6-6z"></path></svg>}
+          toggleCalendarOnIconClick={true}
+        />
         <Box className='mx-8px'>~</Box>
-        <ReactDatePicker filterDate={(date) => date >= startTime} locale="zh-CN" dateFormat="yy/MM/dd" placeholderText='结束时间' selected={endTime} onChange={setEndTime} />
+        <ReactDatePicker
+          filterDate={(date) => date >= startTime}
+          locale="zh-CN" dateFormat="yy/MM/dd"
+          placeholderText='结束时间'
+          selected={endTime}
+          onChange={setEndTime}
+          showIcon={true}
+          icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6l-6-6z"></path></svg>}
+          toggleCalendarOnIconClick={true}
+        />
       </Box>
       <Box className='flex items-center'>
         <Box className="flex-none">操作类型：</Box>
@@ -72,7 +100,10 @@ const LogPage = () => {
       </Box>
       <Box className='flex items-center'>
         <Box className="flex-none">操作人：</Box>
-        <OutlinedInput size='small' className='w-184px' placeholder="请输入工号或姓名" value={man} />
+        <OutlinedInput size='small' className='w-184px' placeholder="请输入工号或姓名" value={man} onChange={(e) => {
+          deyboard.setDeyboardValue(e.target.value)
+          setMan(e.target.value)
+        }} onFocus={onFocus} />
       </Box>
       <Box><Button variant="contained" onClick={onSearch} disabled={loading}>
         {

@@ -135,7 +135,6 @@ export const ConfigDialog = ({ onConfirmSuccess, open, onClose }) => {
   const onFocus = () => {
     deyboard.setDeyboardValue(serveUrl)
     deyboard.setMiddleFunc(setServeUrl)
-    deyboard.setLayoutName('default')
     deyboard.openDeyboard()
   }
 

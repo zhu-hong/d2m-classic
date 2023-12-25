@@ -11,7 +11,6 @@ export const JobNumDialog = ({ open, onClose, onConfirm }) => {
   const onFocus = () => {
     deyboard.setDeyboardValue(jobNum)
     deyboard.setMiddleFunc(setJobNum)
-    deyboard.setLayoutName('default')
     deyboard.openDeyboard()
   }
 

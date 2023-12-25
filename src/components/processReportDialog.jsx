@@ -58,10 +58,10 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
       }
       setPass(value)
     })
-    deyboard.setLayoutName('number')
     if(deyboard.open) {
       deyboard.closeDeyboard()
       await delay(300)
+      deyboard.setLayoutName('number')
     }
     deyboard.openDeyboard()
   }
@@ -73,10 +73,10 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
       }
       setNoPass(value)
     })
-    deyboard.setLayoutName('number')
     if(deyboard.open) {
       deyboard.closeDeyboard()
       await delay(300)
+      deyboard.setLayoutName('number')
     }
     deyboard.openDeyboard()
   }

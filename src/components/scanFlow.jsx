@@ -101,7 +101,6 @@ export const ScanFlow = ({ open, onClose }) => {
   const onFocus = () => {
     deyboard.setDeyboardValue(jobNum)
     deyboard.setMiddleFunc(setJobNum)
-    deyboard.setLayoutName('default')
     deyboard.openDeyboard()
   }
 

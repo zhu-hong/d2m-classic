@@ -81,6 +81,8 @@ export const useConfigStore = create((set) => {
     setDeyboardValue:()=>void;
     middleFunc:()=>void;
     setMiddleFunc:()=>void;
+    position:string;
+    setPosition:()=>void;
   } 
 }
  */
@@ -95,5 +97,7 @@ export const useDeyboardStore = create((set) =>  {
     setDeyboardValue: (value) => set(() => ({ deyboardValue: value })),
     middleFunc: null,
     setMiddleFunc: (func) => set(() => ({ middleFunc: func })),
+    position: 'top',
+    setPosition: (position) => set(() => ({ position, })),
   }
 })
