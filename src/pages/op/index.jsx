@@ -52,7 +52,7 @@ const OperatePage = () => {
   const [scanOpen, setScanOpen] = useState(false)
 
   const floatButton = useRef()
-  const [bottom, setBottom] = useState(250)
+  const [bottom, setBottom] = useState(window.innerHeight/3)
 
   const { config, setWorkcenters, setWorkstations, setConfig } = useConfigStore()
   const api = useApi(config.serveUrl)
@@ -115,7 +115,7 @@ const OperatePage = () => {
 
   const deyboard = useDeyboardStore()
 
-  return <Box component='main' className='h-full flex flex-col relative' onTouchEnd={onPointerUp} onTouchCancel={onPointerUp} onPointerMove={onPointerMove}>
+  return <Box component='main' className='h-full flex flex-col relative' onTouchEnd={onPointerUp} onTouchCancel={onPointerUp} onTouchMove={onPointerMove}>
     <Header actions={[
       <Button key='action-quit' className="w-64px h-64px" onClick={() => navigate('/')}>
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="evenodd" d="M4 1.333A2.657 2.657 0 0 0 1.333 4v24A2.657 2.657 0 0 0 4 30.667h12A2.657 2.657 0 0 0 18.667 28v-8H16v8H4V4h12v8h2.667V4A2.657 2.657 0 0 0 16 1.333Zm20 9.334v4H9.333v2.666H24v4L30.667 16 24 10.667" /></svg>
@@ -141,12 +141,12 @@ const OperatePage = () => {
             <span className="mt-4px">设备</span>
           </Box>
         </Button>
-        {/* <Button onClick={() => navigate('/op/log')} variant={location.pathname==='/op/log'?'contained':''} className="w-80px h-96px">
+        <Button onClick={() => navigate('/op/log')} variant={location.pathname==='/op/log'?'contained':''} className="w-80px h-96px">
           <Box className='flex flex-col justify-center items-center text-white text-lg font-medium'>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="#FFF" fillRule="nonzero" d="M20.095 2c1.558 0 2.812 1.259 2.9 2.825L23 5v8.683a6 6 0 0 1-8.322 8.314L14.62 22H3.905c-1.558 0-2.812-1.259-2.9-2.825L1 19V5c0-1.587 1.199-2.903 2.733-2.995L3.905 2h16.19M18 13a4 4 0 1 0 0 8 4 4 0 0 0 0-8m2.095-9H3.905c-.454 0-.845.377-.899.881L3 5v14c0 .523.359.937.801.993l.104.007 8.898.001a6 6 0 0 1 8.198-8.198L21 5c0-.523-.359-.937-.801-.993L20.095 4M19 14v2h2v2h-4v-4zM9 15v2H5v-2zm2-4v2H5v-2zm4-4v2H5V7z"/></svg>
             <span className="mt-4px">日志</span>
           </Box>
-        </Button> */}
+        </Button>
         <Box sx={{flex:'auto'}}></Box>
         <Button onClick={() => navigate('/op/andon')} variant={location.pathname==='/op/andon'?'contained':''} className="w-80px h-96px">
           <Box className='flex flex-col justify-center items-center text-white text-lg font-medium'>

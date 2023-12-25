@@ -38,7 +38,6 @@ export const DeyBoard = ({ onChanges, value, onClose, open }) => {
     if(!open) return
 
     const el = document.activeElement
-    console.log(el)
     let { x, y } = el.getBoundingClientRect()
 
     setAxis({
@@ -82,7 +81,6 @@ export const DeyBoard = ({ onChanges, value, onClose, open }) => {
     const onUp = () => {
       if(!startDrag) return
       setStartDrag(false)
-      localStorage.setItem('dp', JSON.stringify(axis))
     }
 
     document.addEventListener('touchmove', onMove)
@@ -95,13 +93,6 @@ export const DeyBoard = ({ onChanges, value, onClose, open }) => {
       document.removeEventListener('touchcancel', onUp)
     }
   }, [startDrag])
-
-  useEffect(() => {
-    const dp = localStorage.getItem('dp')
-    if(dp !== null) {
-      setAxis(JSON.parse(dp))
-    }
-  }, [])
 
   const onPointerDown = (e) => {
     setStartDrag(true)

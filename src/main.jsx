@@ -11,7 +11,7 @@ import router from './router.jsx'
 
 createRoot(document.getElementById('root')).render(<StrictMode>
   <ThemeProvider theme={theme}>
-    <SnackbarProvider maxSnack={5} anchorOrigin={{horizontal:'right',vertical:'bottom'}} transitionDuration={{enter:150,exit:150}} autoHideDuration={1500}>
+    <SnackbarProvider maxSnack={5} anchorOrigin={{horizontal:'right',vertical:'bottom'}} transitionDuration={{enter:150,exit:150}} autoHideDuration={3000}>
       <RouterProvider router={router} />
     </SnackbarProvider>
   </ThemeProvider>

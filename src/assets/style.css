@@ -2,8 +2,44 @@
   height: 48px;
 }
 .hg-button-backspace {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAjxJREFUWEft1kuoTWEUB/DfFXlGIVMmJIXyGHgkj2QiwsTAiPIaoFASEyUlFPIYMUahRJE8kjfJo0yUGGAmiZjIXre969jts/c+17nd6K7Z3mt9a/2//3p9HXpYOno4vl4A/wwDE7EGk9Cnhbr5goe4hQf4lT9bxUDoj2N9C0GbmX7GKlxpNKgCsAe72xA8c/EdE/Au+1EGYDbutDF45uoillUBGIxXGNMNAL5hSBWAyPuGbgieuRyN9/FRlIJpeFwR/EV6NrojL68xFn1LfESMp0UABiT5eY5xFQBGIai8hPkNtptwNNFtx/4SH3Oy+sozsAP7alB/CFvRD+ewNKF0NU5jGG5jcomfBbiRZyCcfcDIGgDCZFcCYG9K9aw06CBcx4wKH4twLQ9gXoaqJoAw24wjqX2kL4ZM+KmSJWn6/ijCubhZdTKn34LDDQCuJpeI/FbJimSsny9KwcekiEZUnU71f5OC5UmNXCjqgnU4WQPAQWxLCrZ/MlrPIiiNZXUqLcJ76cht5moxLhcBiK54hOjTZhIbLQr1R5rHqOhMsjaMDjlQ4mNhWqyFg2gqnlSw8AwDMb7ALtZutGDom8lM3C9iIDtwDBtrpKKrJrFjOjdis23Yncso3gXDM+Rl6zhoutvVK5acO4OVdQCETUy6nW0E8TOp/ul4WRdAvP9OJCN6bRtAvElv3rkF6wLI7GLtxoCKaTkFQwsAxe3eJu/HTw26yHfc9mu6flt+lLbh4uUuqh6lvQD+fwZ+A6xkWCFr46HuAAAAAElFTkSuQmCC) !important;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAYAAACoPemuAAAAAXNSR0IArs4c6QAAAh1JREFUWEftmDtLHUEUx38XizSiIfjCWkIwSWOnYGMjQlALRYT4SEhA7MTKb6CN2AmSBBJRREENATvzRL9CCgkEI/gtNPcPuzAse3dmdq46hdNc2D2P354zc86ZWyHSVYmUi3sw38z4RKwXeODrwFP+D/BPOi5gD4EdYNDTSVnxXWDGBWwDeFvWS0m9FRvYAHBc0niI2nkRWBPwG+gM8VBWtwjsA/CqrOFQvVpgQ8BRqPEQ/TwwpfAMaHMw/BeYAvaADgf5aWAYGLPJ5oF9SpzZdAXVD1wAXcCvArgrQFBbQENSfgrhsmAvgC82ouT9KrBoyD4GfgLtOfqC2jSe9wEnRX5MsEfJKXRJYWpzCVg2HChyp0Br8uy6GtE3gA5SunqAH0CjK9g2MOkYLVNsAVgzHjxJItdSA+or0Gzzk0ZMG/KzTbjgvVKq1KbrKaDe+i4TKRVrtTjrEphSqFOo35A1X91f6zUMPE8OhzVSqb7ADoDRECJDNw9OUN99P1xg6ubjMYLVK5XZQ2B+a6lUysAIcBgQtezm7wZUq7Kb/1v1kKizWJdZx6IsF/qCaAus4EJaUlG/nAU+GvnzakmpXpRNXHC+Y4/amGqhy9gzkZSmUmOP4KIcFNOURjlapymN8jIiuLu6vl3a7pWC08QwZy3V9RVYcwGTy/fA6/r6rmltH3jpCiYrmkif3TCc158qN8ySb94nYrcKeA/mG+7/2npfAHWFF3QAAAAASUVORK5CYII=') !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   color: transparent !important;
+}
+.react-datepicker__navigation {
+  top: 12px !important;
+}
+.react-datepicker__input-container input {
+  width: 176px;
+  height: 40px;
+  padding: 4px 45px 4px 10px;
+  font-size: 18px;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  outline: none;
+}
+.react-datepicker__input-container input:hover {
+  border-color: #000000;
+}
+.react-datepicker__input-container input:focus {
+  border-color: #058373;
+  border-width: 2px;
+}
+.react-datepicker__day--outside-month {
+  opacity: .5;
+}
+.react-datepicker__day--selected {
+  background-color: #058373 !important;
+}
+.react-datepicker__day--keyboard-selected {
+  color: #ffffff !important;
+  background-color: rgba(5, 131, 115, .7) !important;
+}
+.react-datepicker__day--keyboard-selected:hover {
+  background-color: rgba(5, 131, 115) !important;
+}
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
 }

@@ -158,7 +158,7 @@ const MachinePage = () => {
               <p className="text-[#646A73]">更新时间：{curEquipment.UpdateTime}</p>
             </div>
             <Box className='border overflow-auto flex-auto border-[#CECECE] mt-17px flex flex-col'>
-              <Box className='w-full flex-none bg-[#CDE6E3] children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
+              <Box className='w-full flex-none bg-[#CDE6E3] children:py-10px flex children:border-b children:border-r children:border-[#CECECE] children:pl-10px'>
                 <Box sx={{width:'15%'}}>参数编号</Box>
                 <Box sx={{width:'15%'}}>参数名称</Box>
                 <Box sx={{width:'20%'}}>标准</Box>
@@ -170,7 +170,7 @@ const MachinePage = () => {
                   curEquipment.Parameters.length > 0
                   ?
                   curEquipment.Parameters.map((p, i) => {
-                    return <Box key={p.ParameterCode} className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
+                    return <Box key={p.ParameterCode} className={['w-full children:py-10px flex children:border-b children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
                       <Box sx={{width:'15%'}}>{p.ParameterCode}</Box>
                       <Box sx={{width:'15%'}}>{p.ParamterName}</Box>
                       <Box sx={{width:'20%'}}>{p.StandardValue}</Box>
@@ -192,7 +192,7 @@ const MachinePage = () => {
               <p className="text-xl text-[#000c25]">MRO信息</p>
             </div>
             <Box className='border border-[#CECECE] mt-17px flex-auto overflow-auto flex flex-col'>
-              <Box className='w-full flex-none overflow-auto bg-[#CDE6E3] children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
+              <Box className='w-full flex-none overflow-auto bg-[#CDE6E3] children:py-10px flex children:border-b children:border-r children:border-[#CECECE] children:pl-10px'>
                 <Box sx={{width:'40%'}}>MRO 类型</Box>
                 <Box sx={{width:'30%'}}>MRO 编号</Box>
                 <Box sx={{width:'30%'}} className='border-r-0'>MRO 名称</Box>
@@ -202,7 +202,7 @@ const MachinePage = () => {
                   curEquipment.Mros.length > 0
                   ?
                   curEquipment.Mros.map((m) => {
-                    return <Box key={m.MroCode} className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
+                    return <Box key={m.MroCode} className={['w-full children:py-10px flex children:border-b children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
                       <Box sx={{width:'40%'}}>{m.MroType}</Box>
                       <Box sx={{width:'30%'}}>{m.MroCode}</Box>
                       <Box sx={{width:'30%'}} className='border-r-0'>{m.MroName}</Box>

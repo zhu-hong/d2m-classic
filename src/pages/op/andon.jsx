@@ -155,6 +155,7 @@ const AndonPage = () => {
       AndonItemGuid: curAndonTriggor.AndonItemGuid,
       EmployeeGuid: realtimeemployee.EmployeeGuid,
       EmployeeName: realtimeemployee.EmployeeName,
+      EmployeeCode: realtimeemployee.EmployeeCode,
       WorkstationGuid: stationGuid,
     }).then((res) => {
       if(res.code === 0) {
@@ -181,6 +182,7 @@ const AndonPage = () => {
       AndonGuid: curAndonRecord.AndonGuid,
       EmployeeGuid: employee.EmployeeGuid,
       EmployeeName: employee.EmployeeName,
+      EmployeeCode: employee.EmployeeCode,
       IsStop: isstop,
     }).then(() => getAndon())
   }
@@ -195,6 +197,7 @@ const AndonPage = () => {
       AndonGuid: curAndonRecord.AndonGuid,
       EmployeeGuid: employee.EmployeeGuid,
       EmployeeName: employee.EmployeeName,
+      EmployeeCode: employee.EmployeeCode,
     }).then(() => getAndon())
   }
 
@@ -204,6 +207,7 @@ const AndonPage = () => {
       AndonGuid: curAndonRecord.AndonGuid,
       EmployeeGuid: employee.EmployeeGuid,
       EmployeeName: employee.EmployeeName,
+      EmployeeCode: employee.EmployeeCode,
       IsPass: ispass,
     }).then(() => getAndon())
   }
@@ -301,71 +305,15 @@ const AndonPage = () => {
                       {
                         s.State === '待处理'
                         ?
-                        <>
-                          <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="contained" className="w-80px h-32px"><span className="text-lg">处理</span></Button>
-    
-                          <Dialog open={isStopOpen} maxWidth='720px' onClose={() => setIsStopOpen(false)} scroll='paper'>
-                            <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
-                              <p>停线选择</p>
-                              <IconButton onClick={() => setIsStopOpen(false)}><Close/></IconButton>
-                            </DialogTitle>
-                            <DialogContent className='w-720px flex justify-center items-center mt-4'>
-                              <div onClick={() => setIsStop(1)} className={["w-160px h-160px flex justify-center items-center mr-10 text-2xl text-[#000C25] font-medium border", IsStop === 1?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>停线</div>
-                              <div onClick={() => setIsStop(0)} className={["w-160px h-160px flex justify-center items-center text-2xl text-[#000C25] font-medium border", IsStop === 0?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>不停线</div>
-                            </DialogContent>
-                            <DialogActions style={{justifyContent:'center'}}>
-                              <Button onClick={() => onCinfirmIsStop(IsStop)} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
-                              <Button onClick={() => setIsStopOpen(false)} className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}}><span className="text-2xl text-[#646A73]">取消</span></Button>
-                            </DialogActions>
-                          </Dialog>
-                        </>
+                        <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="contained" className="w-80px h-32px"><span className="text-lg">处理</span></Button>
                         :
                         s.State === '处理中'
                         ?
-                        <>
-                          <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">关闭</span></Button>
-    
-                          <Dialog open={faultOpen} maxWidth='950px' onClose={() => setFaultOpen(false)} scroll='paper'>
-                            <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
-                              <p>Andon定义</p>
-                              <IconButton onClick={() => setFaultOpen(false)}><Close/></IconButton>
-                            </DialogTitle>
-                            <DialogContent className='w-950px flex justify-center items-center mt-4'>
-                              <Grid container spacing={4}>
-                                {
-                                  faultOptions.map((f) => <Grid xs={3} item key={f.AndonFaultGuid}>
-                                    <div onClick={() => setCurFaultOption(f)} className={["w-full h-120px border flex justify-center items-center text-[#000C25] font-medium text-2xl", (curFaultOption&&curFaultOption.AndonFaultGuid === f.AndonFaultGuid)?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>{f.AndonFaultName}</div>
-                                  </Grid>)
-                                }
-                              </Grid>
-                            </DialogContent>
-                            <DialogActions style={{justifyContent:'center'}}>
-                              <Button disabled={curFaultOption === null} onClick={() => onConfirmFaultOption(curFaultOption)} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
-                              <Button onClick={() => setFaultOpen(false)} className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}}><span className="text-2xl text-[#646A73]">取消</span></Button>
-                            </DialogActions>
-                          </Dialog>
-                        </>
+                        <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">关闭</span></Button>
                         :
                         s.State === '关闭中'
                         ?
-                        <>
-                          <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">确认</span></Button>
-    
-                          <Dialog open={openPass} maxWidth='720px' onClose={() => setOpenPass(false)} scroll='paper'>
-                            <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
-                              <p>判定</p>
-                              <IconButton onClick={() => setOpenPass(false)}><Close/></IconButton>
-                            </DialogTitle>
-                            <DialogContent className='w-720px flex justify-center items-center mt-4'>
-                              <div onClick={() => setIsPass(1)} className={["w-160px h-160px flex justify-center items-center mr-10 text-2xl text-[#000C25] font-medium border", isPass === 1?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>通过</div>
-                              <div onClick={() => setIsPass(0)} className={["w-160px h-160px flex justify-center items-center text-2xl text-[#000C25] font-medium border", isPass === 0?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>不通过</div>
-                            </DialogContent>
-                            <DialogActions style={{justifyContent:'center'}}>
-                              <Button onClick={() => onCinfirmIsPass(isPass)} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
-                              <Button onClick={() => setOpenPass(false)} className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}}><span className="text-2xl text-[#646A73]">取消</span></Button>
-                            </DialogActions>
-                          </Dialog>
-                        </>
+                        <Button disabled={s.Isauto===1} onClick={() => onOperationAndon(s)} variant="outlined" className="w-80px h-32px"><span className="text-lg">确认</span></Button>
                         :
                         <>-</>
                       }
@@ -414,6 +362,56 @@ const AndonPage = () => {
       :
       null
     }
+
+    <Dialog open={isStopOpen} maxWidth='720px' onClose={() => setIsStopOpen(false)} scroll='paper'>
+      <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
+        <p>停线选择</p>
+        <IconButton onClick={() => setIsStopOpen(false)}><Close/></IconButton>
+      </DialogTitle>
+      <DialogContent className='w-720px flex justify-center items-center mt-4'>
+        <div onClick={() => setIsStop(1)} className={["w-160px h-160px flex justify-center items-center mr-10 text-2xl text-[#000C25] font-medium border", IsStop === 1?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>停线</div>
+        <div onClick={() => setIsStop(0)} className={["w-160px h-160px flex justify-center items-center text-2xl text-[#000C25] font-medium border", IsStop === 0?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>不停线</div>
+      </DialogContent>
+      <DialogActions style={{justifyContent:'center'}}>
+        <Button onClick={() => onCinfirmIsStop(IsStop)} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
+        <Button onClick={() => setIsStopOpen(false)} className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}}><span className="text-2xl text-[#646A73]">取消</span></Button>
+      </DialogActions>
+    </Dialog>
+
+    <Dialog open={faultOpen} maxWidth='950px' onClose={() => setFaultOpen(false)} scroll='paper'>
+      <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
+        <p>Andon定义</p>
+        <IconButton onClick={() => setFaultOpen(false)}><Close/></IconButton>
+      </DialogTitle>
+      <DialogContent className='w-950px flex justify-center items-center mt-4'>
+        <Grid container spacing={4}>
+          {
+            faultOptions.map((f) => <Grid xs={3} item key={f.AndonFaultGuid}>
+              <div onClick={() => setCurFaultOption(f)} className={["w-full h-120px border flex justify-center items-center text-[#000C25] font-medium text-2xl", (curFaultOption&&curFaultOption.AndonFaultGuid === f.AndonFaultGuid)?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>{f.AndonFaultName}</div>
+            </Grid>)
+          }
+        </Grid>
+      </DialogContent>
+      <DialogActions style={{justifyContent:'center'}}>
+        <Button disabled={curFaultOption === null} onClick={() => onConfirmFaultOption(curFaultOption)} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
+        <Button onClick={() => setFaultOpen(false)} className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}}><span className="text-2xl text-[#646A73]">取消</span></Button>
+      </DialogActions>
+    </Dialog>
+
+    <Dialog open={openPass} maxWidth='720px' onClose={() => setOpenPass(false)} scroll='paper'>
+      <DialogTitle className="flex justify-between items-center bg-[#DAE6E5] h-56px">
+        <p>判定</p>
+        <IconButton onClick={() => setOpenPass(false)}><Close/></IconButton>
+      </DialogTitle>
+      <DialogContent className='w-720px flex justify-center items-center mt-4'>
+        <div onClick={() => setIsPass(1)} className={["w-160px h-160px flex justify-center items-center mr-10 text-2xl text-[#000C25] font-medium border", isPass === 1?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>通过</div>
+        <div onClick={() => setIsPass(0)} className={["w-160px h-160px flex justify-center items-center text-2xl text-[#000C25] font-medium border", isPass === 0?'border-[#058373] bg-[#F2F9F8]':'border-[#CECECE]'].join(' ')}>不通过</div>
+      </DialogContent>
+      <DialogActions style={{justifyContent:'center'}}>
+        <Button onClick={() => onCinfirmIsPass(isPass)} className="w-144px h-56px" variant="contained"><span className="text-2xl text-white">确认</span></Button>
+        <Button onClick={() => setOpenPass(false)} className="w-144px h-56px" style={{backgroundColor:'#CECECE',borderRadius:'0',marginLeft:32}}><span className="text-2xl text-[#646A73]">取消</span></Button>
+      </DialogActions>
+    </Dialog>
   </div>
 }
 

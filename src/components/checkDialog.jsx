@@ -59,7 +59,7 @@ export const CheckDialog = ({ open, onClose, equipment, onConfirm }) => {
         <p className="ml-16px">{equipment.EquipmentName}</p>
       </div>
       <Box className='border-t border-r border-l border-[#CECECE] mt-17px'>
-        <Box className='w-full overflow-auto bg-[#CDE6E3] children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px'>
+        <Box className='w-full overflow-auto bg-[#CDE6E3] children:py-10px flex children:border-b children:border-r children:border-[#CECECE] children:pl-10px'>
           <Box sx={{width:'10%'}}>序号</Box>
           <Box sx={{width:'10%'}}>部位</Box>
           <Box sx={{width:'10%'}}>方法</Box>
@@ -70,7 +70,7 @@ export const CheckDialog = ({ open, onClose, equipment, onConfirm }) => {
         </Box>
         {
           checkItem.map((c, i) => {
-            return <Box key={c.OrdercaGuid} className={['w-full children:py-10px flex children:border-b not-last:children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
+            return <Box key={c.OrdercaGuid} className={['w-full children:py-10px flex children:border-b children:border-r children:border-[#CECECE] children:pl-10px', ['bg-[#FFFFFF]','bg-[#F2F9F8]'][i%2]].join(' ')}>
               <Box sx={{width:'10%'}}>{i+1}</Box>
               <Box sx={{width:'10%'}}>{c.Name}</Box>
               <Box sx={{width:'10%'}}>{c.Method}</Box>

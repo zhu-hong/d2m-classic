@@ -416,5 +416,12 @@ export function createApi(serveUrl, config = {}) {
     async EquipmentCheck(paylod) {
       return await ins.post('/EquipmentCheck', paylod)
     },
+    /**
+     * 获取终端操作日志
+     * @param {{TerminalType:number;StartTime:string;EndTime:string;Name:string;Code:string;}} paylod 
+     */
+    async GetTerminalOperateLog(paylod) {
+      return await ins.post('/GetTerminalOperateLog', paylod)
+    },
   }
 }
