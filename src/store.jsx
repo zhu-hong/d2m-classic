@@ -98,6 +98,6 @@ export const useDeyboardStore = create((set) =>  {
     middleFunc: null,
     setMiddleFunc: (func) => set(() => ({ middleFunc: func })),
     position: 'top',
-    setPosition: (position) => set(() => ({ position, })),
+    setPosition: (position) => set(() => ({ position })),
   }
 })

@@ -176,7 +176,7 @@ const OperatePage = () => {
 
     <ScanFlow open={scanOpen} onClose={() => setScanOpen(false)} />
 
-    <DeyBoard value={deyboard.deyboardValue} open={deyboard.open} onChanges={[deyboard.onDeyboardValueChange,deyboard.middleFunc]} onClose={deyboard.closeDeyboard} />
+    <DeyBoard value={deyboard.deyboardValue} open={deyboard.open} onChanges={[deyboard.setDeyboardValue,deyboard.middleFunc]} onClose={deyboard.closeDeyboard} />
   </Box>
 }
 

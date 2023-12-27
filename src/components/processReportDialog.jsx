@@ -60,9 +60,9 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
     })
     if(deyboard.open) {
       deyboard.closeDeyboard()
-      await delay(300)
-      deyboard.setLayoutName('number')
+      await delay(1)
     }
+    deyboard.setLayoutName('number')
     deyboard.openDeyboard()
   }
   const onNoPassFocus = async () => {
@@ -75,9 +75,9 @@ export const ProcessReport = ({ open, onClose, task, validateInfo, onConfirmRepo
     })
     if(deyboard.open) {
       deyboard.closeDeyboard()
-      await delay(300)
-      deyboard.setLayoutName('number')
+      await delay(1)
     }
+    deyboard.setLayoutName('number')
     deyboard.openDeyboard()
   }
 
