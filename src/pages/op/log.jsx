@@ -35,6 +35,7 @@ const LogPage = () => {
       EndTime: dayjs(endTime).format('YYYY-MM-DD 23:59:59'),
       Name: opType === 'all' ? '' : opType,
       Code: man,
+      LocationGuid: [config.terminalInfo.WorkcenterGuid,config.terminalInfo.WorkstationGuid][config.terminalType],
     }).then((res) => {
       if(res.code === 0) {
         setList(res.data)

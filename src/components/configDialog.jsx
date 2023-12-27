@@ -87,10 +87,6 @@ export const ConfigDialog = ({ onConfirmSuccess, open, onClose }) => {
     if(!validationConfig(true)) return
 
     onClose()
-    console.log({
-      ...configTemp,
-      serveUrl,
-    })
     onConfirmSuccess({
       ...configTemp,
       serveUrl,

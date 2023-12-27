@@ -418,7 +418,7 @@ export function createApi(serveUrl, config = {}) {
     },
     /**
      * 获取终端操作日志
-     * @param {{TerminalType:number;StartTime:string;EndTime:string;Name:string;Code:string;}} paylod 
+     * @param {{TerminalType:number;StartTime:string;EndTime:string;Name:string;Code:string;LocationGuid:string;}} paylod 
      */
     async GetTerminalOperateLog(paylod) {
       return await ins.post('/GetTerminalOperateLog', paylod)
