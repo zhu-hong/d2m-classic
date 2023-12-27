@@ -169,7 +169,10 @@ const OperatePage = () => {
     <Footer />
 
     <div ref={floatButton} className="absolute right-0" style={{bottom:bottom+'px'}} onTouchStart={onPointerDown}>
-      <Button onClick={() => setScanOpen(true)} className="w-64px h-64px" variant="contained">
+      <Button onClick={() => {
+        deyboard.closeDeyboard()
+        setScanOpen(true)
+      }} className="w-64px h-64px" variant="contained">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><path fill="#FFF" fillRule="nonzero" d="M29.333 20c.737 0 1.334.597 1.334 1.333v5.334a4 4 0 0 1-4 4h-5.334a1.333 1.333 0 0 1 0-2.667h5.334c.736 0 1.333-.597 1.333-1.333v-5.334c0-.736.597-1.333 1.333-1.333M2.667 20C3.403 20 4 20.597 4 21.333v5.334C4 27.403 4.597 28 5.333 28h5.334a1.333 1.333 0 0 1 0 2.667H5.333a4 4 0 0 1-4-4v-5.334c0-.736.597-1.333 1.334-1.333Zm28-5.333v2.666H1.333v-2.666h29.334m-4-13.334a4 4 0 0 1 4 4v5.334a1.333 1.333 0 0 1-2.667 0V5.333C28 4.597 27.403 4 26.667 4h-5.334a1.333 1.333 0 0 1 0-2.667h5.334Zm-16 0a1.333 1.333 0 0 1 0 2.667H5.333C4.597 4 4 4.597 4 5.333v5.334a1.333 1.333 0 0 1-2.667 0V5.333a4 4 0 0 1 4-4h5.334"/></svg>
       </Button>
     </div>
