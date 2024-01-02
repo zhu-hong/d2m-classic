@@ -165,7 +165,7 @@ export const AttendanceDialog = forwardRef(({ workcenter, onConfirm }, ref) => {
                   :
                   u.Employees.map((e) => {
                     return <Paper key={e.EmployeeCode} className='flex-none mr-16px flex justify-between items-center p-16px w-220px'>
-                      <img src={e.EmployeePicture||workerAvatar} className='w-64px h-64px flex-none rounded-full object-cover border border-[#058373]' />
+                      <img src={e.EmployeePicture?'data:image/png;base64,'+e.EmployeePicture:workerAvatar} className='w-64px h-64px flex-none rounded-full object-cover border border-[#058373]' />
                       <Box className='ml-16px flex-auto'>
                         <Box className='mb-8px text-[#000C25]'>姓名：{e.EmployeeName}</Box>
                         <Box className='text-[#646A73]'>工号：{e.EmployeeCode}</Box>

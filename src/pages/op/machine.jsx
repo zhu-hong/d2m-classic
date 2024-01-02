@@ -104,7 +104,7 @@ const MachinePage = () => {
         </Box>
         <Box className='flex-auto overflow-auto flex'>
           <Box className='h-full w-304px bg-white overflow-auto p-24px'>
-            <img src={curEquipment.EquipmentPicture||machineError} className="w-full h-200px object-cover block mb-24px" />
+            <img src={curEquipment.EquipmentPicture?'data:image/png;base64,'+curEquipment.EquipmentPicture:machineError} className="w-full h-200px object-cover block mb-24px" />
             <p className="text-xl text-[#000C25] mb-8px">{curEquipment.EquipmentName}</p>
             <p className="text-[#646A73] text-lg font-bold">{curEquipment.EquipmentCode}</p>
             <Box className='mt-38px flex items-center justify-between text-lg'>
@@ -339,7 +339,7 @@ const MachinePage = () => {
                           <Box className='text-xl text-[#000C25] mb-8px'>{e.EquipmentName}</Box>
                           <Box className='text-[#646A73]'>{e.EquipmentCode}</Box>
                         </Box>
-                        <img src={e.EquipmentPicture||machineError} className="w-104px h-71px object-cover flex-none ml-4" />
+                        <img src={e.EquipmentPicture?'data:image/png;base64,'+e.EquipmentPicture:machineError} className="w-104px h-71px object-cover flex-none ml-4" />
                       </Box>
                       <Divider />
                       <Box className='flex justify-between items-center mb-11px mt-15px'>

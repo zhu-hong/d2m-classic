@@ -143,7 +143,7 @@ export const ScanFlow = ({ open, onClose }) => {
         <DialogContent className="w-640px">
           <div className="w-504px pt-18px pb-34px border border-[#CECECE] mx-auto mt-24px">
             <div className="w-352px mx-auto flex items-center">
-              <img src={user.EmployeePicture||workerAvatar} className="flex-none w-96px h-96px object-cover mr-16px" />
+              <img src={user.EmployeePicture?'data:image/png;base64,'+user.EmployeePicture:workerAvatar} className="flex-none w-96px h-96px object-cover mr-16px" />
               <div className="flex-auto text-xl text-[#000c25]">
                 <div>姓名：{user.EmployeeName}</div>
                 <div className="mt-16px">工号：{user.EmployeeCode}</div>

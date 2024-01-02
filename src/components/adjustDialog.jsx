@@ -28,7 +28,7 @@ export const AdjustDialog = ({ open, onClose, equipment, onConfirm }) => {
     </DialogTitle>
     <DialogContent className="w-632px">
       <div className="flex items-center mt-24px">
-        <img src={equipment.EquipmentPicture||machineError} className="w-88px h-60px object-cover flex-none" />
+        <img src={equipment.EquipmentPicture?'data:image/png;base64,'+equipment.EquipmentPicture:machineError} className="w-88px h-60px object-cover flex-none" />
         <div className="ml-21px flex-auto">
           <div className="flex justify-between items-center text-lg text-[#000C25]">
             <p>{equipment.EquipmentCode}/{equipment.EquipmentName}</p>
