@@ -23,8 +23,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          const vendorReactMui = ['node_modules'+sep+'react', 'node_modules'+sep+'@mui', 'node_modules'+sep+'@emotion']
-          if(vendorReactMui.find((v) => id.includes(v))) return 'vendor-react-mui'
+          const vendorReact = [`node_modules${sep}react${sep}`, `node_modules${sep}react-dom${sep}`, `node_modules${sep}@mui`, `node_modules${sep}@emotion`]
+          if(vendorReact.find((v) => id.includes(v))) return 'vendor-react-mui'
 
           if(id.includes('node_modules'+sep+'@fontsource/roboto')) return 'robotofont'
         },
