@@ -319,7 +319,7 @@ const ProcessPage = () => {
               <Skeleton variant="rectangular" sx={{width:'100%',height:'100%'}} />
             </div>
             :
-            <Box className='w-364px bg-white mr-16px px-24px overflow-auto py-27px children:mb-16px'>
+            <Box className='w-364px flex-none bg-white mr-16px px-24px overflow-auto py-27px children:mb-16px'>
               <Box className='text-[#000C25] font-bold text-xl'>任务编号：{taskInfo.TaskCode}</Box>
               <Box className='text-[#000C25] font-bold text-xl'>产品编号：{taskInfo.ProductCode}</Box>
               <Box className='text-[#000C25] font-bold text-xl'>产品名称：{taskInfo.ProductName}</Box>
