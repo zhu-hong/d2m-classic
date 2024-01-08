@@ -149,7 +149,7 @@ const MachinePage = () => {
             </Box>
             <Box className='mt-16px flex items-center justify-between'>
               <p className="text-[#646A73] flex-none mr-4">最近一次点检</p>
-              <p className="text-[#000c25]">{curEquipment.LastCheckTime||'-'}</p>
+              <p className="text-[#000c25] text-right">{curEquipment.LastCheckTime||'-'}</p>
             </Box>
           </Box>
           <Box className='h-full flex flex-col flex-auto bg-white mx-16px overflow-auto px-22px py-24px'>
